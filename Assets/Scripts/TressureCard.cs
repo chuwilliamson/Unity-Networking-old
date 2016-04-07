@@ -2,7 +2,7 @@
 using System.Collections;
 using Dylan;
 
-public class TressureCard : Card, iCard
+public class TreasureCard : Card, iCard
 {
     protected string ItemSlot;
     protected int GoldValue;
