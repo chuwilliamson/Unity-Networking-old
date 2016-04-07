@@ -12,6 +12,7 @@ GameObject:
   - 65: {fileID: 6566684}
   - 23: {fileID: 2341076}
   - 114: {fileID: 11436652}
+  - 114: {fileID: 11473562}
   m_Layer: 0
   m_Name: Milli0n D0llar Cube
   m_TagString: Untagged
@@ -95,6 +96,20 @@ MonoBehaviour:
   m_modPower: 0
   m_maxGold: 0
   m_gold: 0
+--- !u!114 &11473562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 120168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a144547d98b5b49ac2537b23c51639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  description: 
+  gold: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
