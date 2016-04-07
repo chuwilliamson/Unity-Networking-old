@@ -42,7 +42,7 @@ namespace Eric
         {
             return 0;
         }
-
+        
         public int SellCard(TreasureCard a_card)
         {
             GainGold(a_card.GoldValue);
