@@ -1,18 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Dylan;
-using System;
 
-
-public class MysteryCard : Card, iCard
+public class TreasureCard : Card, iCard
 {
-    enum MYSTERYCARDTYPE
-    {
-        Class,
-        Event,
-        Monster,
-        count
-    }
+    protected string ItemSlot;
+    protected int GoldValue;
 
     public string name { get { return Name; } set { Name = value; } }
     public bool State { get { return InPlay; } set { InPlay = value; } }

@@ -8,6 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 431860}
+  - 114: {fileID: 11442650}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -90,6 +91,25 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176428}
   m_Mesh: {fileID: 4300004, guid: 00718395eefb6084bb25555f962f25c0, type: 3}
+--- !u!114 &11442650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5dca15e3536e6a449a9471c2c3fd4d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_currentClass: 0
+  m_maxExperience: 0
+  m_experience: 0
+  m_maxLevel: 0
+  m_level: 0
+  m_modPower: 0
+  m_maxGold: 0
+  m_gold: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
