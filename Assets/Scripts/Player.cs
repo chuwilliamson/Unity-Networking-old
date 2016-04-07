@@ -27,6 +27,11 @@ namespace Eric
         }
         // TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
 
+        public int PlayCard()
+        {
+            return 0;
+        }
+
         public int GainGold(int a_gold)
         {
             m_gold += a_gold;
