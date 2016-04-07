@@ -22,7 +22,7 @@ namespace Eric
             }
             if(Input.GetKey(KeyCode.Alpha2))
             {
-                GainGold(15);
+                GainGold(150);
             }
         }
         // TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
@@ -31,7 +31,7 @@ namespace Eric
         {
             m_gold += a_gold;
 
-            if (m_gold >= m_maxGold)
+            while (m_gold >= m_maxGold)
             {
                 m_gold -= m_maxGold;
                 LevelUp(1);
@@ -42,25 +42,27 @@ namespace Eric
 
         public int LevelUp(int a_levels)
         {
-            return m_level += a_levels;
+            if (m_level < m_maxLevel)
+            {
+                m_level += a_levels;
+
+                for (int i = 0; i < a_levels; i++)
+                    m_maxExperience += (int)(m_maxExperience * 0.5f);
+            }
+
+            return 0;
         }
 
         public int GainExperience(int a_experience)
         {
             m_experience += a_experience;
 
-            if (m_experience >= m_maxExperience)
+            while (m_experience >= m_maxExperience)
             {
                 m_experience -= m_maxExperience;
-                m_maxExperience += (int)(m_maxExperience * 0.5f);
                 LevelUp(1);
             }
 
-            return 0;
-        }
-
-        public int MoveCardTo(Transform a_location)
-        {
             return 0;
         }
 
