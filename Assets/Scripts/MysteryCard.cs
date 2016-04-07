@@ -6,7 +6,7 @@ using System;
 
 public class MysteryCard : Card, iCard
 {
-    enum MYSTERYCARDTYPE
+    enum CardType
     {
         Class,
         Event,
