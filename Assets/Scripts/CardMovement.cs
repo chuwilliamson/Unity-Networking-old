@@ -7,21 +7,6 @@ public class CardMovement : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(transform.rotation);
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            if (IsFlipped == false)
-            {
-                transform.rotation = new Quaternion(0, 0, 1, 0);
-                IsFlipped = true;
-            }
-            else if (IsFlipped == true)
-            {
-                transform.rotation = new Quaternion(0, 0, 0, 1);
-                IsFlipped = false;
-            }
-        }
-
         CardFlip();
     }
 
