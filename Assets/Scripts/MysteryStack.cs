@@ -2,32 +2,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Card;
 
 public class MysteryStack : MonoBehaviour
 {
     public List<MysteryCardMono> MysteryCards;
-    private static List<MysteryCardMono> m_cards;
-    private static Stack<MysteryCardMono> m_stack;
+    private static List<iCard> m_cards;
+    private static Stack<iCard> m_stack;
+ 
     void Start()
     {
-        m_cards.AddRange(MysteryCards);
-        foreach (MysteryCardMono c in m_cards)
+        foreach (MysteryCardMono tc in MysteryCards)
         {
-            m_stack.Push(c);
+            if (tc.GetType() != typeof(MysteryCard))
+                break;
+            m_cards.Add(tc.theCard);
+            m_stack.Push(tc.theCard);
+            
         }
-        
     }
-    
-    public static MysteryCardMono Draw()
+
+    public static iCard Draw()
     {
         return m_stack.Pop();
     }
 
-    public static void Push(MysteryCardMono card)
+    public static void Push(iCard card)
     {
-        m_stack.Push(card);    
+        m_stack.Push(card);
     }
- 
 
- 
 }

@@ -16,7 +16,7 @@ public class MysteryCardMono : MonoBehaviour {
 
 
 	public MysteryType cardType;
-	MysteryCard theCard;
+	public MysteryCard theCard;
 	[ExecuteInEditMode]
 	private void Start()
 	{
