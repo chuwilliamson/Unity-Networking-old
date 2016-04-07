@@ -9,7 +9,7 @@ public class TreasureCardMono : MonoBehaviour {
 
 
 	public int gold;
-	TreasureCard theCard;
+	public TreasureCard theCard;
 	[ExecuteInEditMode]
 	private void Start()
 	{
