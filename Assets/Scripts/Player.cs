@@ -25,6 +25,10 @@ namespace Eric
             {
                 GainGold(150);
             }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                SellCard(FindObjectOfType<TreasureCardMono>());
+            }
         }
         // TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
 
@@ -43,9 +47,10 @@ namespace Eric
             return 0;
         }
         
-        public int SellCard(TreasureCard a_card)
+        public int SellCard(TreasureCardMono a_card)
         {
-            GainGold(a_card.GoldValue);
+            GainGold(a_card.theCard.GoldValue);
+            MoveCard();
             return 0;
         }
 
