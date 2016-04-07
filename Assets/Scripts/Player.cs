@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Card;
 using System.Collections.Generic;
 using System;
 
@@ -44,7 +45,7 @@ namespace Eric
 
         public int SellCard(TreasureCard a_card)
         {
-            GainGold(a_card.goldValue);
+            GainGold(a_card.GoldValue);
             return 0;
         }
 

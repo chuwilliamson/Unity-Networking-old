@@ -1,4 +1,5 @@
-﻿namespace Eric
+﻿using Card;
+namespace Eric
 {
     public interface iPlayer
     {
