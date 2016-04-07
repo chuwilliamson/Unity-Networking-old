@@ -3,12 +3,9 @@ using System.Collections;
 
 namespace Card
 {
-	public class Card : MonoBehaviour
+	public abstract class Card 
 	{
-		private void Init()
-		{
-
-		}
+  
 		[SerializeField]
 		protected string Name;
 		//Name of the card
@@ -16,17 +13,17 @@ namespace Card
 		protected string Description;
 		//Effect the card has when played on field
 
-		protected bool State;
-
-		protected bool InPlay = false;
-
-
-
+		protected bool State; 
 	}
 
 	public class MysteryCard : Card, iCard
 	{
-		
+		public MysteryCard(string n, string d, int p, MysteryType mt)
+		{
+			base.State = false;
+			base.Description = d;
+			base.Name = n;
+		}
 		sealed class Class
 		{
 
@@ -42,31 +39,41 @@ namespace Card
 			private int power;
 		}
 
-		public enum Type
-		{
-			CLASS,
-			EVENT,
-			MONSTER,
-		}
+		private int m_power;
+			
 
-		public string name { 
+		public string Name { 
 			get { return base.Name; }
 			set { base.Name = value; }
 		}
 
 		public bool State { 
-			get	{ return base.InPlay; } 
-			set { base.InPlay = value; } 
+			get	{ return base.State; } 
+			set { base.State = value; }
 		}
 
 		public string Description {
 			get { return base.Description; } 
-			set { Description = value; } 
+			set { base.Description = value; }
+		}
+
+		public int Power {
+			get{ return m_power; }
+			set{ m_power = value; }
+				 
+
 		}
 	}
 
 	public class TreasureCard : Card, iCard
 	{
+		public TreasureCard(string n, string d, int g)
+		{
+			base.State = false;
+			base.Description = d;
+			base.Name = n;
+			m_GoldValue = g;
+		}
 		public enum Equipment
 		{
 			HEAD,
@@ -79,23 +86,25 @@ namespace Card
 		public int GoldValue
 		{
 			get{ return m_GoldValue; }
+
 		}
 
 
-		public string name { 
+		public string Name { 
 			get { return base.Name; }
 			set { base.Name = value; }
 		}
 
 		public bool State { 
-			get	{ return base.InPlay; } 
-			set { base.InPlay = value; } 
+			get	{ return base.State; } 
+			set { base.State = value; }
 		}
 
 		public string Description {
 			get { return base.Description; } 
-			set { Description = value; } 
+			set { base.Description = value; }
 		}
+ 
 	}
 }
  
