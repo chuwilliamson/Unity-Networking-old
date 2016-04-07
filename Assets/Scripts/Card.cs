@@ -1,41 +1,101 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Xml.Serialization;
 
-namespace Dylan
+namespace Card
 {
-    interface iCard
-    {
-        string name { get; set; }
-        string Description { get; set; }
-        bool State { get; set; }
-    }
+	public class Card : MonoBehaviour
+	{
+		private void Init()
+		{
 
-    public class Card : MonoBehaviour, iCard
-    {
-        [SerializeField]
-        private string m_Name; //Name of the card
-        [SerializeField]
-        private string m_Description; //Effect the card has when played on field
-
-		private bool m_State;
-		public string Name {
-			get{ return m_Name; }
-			set{ m_Name = value; }
 		}
+		[SerializeField]
+		protected string Name;
+		//Name of the card
+		[SerializeField]
+		protected string Description;
+		//Effect the card has when played on field
+
+		protected bool State;
+
+		protected bool InPlay = false;
+
+
+
+	}
+
+	public class MysteryCard : Card, iCard
+	{
+		
+		sealed class Class
+		{
+
+		}
+
+		internal class Event
+		{
+
+		}
+
+		internal class Monster
+		{
+			private int power;
+		}
+
+		public enum Type
+		{
+			CLASS,
+			EVENT,
+			MONSTER,
+		}
+
+		public string name { 
+			get { return base.Name; }
+			set { base.Name = value; }
+		}
+
+		public bool State { 
+			get	{ return base.InPlay; } 
+			set { base.InPlay = value; } 
+		}
+
 		public string Description {
-			get{ return m_Description; }
-			set{ m_Description = value; }
+			get { return base.Description; } 
+			set { Description = value; } 
 		}
-		public bool State{
-			get{ return m_State; }
-			set{ m_State = value; }
+	}
+
+	public class TreasureCard : Card, iCard
+	{
+		public enum Equipment
+		{
+			HEAD,
+			BODY,
+			FEET,
+			HANDS,
+		}
+		protected Equipment ItemSlot;
+		private int m_GoldValue;
+		public int Value
+		{
+			get{ return m_GoldValue; }
 		}
 
 
-        protected bool InPlay = false; //Used to tag the card as on the Playing field or in a player hand
+		public string name { 
+			get { return base.Name; }
+			set { base.Name = value; }
+		}
 
+		public bool State { 
+			get	{ return base.InPlay; } 
+			set { base.InPlay = value; } 
+		}
 
-    }
+		public string Description {
+			get { return base.Description; } 
+			set { Description = value; } 
+		}
+	}
 }
-
+ 
