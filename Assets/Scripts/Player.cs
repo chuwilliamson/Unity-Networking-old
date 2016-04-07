@@ -85,10 +85,7 @@ namespace Eric
         [SerializeField] private int m_maxGold;
         [SerializeField] private int m_gold;
 
-        //public List<TreasureCards>
-        //public List<MysteryCards>
-        //public List<EquipMods>
-        //public List<TempMods>
+
 
         public CLASS currentClass
         {
