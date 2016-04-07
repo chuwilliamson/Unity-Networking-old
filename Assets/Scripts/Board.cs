@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Matthew
 {
@@ -29,6 +30,8 @@ namespace Matthew
 		[SerializeField]
 		private GameObject m_TreasureCardStack;
 
+		[SerializeField]
+		private List<GameObject> m_Players;
 		/// <summary>
 		/// Gets the mystery card stack position.
 		/// </summary>
@@ -45,10 +48,12 @@ namespace Matthew
 		{
 			get{ return m_TreasureCardStack.transform; }
 		}
-		private void Start()
+
+		public Transform GetPlayer(int index)
 		{
-			
+			return m_Players [index].transform;
 		}
+		
 	}
 
 }
