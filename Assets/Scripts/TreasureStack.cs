@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Card;
-public class TreasureStack : MonoBehaviour, iStack {
+public class TreasureStack : MonoBehaviour {
 	[SerializeField]
 	public List<TreasureCardMono> TreasureCards;
      

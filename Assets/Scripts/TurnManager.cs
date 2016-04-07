@@ -9,11 +9,13 @@ namespace Dylan
 {
     public class TurnManager : MonoBehaviour
     {
+        [SerializeField]
+        private UnityEngine.UI.Text TurnLabel;
         private List<Player> Players; //All players in the current game
         private int m_CurrentPlayerIndex; //index of the current player
         [SerializeField]
         private Player ActivePlayer; //Current player taking his/her turn
-
+        
         /// <Testing>
         //public Text cPlayer;
         //public Text cPhase;
@@ -42,7 +44,12 @@ namespace Dylan
          /// </summary>
         void PlayerCycle()
         {
+            
             ActivePlayer = Players[m_CurrentPlayerIndex];
+            float x = ActivePlayer.transform.position.x;
+            float z = ActivePlayer.transform.position.x;
+            Camera.main.transform.position = new Vector3(x, 33, z);
+            //Camera.main.transform.LookAt(Vector3.zero);
             //cPlayer.text = ActivePlayer.name;
             if (m_CurrentPlayerIndex >= 3)
                 m_CurrentPlayerIndex = 0;
@@ -56,6 +63,7 @@ namespace Dylan
             if (Input.GetKeyDown(KeyCode.D))
             {
                 PhaseTransition();
+                TurnLabel.text = currentPhase.ToString();
                 //cPhase.text = currentPhase.ToString();
             }
             /// </Testing>
