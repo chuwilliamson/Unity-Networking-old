@@ -25,9 +25,9 @@ namespace Eric
             {
                 GainGold(150);
             }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            if (Input.GetKey(KeyCode.Alpha3))
             {
-                SellCard(FindObjectOfType<TreasureCardMono>());
+                DrawTreasureCard();
             }
         }
         // TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
@@ -37,8 +37,17 @@ namespace Eric
             return 0;
         }
 
-        public int DrawCard()
+        public int DrawTreasureCard()
         {
+            TreasureCard c = TreasureStack.Draw() as TreasureCard;
+            hand.Add(c);
+            return 0;
+        }
+
+        public int DrawMysteryCard()
+        {
+            MysteryCard c = MysteryStack.Draw() as MysteryCard;
+            hand.Add(c);
             return 0;
         }
 
@@ -101,8 +110,9 @@ namespace Eric
         [SerializeField] private int m_modPower;
         [SerializeField] private int m_maxGold;
         [SerializeField] private int m_gold;
-
-
+        
+        public List<iCard> hand = new List<iCard>();
+        public List<iCard> equipment = new List<iCard>();
 
         public CLASS currentClass
         {

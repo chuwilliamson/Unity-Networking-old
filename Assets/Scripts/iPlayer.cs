@@ -4,7 +4,8 @@ namespace Eric
     public interface iPlayer
     {
         int PlayCard();
-        int DrawCard();
+        int DrawTreasureCard();
+        int DrawMysteryCard();
         int MoveCard();
         int SellCard(TreasureCardMono a_card);
         int GainGold(int a_gold);

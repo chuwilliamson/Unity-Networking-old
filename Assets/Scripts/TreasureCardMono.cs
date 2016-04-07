@@ -10,8 +10,8 @@ public class TreasureCardMono : MonoBehaviour {
 
 	public int gold;
 	public TreasureCard theCard;
-	[ExecuteInEditMode]
-	private void Start()
+	
+	private void Awake()
 	{
 		theCard = new TreasureCard (name, description, gold);
 	}
