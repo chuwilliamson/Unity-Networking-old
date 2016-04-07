@@ -32,6 +32,11 @@ namespace Eric
             return 0;
         }
 
+        public int DrawCard()
+        {
+            return 0;
+        }
+
         public int GainGold(int a_gold)
         {
             m_gold += a_gold;
@@ -138,6 +143,7 @@ namespace Eric
 
         public enum CLASS
         {
+            NONE,
             WARRIOR,
             WIZARD,
             ARCHER,
