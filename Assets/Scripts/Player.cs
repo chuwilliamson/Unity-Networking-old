@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Card;
 using System.Collections.Generic;
 using System;
 
@@ -26,6 +27,27 @@ namespace Eric
             }
         }
         // TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
+
+        public int PlayCard()
+        {
+            return 0;
+        }
+
+        public int DrawCard()
+        {
+            return 0;
+        }
+
+        public int MoveCard()
+        {
+            return 0;
+        }
+        
+        public int SellCard(TreasureCard a_card)
+        {
+            GainGold(a_card.GoldValue);
+            return 0;
+        }
 
         public int GainGold(int a_gold)
         {
@@ -75,10 +97,7 @@ namespace Eric
         [SerializeField] private int m_maxGold;
         [SerializeField] private int m_gold;
 
-        //public List<TreasureCards>
-        //public List<MysteryCards>
-        //public List<EquipMods>
-        //public List<TempMods>
+
 
         public CLASS currentClass
         {
@@ -133,6 +152,7 @@ namespace Eric
 
         public enum CLASS
         {
+            NONE,
             WARRIOR,
             WIZARD,
             ARCHER,

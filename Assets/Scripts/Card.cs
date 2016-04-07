@@ -76,7 +76,7 @@ namespace Card
 		}
 		protected Equipment ItemSlot;
 		private int m_GoldValue;
-		public int Value
+		public int GoldValue
 		{
 			get{ return m_GoldValue; }
 		}
