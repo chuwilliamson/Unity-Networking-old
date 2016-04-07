@@ -35,7 +35,7 @@ namespace Eric
 
         public int DrawCard()
         {
-            return 0;
+            
         }
 
         public int MoveCard()
@@ -97,6 +97,9 @@ namespace Eric
         [SerializeField] private int m_modPower;
         [SerializeField] private int m_maxGold;
         [SerializeField] private int m_gold;
+
+        public List<iCard> hand = new List<iCard>();
+        public List<iCard> equipment = new List<iCard>();
 
         public CLASS currentClass
         {
