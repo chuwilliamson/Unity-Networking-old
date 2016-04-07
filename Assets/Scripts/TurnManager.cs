@@ -9,9 +9,9 @@ namespace Dylan
 {
     public class TurnManager : MonoBehaviour
     {
-        public List<Player> Players;
-        private int m_CurrentPlayerIndex;
-        Player CurrentPlayer;
+        public List<Player> Players; //All players in the current game
+        private int m_CurrentPlayerIndex; //index of the current player
+        Player ActivePlayer; //Current player taking his/her turn
 
         /// <Testing>
         public Text cPlayer;
@@ -26,7 +26,7 @@ namespace Dylan
             endPhase
         }
 
-        TurnPhases currentPhase = TurnPhases.firstPhase;
+        TurnPhases currentPhase = TurnPhases.firstPhase; //Current turnPhase the player is in
 
         void Awake()
         {
@@ -36,10 +36,13 @@ namespace Dylan
             cPhase.text = currentPhase.ToString();
         }
 
+         /// <summary>
+         /// Cycles from one player to the next
+         /// </summary>
         void PlayerCycle()
         {
-            CurrentPlayer = Players[m_CurrentPlayerIndex];
-            cPlayer.text = CurrentPlayer.name;
+            ActivePlayer = Players[m_CurrentPlayerIndex];
+            cPlayer.text = ActivePlayer.name;
             if (m_CurrentPlayerIndex >= 3)
                 m_CurrentPlayerIndex = 0;
             else
@@ -57,6 +60,10 @@ namespace Dylan
             /// </Testing>
         }
 
+        /// <summary>
+        /// Handles the transitions from one phase to another
+        /// as the Active player takes his/her turn
+        /// </summary>
         void PhaseTransition()
         {
             switch(currentPhase)
