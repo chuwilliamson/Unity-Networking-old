@@ -37,6 +37,17 @@ namespace Eric
             return 0;
         }
 
+        public int MoveCard()
+        {
+            return 0;
+        }
+
+        public int SellCard(TreasureCard a_card)
+        {
+            GainGold(a_card.goldValue);
+            return 0;
+        }
+
         public int GainGold(int a_gold)
         {
             m_gold += a_gold;
