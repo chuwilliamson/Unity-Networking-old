@@ -25,10 +25,6 @@ namespace Eric
             {
                 GainGold(150);
             }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                SellCard(FindObjectOfType<TreasureCardMono>());
-            }
         }
         // TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
 
@@ -101,8 +97,6 @@ namespace Eric
         [SerializeField] private int m_modPower;
         [SerializeField] private int m_maxGold;
         [SerializeField] private int m_gold;
-
-
 
         public CLASS currentClass
         {
