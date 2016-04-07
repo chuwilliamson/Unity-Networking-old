@@ -9,31 +9,32 @@ namespace Dylan
 {
     public class TurnManager : MonoBehaviour
     {
-        public List<Player> Players; //All players in the current game
+        private List<Player> Players; //All players in the current game
         private int m_CurrentPlayerIndex; //index of the current player
-        Player ActivePlayer; //Current player taking his/her turn
+        [SerializeField]
+        private Player ActivePlayer; //Current player taking his/her turn
 
         /// <Testing>
-        public Text cPlayer;
-        public Text cPhase;
+        //public Text cPlayer;
+        //public Text cPhase;
         /// </Testing>
 
-        enum TurnPhases
+        private enum TurnPhases
         {
             firstPhase,
             secondPhase,
             combatPhase,
             endPhase
         }
-
-        TurnPhases currentPhase = TurnPhases.firstPhase; //Current turnPhase the player is in
+        [SerializeField]
+        private TurnPhases currentPhase = TurnPhases.firstPhase; //Current turnPhase the player is in
 
         void Awake()
         {
             Players = new List<Player>();
             Players.AddRange(FindObjectsOfType<Player>());
             PlayerCycle();
-            cPhase.text = currentPhase.ToString();
+            //cPhase.text = currentPhase.ToString();
         }
 
          /// <summary>
@@ -42,7 +43,7 @@ namespace Dylan
         void PlayerCycle()
         {
             ActivePlayer = Players[m_CurrentPlayerIndex];
-            cPlayer.text = ActivePlayer.name;
+            //cPlayer.text = ActivePlayer.name;
             if (m_CurrentPlayerIndex >= 3)
                 m_CurrentPlayerIndex = 0;
             else
@@ -55,7 +56,7 @@ namespace Dylan
             if (Input.GetKeyDown(KeyCode.D))
             {
                 PhaseTransition();
-                cPhase.text = currentPhase.ToString();
+                //cPhase.text = currentPhase.ToString();
             }
             /// </Testing>
         }
