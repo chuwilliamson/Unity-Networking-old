@@ -62,19 +62,6 @@ namespace Eric
             return 0;
         }
 
-        public int LevelUp(int a_levels)
-        {
-            if (m_level < m_maxLevel)
-            {
-                m_level += a_levels;
-
-                for (int i = 0; i < a_levels; i++)
-                    m_maxExperience += (int)(m_maxExperience * 0.5f);
-            }
-
-            return 0;
-        }
-
         public int GainExperience(int a_experience)
         {
             m_experience += a_experience;
@@ -83,6 +70,19 @@ namespace Eric
             {
                 m_experience -= m_maxExperience;
                 LevelUp(1);
+            }
+
+            return 0;
+        }
+
+        public int LevelUp(int a_levels)
+        {
+            if (m_level < m_maxLevel)
+            {
+                m_level += a_levels;
+
+                for (int i = 0; i < a_levels; i++)
+                    m_maxExperience += (int)(m_maxExperience * 0.5f);
             }
 
             return 0;
