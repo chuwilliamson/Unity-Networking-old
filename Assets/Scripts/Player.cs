@@ -25,6 +25,10 @@ namespace Eric
             {
                 GainGold(150);
             }
+            if (Input.GetKey(KeyCode.Alpha3))
+            {
+                DrawTreasureCard();
+            }
         }
         // TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
 
@@ -33,9 +37,18 @@ namespace Eric
             return 0;
         }
 
-        public int DrawCard()
+        public int DrawTreasureCard()
         {
-            
+            TreasureCard c = TreasureStack.Draw() as TreasureCard;
+            hand.Add(c);
+            return 0;
+        }
+
+        public int DrawMysteryCard()
+        {
+            MysteryCard c = MysteryStack.Draw() as MysteryCard;
+            hand.Add(c);
+            return 0;
         }
 
         public int MoveCard()
@@ -97,7 +110,7 @@ namespace Eric
         [SerializeField] private int m_modPower;
         [SerializeField] private int m_maxGold;
         [SerializeField] private int m_gold;
-
+        
         public List<iCard> hand = new List<iCard>();
         public List<iCard> equipment = new List<iCard>();
 
