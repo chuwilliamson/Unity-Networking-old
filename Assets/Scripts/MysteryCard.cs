@@ -5,4 +5,9 @@ using Dylan;
 public class MysteryCard : Card
 {
     
+
+    void Awake()
+    {
+
+    }
 }
