@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 431860}
   - 114: {fileID: 11442650}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ GameObject:
   - 4: {fileID: 415994}
   - 33: {fileID: 3322438}
   - 23: {fileID: 2388604}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PickupPrototype01x01x01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

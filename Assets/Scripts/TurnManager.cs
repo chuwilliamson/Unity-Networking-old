@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0168
+#pragma warning disable 0219
+#pragma warning disable 0414
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
-using Eric;
+using Eric; 
 
 namespace Dylan
 {
@@ -30,25 +34,39 @@ namespace Dylan
         }
         [SerializeField]
         private TurnPhases currentPhase = TurnPhases.firstPhase; //Current turnPhase the player is in
+		void Awake()
+		{
+			for(int i = 0; i < 8; i++)
+			{
+//				GameObject t = Resources.Load("TreasureCardTemplate") as GameObject;
+//				GameObject m = Resources.Load("MysteryCardTemplate") as GameObject;
+//				TreasureCard tc = t.GetComponent<TreasureCardMono>().theCard;
+//				TreasureStack.
+//				MysteryCard mc = m.GetComponent<MysteryCardMono>().theCard;
+//				MysteryStack.Push(mc);
 
-        void Awake()
+			}
+
+		}
+        void Start()
         {
+
+
+	
             Players = new List<Player>();
             Players.AddRange(FindObjectsOfType<Player>());
             PlayerCycle();
-            //cPhase.text = currentPhase.ToString();
-        }
+		}
 
          /// <summary>
          /// Cycles from one player to the next
          /// </summary>
         void PlayerCycle()
-        {
-            
+        {            
             ActivePlayer = Players[m_CurrentPlayerIndex];
-            float x = ActivePlayer.transform.position.x;
-            float z = ActivePlayer.transform.position.x;
-            Camera.main.transform.position = new Vector3(x, 33, z);
+           // float x = ActivePlayer.transform.position.x;
+//            float z = ActivePlayer.transform.position.x;
+           // Camera.main.transform.position = new Vector3(x, 33, z);
             //Camera.main.transform.LookAt(Vector3.zero);
             //cPlayer.text = ActivePlayer.name;
             if (m_CurrentPlayerIndex >= 3)

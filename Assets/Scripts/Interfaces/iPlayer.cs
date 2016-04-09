@@ -1,11 +1,10 @@
-﻿using Card;
+﻿
 namespace Eric
 {
     public interface iPlayer
     {
         int PlayCard();
-        int DrawTreasureCard();
-        int DrawMysteryCard();
+        bool DrawCard<T>();        
         int MoveCard();
         int SellCard(TreasureCardMono a_card);
         int GainGold(int a_gold);
