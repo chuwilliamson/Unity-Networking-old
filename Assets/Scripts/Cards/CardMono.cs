@@ -1,17 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-public class CardMono<T> : MonoBehaviour where T : new() {
+//T is MysteryCard or TreasureCard
+//allows the construction of an object via the new operator 
+//by calling a function that news it then setting the type as a reference.
+public class CardMono<T> : MonoBehaviour, ICard 
+	where T : class, new()  {
+	[SerializeField]
+	protected string _description;
+	[SerializeField]
+	protected string _name;
+	public string Name
+	{
+		get{ return _name;}
+		set{ _name = value;}
+	}
 
 
-	public string Name;
-	public string Description;
+	public string Description
+	{
 
-	public T theCard;
+		get{ return _description; }
+		set{  _description = value;}
+	}
 
+
+	public T CardObject
+	{
+		get{return m_cardObject;}
+
+	}
+	//reference to the card
+	protected T m_cardObject;
+
+	/// <summary>
+	/// overridable custom constructor
+	/// </summary>
 	public virtual void Init()
 	{
-		theCard = new T ();
+		m_cardObject = new T ();
 	}
 
 	public Type theType

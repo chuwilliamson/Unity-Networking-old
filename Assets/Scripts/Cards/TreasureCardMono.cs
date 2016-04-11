@@ -7,17 +7,17 @@ public class TreasureCardMono : CardMono<TreasureCard>
 
 	public override void Init()
 	{
-		theCard = new TreasureCard(Name, Description, _gold);
+		m_cardObject = new TreasureCard(Name, Description, _gold);
 	}
 
 	public void Init(string n, string d)
 	{
-		theCard = new TreasureCard (n, d, _gold);
+		m_cardObject = new TreasureCard (n, d, _gold);
 	}
 
-	public void Init(iCard c)
+	public void Init(ICard c)
 	{
-		theCard = new TreasureCard (c.Name, c.Description, _gold);
+		m_cardObject = new TreasureCard (c.Name, c.Description, _gold);
 	}
 
 

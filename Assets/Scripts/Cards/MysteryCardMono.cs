@@ -7,16 +7,16 @@ public class MysteryCardMono : CardMono<MysteryCard> {
 	public int power;
 	public override void Init()
 	{
-		theCard = new MysteryCard (Name, Description, power, cardType);
+		m_cardObject = new MysteryCard (Name, Description, power, cardType);
 	}
 
 	public void Init(string n, string d, int p, MysteryType mt)
 	{
-		theCard = new MysteryCard (n, d, p, mt);
+		m_cardObject = new MysteryCard (n, d, p, mt);
 	}
 
-	public void Init(iCard c)
+	public void Init(ICard c)
 	{
-		theCard = new MysteryCard (c.Name, c.Description, power, cardType);
+		m_cardObject = new MysteryCard (c.Name, c.Description, power, cardType);
 	}
 }

@@ -8,7 +8,5 @@ using System.Collections.Generic;
 /// </summary>
 public class MysteryStack : CardStack<MysteryCard,MysteryCardMono>
 {
-
- 
 }
 
