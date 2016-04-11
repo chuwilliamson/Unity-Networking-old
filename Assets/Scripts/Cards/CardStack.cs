@@ -57,7 +57,7 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 			V mc = card.GetComponent<V>();			 
 			mc.name = cardName +"_"+ i.ToString ();
 			//mc.Power = randPower;
-//			mc.cardType = mt;
+			//mc.cardType = mt;
 			m_cards.Add (mc);
 			CardMonos.Add (mc);
 
