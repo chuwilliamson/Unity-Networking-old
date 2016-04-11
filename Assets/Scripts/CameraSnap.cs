@@ -6,8 +6,8 @@ public class CameraSnap : MonoBehaviour
     public static void CameraSnapOverTarget(Vector3 targetPos)
     {
         GameObject camera = Camera.main.gameObject;
-        Vector3 DesiredCameraPosistion = targetPos + new Vector3(0, 33, -37.5);
-
+        Vector3 DesiredCameraPosistion = targetPos + new Vector3(0, 28f, -6f);
+        
         camera.transform.position = DesiredCameraPosistion;
         camera.transform.LookAt(new Vector3(0, 0, 0));
     }
