@@ -60,9 +60,12 @@ namespace Eric
 			 
 			ICard c = (typeof(T) == typeof(MysteryCard) ? (Func<List<GameObject>,ICard>) MysteryStack.Draw : TreasureStack.Draw)(cards);
 
-
 			hand.Add (c);
 
+			foreach (GameObject go in cards) {
+				go.transform.SetParent (this.transform);
+				go.transform.position = this.transform.position;
+			}
 
 			return true;
 

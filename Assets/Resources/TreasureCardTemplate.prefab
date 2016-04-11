@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2330044}
   - 114: {fileID: 11469966}
   m_Layer: 0
-  m_Name: TreasureCard
+  m_Name: TreasureCardTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
