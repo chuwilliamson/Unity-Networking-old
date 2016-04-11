@@ -3,12 +3,14 @@ using System.Collections;
 
 public class CameraSnap : MonoBehaviour
 {
-    public static void CameraSnapOverTarget(Vector3 targetPos)
+    public static void CameraSnapOverTarget(Transform targetPos)
     {
         GameObject camera = Camera.main.gameObject;
-        Vector3 DesiredCameraPosistion = targetPos + new Vector3(0, 28f, -6f);
+        camera.transform.parent = targetPos;
         
-        camera.transform.position = DesiredCameraPosistion;
+        camera.transform.position = targetPos.position +  new Vector3(0, 28f, -6f);
+        camera.transform.parent = null;
+
         camera.transform.LookAt(new Vector3(0, 0, 0));
     }
 
