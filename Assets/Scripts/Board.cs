@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0414
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,10 +21,22 @@ namespace Matthew
 		{
 			get
 			{
-				if (m_instance == null)
-					m_instance = FindObjectOfType<Board>();
+				if (m_instance == null) {
+					m_instance = FindObjectOfType<Board> ();
+				}
+				
 				return m_instance;
 			}
+		}
+
+		private void Awake()
+		{
+			m_MysteryCardStack = FindObjectOfType <MysteryStack>().gameObject;
+			m_TreasureCardStack = FindObjectOfType <TreasureStack>().gameObject;
+			foreach (var v in FindObjectsOfType<Eric.Player>()) {
+				m_Players.Add (v.GetComponent<GameObject>());
+			}
+
 		}
 		[SerializeField]
 		private GameObject m_MysteryCardStack;

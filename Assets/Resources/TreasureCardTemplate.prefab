@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2330044}
   - 114: {fileID: 11469966}
   m_Layer: 0
-  m_Name: Card
+  m_Name: TreasureCardTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,9 +84,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 176322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5673434d6bea1ab479f4242774581358, type: 3}
+  m_Script: {fileID: 11500000, guid: 59a144547d98b5b49ac2537b23c51639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _description: 
+  _name: 
+  _gold: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

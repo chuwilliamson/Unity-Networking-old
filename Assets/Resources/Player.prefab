@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 431860}
   - 114: {fileID: 11442650}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,8 @@ GameObject:
   - 4: {fileID: 415994}
   - 33: {fileID: 3322438}
   - 23: {fileID: 2388604}
-  m_Layer: 0
+  - 111: {fileID: 11170802}
+  m_Layer: 8
   m_Name: PickupPrototype01x01x01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 161304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 32, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 415994}
@@ -91,6 +92,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176428}
   m_Mesh: {fileID: 4300004, guid: 00718395eefb6084bb25555f962f25c0, type: 3}
+--- !u!111 &11170802
+Animation:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 176428}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 6d58ba04918b44e488334c95488ce3ef, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 6d58ba04918b44e488334c95488ce3ef, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &11442650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102,6 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5dca15e3536e6a449a9471c2c3fd4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cards: []
   m_currentClass: 0
   m_maxExperience: 0
   m_experience: 0
