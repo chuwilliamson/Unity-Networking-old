@@ -21,10 +21,21 @@ namespace Matthew
 		{
 			get
 			{
-				if (m_instance == null)
-					m_instance = FindObjectOfType<Board>();
+				if (m_instance == null) {
+					m_instance = FindObjectOfType<Board> ();
+				}
+				
 				return m_instance;
 			}
+		}
+
+		private void Awake()
+		{
+			m_MysteryCardStack = FindObjectOfType <MysteryStack>().gameObject;
+			m_TreasureCardStack = FindObjectOfType <TreasureStack>().gameObject;
+			//GameObject PlayerParent = FindObjectOfType<Eric.Player> ().gameObject;
+			//m_Players.AddRange(PlayerParent.GetComponentsInChildren<GameObject> ());
+
 		}
 		[SerializeField]
 		private GameObject m_MysteryCardStack;

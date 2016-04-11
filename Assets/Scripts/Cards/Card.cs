@@ -15,7 +15,7 @@ public enum MysteryType
 	EVENT = 1,
 	MONSTER = 2,
 }
-public class MysteryCard : iCard
+public class MysteryCard : ICard
 {
 	[SerializeField]
 	protected string name;
@@ -29,14 +29,7 @@ public class MysteryCard : iCard
 	public MysteryCard ()
 	{
 	} 
-	public System.Type MonoType {
-		get{ return typeof(MysteryCardMono); }
-		set{ }
-	}
-	public CardType Type {
-		get{ return CardType.MYSTERY; }
-		set{ }
-	}
+
 	public MysteryCard (string n, string d, int p, MysteryType mt)
 	{ 
 		state = false;
@@ -106,7 +99,7 @@ public class MysteryCard : iCard
 	}
 }
 
-public class TreasureCard : iCard
+public class TreasureCard : ICard
 {
 	
 	[SerializeField]

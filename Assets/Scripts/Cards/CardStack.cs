@@ -10,6 +10,7 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 	protected static List<T> cards = new List<T>();
 	[SerializeField]
 	protected List<V> m_cards = new List<V>();
+	public static List<V> CardMonos = new List<V> ();
 
 
 	private string cardName = typeof(T).ToString().Replace("Card","");
@@ -38,7 +39,7 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 	}
 
 	[ContextMenu("Test")]
-	protected void Test()
+	public void Test()
 	{	
 		UnityEngine.Random.seed = 42;
 
@@ -56,19 +57,21 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 			V mc = card.GetComponent<V>();			 
 			mc.name = cardName +"_"+ i.ToString ();
 			//mc.Power = randPower;
-//			mc.cardType = mt;
+			//mc.cardType = mt;
 			m_cards.Add (mc);
+			CardMonos.Add (mc);
 
 		}
 
 		m_cards.ForEach (delegate(V obj) {
 			obj.Init();
-			cards.Add(obj.theCard);
+			cards.Add(obj.CardObject);
 		});
 
 
 	}
-
+	//T is MysteryCard
+	//V is MysteryCardMono
 	internal static CardStack<T,V> stack
 	{
 		get{
@@ -81,13 +84,16 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 	/// <summary>
 	/// Draw a card from the static list 
 	/// </summary>
-	public static iCard Draw (List<V> hand)
+	/// 
+	/// 
+	//T is MysteryCard
+	//V is MysteryCardMono
+	public static ICard Draw (List<GameObject> hand) 
 	{		
-		iCard top = (iCard)cards [0];
+		ICard top = (ICard)cards [0];
 		cards.RemoveAt (0);
 		CardMono<T> c = CardStack<T,V>.stack.m_cards [0];
-		V g = c as V;
-		hand.Add (g);
+		hand.Add (c.gameObject);
 		CardStack<T,V>.stack.m_cards.RemoveAt (0);
 
 		return top;

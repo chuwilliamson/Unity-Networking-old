@@ -4,7 +4,7 @@ using System;
 
 namespace Eric
 {
-	public class Player : MonoBehaviour, iPlayer
+	public class Player : MonoBehaviour, IPlayer
 	{
 		void Start ()
 		{
@@ -23,12 +23,12 @@ namespace Eric
 				GainGold (150);
 			}
 			if (Input.GetKeyDown (KeyCode.Alpha3)) {
-				DrawCard<MysteryCardMono> ();
-				//DrawTreasureCard();
+				DrawCard<MysteryCard> ();
+
 			}
 			if (Input.GetKeyDown (KeyCode.Alpha4)) {
-				DrawCard<TreasureCardMono> ();
-				//DrawTreasureCard();
+				DrawCard<TreasureCard> ();
+
 			}
 		}
 		// TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
@@ -38,37 +38,59 @@ namespace Eric
 			return 0;
 		}
 
-		public List<GameObject> cards = new List<GameObject>();
-
-
-		public bool DrawCard<T> ()
-		{
-			
-			iCard card;// = (typeof(T) == typeof(MysteryCardMono) ?
-			//(Func<List<GameObject>,iCard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
-			if (typeof(T) == typeof(MysteryCardMono)) {
-				card = MysteryStack.Draw ();
-			} else if (typeof(T) == typeof(TreasureCardMono)) {
-				card = TreasureStack.Draw (tmp);
-			} else {
-				card = null;
-				Debug.Log ("no card type found");
-			}
-
-
-				print (card.Info);
-				print ("Type of Card: " + card.Type.ToString ());
-				if (card == null)
-					return false;
-
-
-	 
  
-				hand.Add (card);
+ 
+		public void Test()
+		{
+			DrawCard<MysteryCard> ();
+		}
+
+		public void TestTreasure()
+		{
+			DrawCard<TreasureCard> ();
+		}
+		 
+		[SerializeField]
+		private List <GameObject> cards = new List<GameObject>();
+		public bool DrawCard<T>() where T : class, new()
+		{
 			 
-				return true;
+			ICard c = (typeof(T) == typeof(MysteryCard) ? (Func<List<GameObject>,ICard>) MysteryStack.Draw : TreasureStack.Draw)(cards);
+
+
+			hand.Add (c);
+
+
+			return true;
+
+
+
+//			ICard card = MysteryStack.Draw (cards);
+//			(Func<List<GameObject>,iCard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
+//			if (typeof(T) == typeof(MysteryCardMono)) {
+//				card = MysteryStack.Draw ();
+//			} else if (typeof(T) == typeof(TreasureCardMono)) {
+//				card = TreasureStack.Draw ();
+//			} else {
+//				card = null;
+//				Debug.Log ("no card type found");
+//			}
+//
+//
+//				print (card.Info);
+//				print ("Type of Card: " + card.Type.ToString ());
+//				if (card == null)
+//					return false;
+//
+//
+//	 
+// 
+//				hand.Add (card);
+//			 
+//				return true;
 
 		}
+
 		//        public int DrawTreasureCard()
 		//        {
 		//            TreasureCard c = TreasureStack.Draw() as TreasureCard;
@@ -90,7 +112,7 @@ namespace Eric
 
 		public int SellCard (TreasureCardMono a_card)
 		{
-			GainGold (a_card.theCard.GoldValue);
+			GainGold (a_card.CardObject.GoldValue);
 			MoveCard ();
 			return 0;
 		}
@@ -141,8 +163,8 @@ namespace Eric
 		[SerializeField] private int m_gold;
         
 
-		public List<iCard> hand = new List<iCard> ();
-		public List<iCard> equipment = new List<iCard> ();
+		public List<ICard> hand = new List<ICard> ();
+		public List<ICard> equipment = new List<ICard> ();
 
 		#region MyRegion
 
