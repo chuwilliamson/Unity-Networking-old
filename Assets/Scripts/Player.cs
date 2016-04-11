@@ -11,11 +11,14 @@ namespace Eric
 			m_maxExperience = 10;
 			m_maxLevel = 10;
 			m_maxGold = 1000;
+			transform.LookAt (Vector3.zero);
+
 		}
 
 		// TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ //
 		void Update ()
 		{
+			Debug.DrawLine (transform.position, Vector3.zero);
 			if (Input.GetKey (KeyCode.Alpha1)) {
 				GainExperience (1);
 			}

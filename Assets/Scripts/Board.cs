@@ -33,8 +33,9 @@ namespace Matthew
 		{
 			m_MysteryCardStack = FindObjectOfType <MysteryStack>().gameObject;
 			m_TreasureCardStack = FindObjectOfType <TreasureStack>().gameObject;
-			//GameObject PlayerParent = FindObjectOfType<Eric.Player> ().gameObject;
-			//m_Players.AddRange(PlayerParent.GetComponentsInChildren<GameObject> ());
+			foreach (var v in FindObjectsOfType<Eric.Player>()) {
+				m_Players.Add (v.GetComponent<GameObject>());
+			}
 
 		}
 		[SerializeField]

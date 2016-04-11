@@ -49,9 +49,8 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 		GameObject go = Resources.Load (cardTemplateName) as GameObject;
 		for (int i = 0; i < 60; i++) 
 		{
-			int randPower = UnityEngine.Random.Range (0, 10);
-			int randClass = UnityEngine.Random.Range (0, 2);
-			//MysteryType mt = (MysteryType)randClass;
+			
+
 			GameObject card = Instantiate (go) as GameObject;
 			card.transform.SetParent (cardParent.transform);
 			V mc = card.GetComponent<V>();			 

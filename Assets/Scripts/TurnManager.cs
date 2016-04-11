@@ -50,12 +50,11 @@ namespace Dylan
 		}
         void Start()
         {
-
-
-	
             Players = new List<Player>();
             Players.AddRange(FindObjectsOfType<Player>());
             PlayerCycle();
+			TurnLabel.text = currentPhase.ToString();
+
 		}
 
          /// <summary>
@@ -73,6 +72,9 @@ namespace Dylan
                 m_CurrentPlayerIndex = 0;
             else
                 m_CurrentPlayerIndex++;
+
+
+			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
         }
 
         void Update()
@@ -81,7 +83,7 @@ namespace Dylan
             if (Input.GetKeyDown(KeyCode.D))
             {
                 PhaseTransition();
-                TurnLabel.text = currentPhase.ToString();
+                
                 //cPhase.text = currentPhase.ToString();
             }
             /// </Testing>
@@ -96,7 +98,7 @@ namespace Dylan
             switch(currentPhase)
             {
                 case TurnPhases.firstPhase:
-                    currentPhase = TurnPhases.secondPhase;
+                    currentPhase = TurnPhases.secondPhase;					
                     break;
                 case TurnPhases.secondPhase:
                     currentPhase = TurnPhases.combatPhase;
@@ -109,6 +111,9 @@ namespace Dylan
                     PlayerCycle();
                     break;
             }
+			TurnLabel.text = currentPhase.ToString();
+
+
         }
     }
 }
