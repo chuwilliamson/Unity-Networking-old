@@ -12,6 +12,7 @@ public class TreasureCardMono : CardMono<TreasureCard>, ITreasure
 	public int Gold{ 
 		get { return m_gold; }
 		set{ m_gold = value; }}
+	[SerializeField]
 	private int m_gold;
 
 	public override void Init()

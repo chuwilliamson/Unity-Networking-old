@@ -18,6 +18,12 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 	private string cardTemplateName = typeof(T).ToString()+"Template";
 	protected void Awake ()
 	{
+		Setup ();
+
+	}
+
+	void Setup()
+	{
 		Debug.Log ("No cards... Generating");
 		if (m_cards.Count <= 0) {
 			if(transform.FindChild("cards"))
@@ -30,12 +36,15 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 	}
 
 	[ContextMenu("Clear")]
-	protected void Clear()
+	public void Clear()
 	{
-		GameObject card = gameObject.transform.FindChild (cardParentName).gameObject;
-		m_cards.Clear ();
-		cards.Clear ();
-		DestroyImmediate (card);
+		if (m_cards.Count > 0) {
+			GameObject card = gameObject.transform.FindChild (cardParentName).gameObject;
+			m_cards.Clear ();
+			cards.Clear ();
+			DestroyImmediate (card);
+		} else
+			Debug.LogWarning ("no cards to clear");
 	}
 
 	[ContextMenu("Test")]
@@ -44,22 +53,23 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 		UnityEngine.Random.seed = 42;
 
 		GameObject cardParent = new GameObject ();
+
 		cardParent.transform.SetParent (this.gameObject.transform);
+		cardParent.transform.localPosition = Vector3.zero;
 		cardParent.name = cardParentName;
 		GameObject go = Resources.Load (cardTemplateName) as GameObject;
 		for (int i = 0; i < 60; i++) 
-		{
-			
+		{			
 
 			GameObject card = Instantiate (go) as GameObject;
 			card.transform.SetParent (cardParent.transform);
-			V mc = card.GetComponent<V>();			 
-			mc.name = cardName +"_"+ i.ToString ();
-			//mc.Power = randPower;
-			//mc.cardType = mt;
+			card.transform.localPosition = Vector3.zero;
+			card.name = cardName +"_"+ i.ToString ();
+			V mc = card.GetComponent<V>();
+			mc.Name = card.name;
+
 			m_cards.Add (mc);
 			CardMonos.Add (mc);
-
 		}
 
 		m_cards.ForEach (delegate(V obj) {
@@ -89,13 +99,20 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 	//V is MysteryCardMono
 	public static ICard Draw (List<GameObject> hand) 
 	{		
-		ICard top = (ICard)cards [0];
-		cards.RemoveAt (0);
-		CardMono<T> c = CardStack<T,V>.stack.m_cards [0];
-		hand.Add (c.gameObject);
-		CardStack<T,V>.stack.m_cards.RemoveAt (0);
+		if (cards.Count > 0 && CardStack<T,V>.stack.m_cards.Count > 0) {
+			ICard top = (ICard)cards [0];
+			cards.RemoveAt (0);
+		
 
-		return top;
+			CardMono<T> c = CardStack<T,V>.stack.m_cards [0];
+			hand.Add (c.gameObject);
+			CardStack<T,V>.stack.m_cards.RemoveAt (0);
+
+			return top;
+		} else {
+
+			return null;
+		}
 	}
 }
  

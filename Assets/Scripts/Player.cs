@@ -93,23 +93,27 @@ namespace Character
 		public List<ICard> equipment = new List<ICard> ();
 
 		public bool DrawCard<T> () where T : class, new()
-		{
-			 
-			ICard c = (typeof(T) == typeof(MysteryCard) ? (Func<List<GameObject>,ICard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
+		{		
+			ICard c = (typeof(T) == typeof(MysteryCard) 
+				? (Func<List<GameObject>,ICard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
+			if (c == null) {
+				Debug.LogWarning ("Card Draw returned null..");
+				return false;
+			}
+			GameObject cardParent = transform.FindChild ("Cards").gameObject;
+
+
 
 			hand.Add (c);
 
 			foreach (GameObject go in cards) {
-				go.transform.SetParent (this.transform);
-				go.transform.position = this.transform.position;
+				go.transform.SetParent (cardParent.transform);
+				go.transform.position = cardParent.transform.position;
 			}
 
 			return true;
 
 		}
-
-
-
 		public int MoveCard ()
 		{
 			return 0;
@@ -118,7 +122,7 @@ namespace Character
 		public int SellCard (TreasureCardMono a_card)
 		{
 			GainGold (a_card.CardObject.Gold);
-			//MoveCard ();
+
 			return 0;
 		}
 

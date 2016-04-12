@@ -14,26 +14,35 @@ namespace Dylan
 {
 	public class TurnManager : MonoBehaviour
 	{
-		[SerializeField]
+ 
 		private Text TurnLabel;
-		[SerializeField]
+ 
 		private Text PowerLabel;
-		[SerializeField]
+ 
 		private Text LevelLabel;
-
-		[SerializeField]
+ 
 		private Text GoldLabel;
-
-
-		[SerializeField]
+ 
 		private Text PlayerLabel;
 
 		private List<Player> Players;
 		//All players in the current game
-		private int m_CurrentPlayerIndex;
+		private int m_CurrentPlayerIndex = 0;
 		//index of the current player
 		[SerializeField]
-		private Player ActivePlayer;
+		private Player thePlayer;
+		private static Player m_ActivePlayer;
+
+
+		public static Player ActivePlayer
+		{
+			get{
+				return m_ActivePlayer;}
+			set
+			{ 
+				m_ActivePlayer = value;
+			}
+		}
 		//Current player taking his/her turn
         
 		/// <Testing>
@@ -79,6 +88,8 @@ namespace Dylan
 
 		void Start ()
 		{
+
+			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
 			UpdateUI ();
 
 		}
@@ -89,14 +100,15 @@ namespace Dylan
 		void PlayerCycle ()
 		{            
 			ActivePlayer = Players [m_CurrentPlayerIndex];
-           
+			thePlayer = ActivePlayer;
+			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
 			if (m_CurrentPlayerIndex >= 3)
 				m_CurrentPlayerIndex = 0;
 			else
 				m_CurrentPlayerIndex++;
 
 
-			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
+
 		}
 
 		void Update ()
@@ -105,7 +117,7 @@ namespace Dylan
 			if (Input.GetKeyDown (KeyCode.D)) {
 				PhaseTransition ();
                 
-				//cPhase.text = currentPhase.ToString();
+				 
 			}
 			/// </Testing>
 		}
@@ -143,6 +155,7 @@ namespace Dylan
 				GoldLabel.text = "Gold: " + ActivePlayer.Gold.ToString ();
 				LevelLabel.text = "Level: " + ActivePlayer.Level.ToString ();
 				PowerLabel.text = "Power: " + ActivePlayer.Power.ToString ();
+
 			}
 		}
 
