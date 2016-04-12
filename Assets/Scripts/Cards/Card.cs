@@ -15,6 +15,12 @@ public enum MysteryType
 	EVENT = 1,
 	MONSTER = 2,
 }
+
+public enum TreasureType
+{
+	EQUIPMENT = 0,
+	DEFAULT = 1,
+}
 public class MysteryCard : ICard
 {
 	[SerializeField]

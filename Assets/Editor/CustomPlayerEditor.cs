@@ -2,13 +2,13 @@
 using System.Collections;
 using UnityEditor;
 
-[CustomEditor(typeof(Eric.Player))]
+[CustomEditor(typeof(Character.Player))]
 public class CustomPlayerEditor : Editor {
 
 	public override void OnInspectorGUI()
 	{
 		DrawDefaultInspector ();
-		Eric.Player script = (Eric.Player)target;
+		Character.Player script = (Character.Player)target;
 		if (GUILayout.Button ("Draw Mystery")) {
 			script.Test ();
 		}

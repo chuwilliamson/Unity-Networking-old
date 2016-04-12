@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Matthew
+namespace Table
 {
 	///EXAMPLE: Transform mysteryPos = Board.Instance.MysteryCardStackPosition;
 	/// <summary>
@@ -35,7 +35,7 @@ namespace Matthew
 			m_TreasureCardStack = FindObjectOfType <TreasureStack>().gameObject;
 			if (m_Players.Count < 1)
 				m_Players = new List<GameObject> ();
-			foreach (var v in FindObjectsOfType<Eric.Player>()) {
+			foreach (var v in FindObjectsOfType<Character.Player>()) {
 				m_Players.Add (v.GetComponent<GameObject>());
 			}
 

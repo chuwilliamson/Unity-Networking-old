@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
-using Eric; 
+using Character; 
 
 namespace Dylan
 {
@@ -36,23 +36,9 @@ namespace Dylan
         private TurnPhases currentPhase = TurnPhases.firstPhase; //Current turnPhase the player is in
 		void Awake()
 		{
-			for(int i = 0; i < 8; i++)
-			{
-//				GameObject t = Resources.Load("TreasureCardTemplate") as GameObject;
-//				GameObject m = Resources.Load("MysteryCardTemplate") as GameObject;
-//				TreasureCard tc = t.GetComponent<TreasureCardMono>().theCard;
-//				TreasureStack.
-//				MysteryCard mc = m.GetComponent<MysteryCardMono>().theCard;
-//				MysteryStack.Push(mc);
-
-			}
-
-		}
-        void Start()
-        {
-            Players = new List<Player>();
-            Players.AddRange(FindObjectsOfType<Player>());
-            PlayerCycle();
+			Players = new List<Player>();
+			Players.AddRange(FindObjectsOfType<Player>());
+			PlayerCycle();
 			TurnLabel.text = currentPhase.ToString();
 			foreach (IPlayer p in Players) {
 				for (int i = 0; i < 4; i++) {					
@@ -60,6 +46,11 @@ namespace Dylan
 					p.DrawCard<TreasureCard> ();
 				}
 			}
+
+		}
+        void Start()
+        {
+            
 
 		}
 

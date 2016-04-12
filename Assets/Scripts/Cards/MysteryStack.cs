@@ -13,8 +13,8 @@ public class MysteryStack : CardStack<MysteryCard,MysteryCardMono>
 		foreach (var v in CardMonos) {
 			int randPower = UnityEngine.Random.Range (0, 10);
 			int randClass = UnityEngine.Random.Range (0, 3);
-			v.power = randPower;
-			v.cardType = (MysteryType)randClass;
+			v.Power = randPower;
+			v.CardType = (MysteryType)randClass;
 		}
 	}
 }
