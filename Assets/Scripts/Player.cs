@@ -95,7 +95,8 @@ namespace Character
 		public bool DrawCard<T> () where T : class, new()
 		{
 			 
-			ICard c = (typeof(T) == typeof(MysteryCard) ? (Func<List<GameObject>,ICard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
+			ICard c = (typeof(T) == typeof(MysteryCard) 
+				? (Func<List<GameObject>,ICard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
 
 			hand.Add (c);
 
@@ -107,9 +108,6 @@ namespace Character
 			return true;
 
 		}
-
-
-
 		public int MoveCard ()
 		{
 			return 0;
@@ -118,7 +116,7 @@ namespace Character
 		public int SellCard (TreasureCardMono a_card)
 		{
 			GainGold (a_card.CardObject.Gold);
-			//MoveCard ();
+
 			return 0;
 		}
 
