@@ -54,6 +54,12 @@ namespace Dylan
             Players.AddRange(FindObjectsOfType<Player>());
             PlayerCycle();
 			TurnLabel.text = currentPhase.ToString();
+			foreach (IPlayer p in Players) {
+				for (int i = 0; i < 4; i++) {					
+					p.DrawCard<MysteryCard> ();
+					p.DrawCard<TreasureCard> ();
+				}
+			}
 
 		}
 
@@ -70,7 +76,7 @@ namespace Dylan
             //cPlayer.text = ActivePlayer.name;
             if (m_CurrentPlayerIndex >= 3)
                 m_CurrentPlayerIndex = 0;
-            else
+            else  
                 m_CurrentPlayerIndex++;
 
 

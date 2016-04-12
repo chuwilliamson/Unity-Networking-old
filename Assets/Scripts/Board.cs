@@ -33,6 +33,8 @@ namespace Matthew
 		{
 			m_MysteryCardStack = FindObjectOfType <MysteryStack>().gameObject;
 			m_TreasureCardStack = FindObjectOfType <TreasureStack>().gameObject;
+			if (m_Players.Count < 1)
+				m_Players = new List<GameObject> ();
 			foreach (var v in FindObjectsOfType<Eric.Player>()) {
 				m_Players.Add (v.GetComponent<GameObject>());
 			}

@@ -20,6 +20,7 @@ public interface IPlayer
 {
 	int PlayCard ();
 
+	bool DrawCard<T> () where T : class, new();
 	//bool DrawCard<T> () where T : class, new();
 
 	int MoveCard ();
