@@ -8,13 +8,14 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 using Character;
-
+using UnityEngine.Events;
 
 namespace Dylan
 {
-	public class TurnManager : MonoBehaviour
+    
+    public class TurnManager : MonoBehaviour
 	{
-		[SerializeField]
+        [SerializeField]
 		private Text TurnLabel;
 		[SerializeField]
 		private Text PowerLabel;
@@ -51,10 +52,10 @@ namespace Dylan
 
 		[SerializeField]
 		private TurnPhases currentPhase = TurnPhases.First;
-		//Current turnPhase the player is in
+        //Current turnPhase the player is in
+        
 		void Awake ()
-		{ 
-			
+        { 
 			Players = new List<Player> ();
 			Players.AddRange (FindObjectsOfType<Player> ());
 			PlayerCycle ();
@@ -77,11 +78,16 @@ namespace Dylan
 
 		}
 
+        void PlayerChanged()
+        {
+
+
+        }
+
 		void Start ()
 		{
 			UpdateUI ();
-
-		}
+        }
 
 		/// <summary>
 		/// Cycles from one player to the next
@@ -95,8 +101,8 @@ namespace Dylan
 			else
 				m_CurrentPlayerIndex++;
 
-
-			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
+            UpdateUI();
+            CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
 		}
 
 		void Update ()
@@ -144,9 +150,18 @@ namespace Dylan
 				LevelLabel.text = "Level: " + ActivePlayer.Level.ToString ();
 				PowerLabel.text = "Power: " + ActivePlayer.Power.ToString ();
 			}
+
+            foreach (PeakInfo pi in m_PlayerInfo)
+            {
+                foreach (Player cp in Players)
+                {
+                    if (pi.CorrelatedPlayer == cp)
+                        pi.UpdatePlayerInfo();
+                }
+            }
 		}
 
-
-	}
+        [SerializeField] private List<PeakInfo> m_PlayerInfo;
+    }
 }
 
