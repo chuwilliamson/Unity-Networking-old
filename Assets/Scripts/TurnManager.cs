@@ -14,18 +14,15 @@ namespace Dylan
 {
 	public class TurnManager : MonoBehaviour
 	{
-		[SerializeField]
+ 
 		private Text TurnLabel;
-		[SerializeField]
+ 
 		private Text PowerLabel;
-		[SerializeField]
+ 
 		private Text LevelLabel;
-
-		[SerializeField]
+ 
 		private Text GoldLabel;
-
-
-		[SerializeField]
+ 
 		private Text PlayerLabel;
 
 		private List<Player> Players;
@@ -33,7 +30,19 @@ namespace Dylan
 		private int m_CurrentPlayerIndex = 0;
 		//index of the current player
 		[SerializeField]
-		private Player ActivePlayer;
+		private Player thePlayer;
+		private static Player m_ActivePlayer;
+
+
+		public static Player ActivePlayer
+		{
+			get{
+				return m_ActivePlayer;}
+			set
+			{ 
+				m_ActivePlayer = value;
+			}
+		}
 		//Current player taking his/her turn
         
 		/// <Testing>
@@ -91,6 +100,7 @@ namespace Dylan
 		void PlayerCycle ()
 		{            
 			ActivePlayer = Players [m_CurrentPlayerIndex];
+			thePlayer = ActivePlayer;
 			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
 			if (m_CurrentPlayerIndex >= 3)
 				m_CurrentPlayerIndex = 0;
