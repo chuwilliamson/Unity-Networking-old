@@ -7,114 +7,146 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
-using Eric; 
+using Character;
+
 
 namespace Dylan
 {
-    public class TurnManager : MonoBehaviour
-    {
-        [SerializeField]
-        private UnityEngine.UI.Text TurnLabel;
-        private List<Player> Players; //All players in the current game
-        private int m_CurrentPlayerIndex; //index of the current player
-        [SerializeField]
-        private Player ActivePlayer; //Current player taking his/her turn
+	public class TurnManager : MonoBehaviour
+	{
+		[SerializeField]
+		private Text TurnLabel;
+		[SerializeField]
+		private Text PowerLabel;
+		[SerializeField]
+		private Text LevelLabel;
+
+		[SerializeField]
+		private Text GoldLabel;
+
+
+		[SerializeField]
+		private Text PlayerLabel;
+
+		private List<Player> Players;
+		//All players in the current game
+		private int m_CurrentPlayerIndex;
+		//index of the current player
+		[SerializeField]
+		private Player ActivePlayer;
+		//Current player taking his/her turn
         
-        /// <Testing>
-        //public Text cPlayer;
-        //public Text cPhase;
-        /// </Testing>
+		/// <Testing>
+		//public Text cPlayer;
+		//public Text cPhase;
+		/// </Testing>
 
-        private enum TurnPhases
-        {
-            firstPhase,
-            secondPhase,
-            combatPhase,
-            endPhase
-        }
-        [SerializeField]
-        private TurnPhases currentPhase = TurnPhases.firstPhase; //Current turnPhase the player is in
-		void Awake()
+		private enum TurnPhases
 		{
-			for(int i = 0; i < 8; i++)
-			{
-//				GameObject t = Resources.Load("TreasureCardTemplate") as GameObject;
-//				GameObject m = Resources.Load("MysteryCardTemplate") as GameObject;
-//				TreasureCard tc = t.GetComponent<TreasureCardMono>().theCard;
-//				TreasureStack.
-//				MysteryCard mc = m.GetComponent<MysteryCardMono>().theCard;
-//				MysteryStack.Push(mc);
+			First,
+			Second,
+			Combat,
+			End,
+		}
 
+		[SerializeField]
+		private TurnPhases currentPhase = TurnPhases.First;
+		//Current turnPhase the player is in
+		void Awake ()
+		{ 
+			
+			Players = new List<Player> ();
+			Players.AddRange (FindObjectsOfType<Player> ());
+			PlayerCycle ();
+
+			if (GameObject.Find ("UI") != null) {
+				TurnLabel = GameObject.Find ("TurnLabel").GetComponent<Text> ();
+				PowerLabel = GameObject.Find ("PowerLabel").GetComponent<Text> ();
+				LevelLabel = GameObject.Find ("LevelLabel").GetComponent<Text> ();
+				GoldLabel = GameObject.Find ("GoldLabel").GetComponent<Text> ();
+				PlayerLabel = GameObject.Find ("PlayerLabel").GetComponent<Text> ();
+				UpdateUI ();
+			}
+
+			foreach (IPlayer p in Players) {
+				for (int i = 0; i < 4; i++) {					
+					p.DrawCard<MysteryCard> ();
+					p.DrawCard<TreasureCard> ();
+				}
 			}
 
 		}
-        void Start()
-        {
-            Players = new List<Player>();
-            Players.AddRange(FindObjectsOfType<Player>());
-            PlayerCycle();
-			TurnLabel.text = currentPhase.ToString();
+
+		void Start ()
+		{
+			UpdateUI ();
 
 		}
 
-         /// <summary>
-         /// Cycles from one player to the next
-         /// </summary>
-        void PlayerCycle()
-        {            
-            ActivePlayer = Players[m_CurrentPlayerIndex];
-           // float x = ActivePlayer.transform.position.x;
-//            float z = ActivePlayer.transform.position.x;
-           // Camera.main.transform.position = new Vector3(x, 33, z);
-            //Camera.main.transform.LookAt(Vector3.zero);
-            //cPlayer.text = ActivePlayer.name;
-            if (m_CurrentPlayerIndex >= 3)
-                m_CurrentPlayerIndex = 0;
-            else
-                m_CurrentPlayerIndex++;
+		/// <summary>
+		/// Cycles from one player to the next
+		/// </summary>
+		void PlayerCycle ()
+		{            
+			ActivePlayer = Players [m_CurrentPlayerIndex];
+           
+			if (m_CurrentPlayerIndex >= 3)
+				m_CurrentPlayerIndex = 0;
+			else
+				m_CurrentPlayerIndex++;
 
 
 			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
-        }
+		}
 
-        void Update()
-        {
-            ///<Testing>
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                PhaseTransition();
+		void Update ()
+		{
+			///<Testing>
+			if (Input.GetKeyDown (KeyCode.D)) {
+				PhaseTransition ();
                 
-                //cPhase.text = currentPhase.ToString();
-            }
-            /// </Testing>
-        }
+				//cPhase.text = currentPhase.ToString();
+			}
+			/// </Testing>
+		}
 
-        /// <summary>
-        /// Handles the transitions from one phase to another
-        /// as the Active player takes his/her turn
-        /// </summary>
-        void PhaseTransition()
-        {
-            switch(currentPhase)
-            {
-                case TurnPhases.firstPhase:
-                    currentPhase = TurnPhases.secondPhase;					
-                    break;
-                case TurnPhases.secondPhase:
-                    currentPhase = TurnPhases.combatPhase;
-                    break;
-                case TurnPhases.combatPhase:
-                    currentPhase = TurnPhases.endPhase;
-                    break;
-                case TurnPhases.endPhase:
-                    currentPhase = TurnPhases.firstPhase;
-                    PlayerCycle();
-                    break;
-            }
-			TurnLabel.text = currentPhase.ToString();
+		/// <summary>
+		/// Handles the transitions from one phase to another
+		/// as the Active player takes his/her turn
+		/// </summary>
+		void PhaseTransition ()
+		{
+			switch (currentPhase) {
+			case TurnPhases.First:
+				currentPhase = TurnPhases.Second;					
+				break;
+			case TurnPhases.Second:
+				currentPhase = TurnPhases.Combat;
+				break;
+			case TurnPhases.Combat:
+				currentPhase = TurnPhases.End;
+				break;
+			case TurnPhases.End:
+				currentPhase = TurnPhases.First;
+				PlayerCycle ();
+				break;
+			}
+			UpdateUI ();
+		
+		}
+
+		void UpdateUI ()
+		{
+			if (GameObject.Find ("UI")) {
+				TurnLabel.text = "Phase: " + currentPhase.ToString ();
+				PlayerLabel.text = "Player: " + ActivePlayer.name;
+				GoldLabel.text = "Gold: " + ActivePlayer.Gold.ToString ();
+				LevelLabel.text = "Level: " + ActivePlayer.Level.ToString ();
+				PowerLabel.text = "Power: " + ActivePlayer.Power.ToString ();
+			}
+		}
 
 
-        }
-    }
+	}
 }
 
