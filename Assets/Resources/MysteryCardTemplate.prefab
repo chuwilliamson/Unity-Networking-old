@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 407452}
   - 33: {fileID: 3384346}
   - 23: {fileID: 2330044}
-  - 114: {fileID: 11419482}
   m_Layer: 0
   m_Name: MysteryCardTemplate
   m_TagString: Untagged
@@ -63,21 +62,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176322}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &11419482
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84eeec9235c9b934fbe7e032cc189f92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _description: 
-  _name: 
-  m_cardType: 0
-  m_power: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

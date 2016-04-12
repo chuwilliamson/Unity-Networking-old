@@ -44,22 +44,21 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 		UnityEngine.Random.seed = 42;
 
 		GameObject cardParent = new GameObject ();
+
 		cardParent.transform.SetParent (this.gameObject.transform);
+		cardParent.transform.localPosition = Vector3.zero;
 		cardParent.name = cardParentName;
 		GameObject go = Resources.Load (cardTemplateName) as GameObject;
 		for (int i = 0; i < 60; i++) 
-		{
-			
+		{			
 
 			GameObject card = Instantiate (go) as GameObject;
 			card.transform.SetParent (cardParent.transform);
+			card.transform.localPosition = Vector3.zero;
 			V mc = card.GetComponent<V>();			 
 			mc.name = cardName +"_"+ i.ToString ();
-			//mc.Power = randPower;
-			//mc.cardType = mt;
 			m_cards.Add (mc);
 			CardMonos.Add (mc);
-
 		}
 
 		m_cards.ForEach (delegate(V obj) {
