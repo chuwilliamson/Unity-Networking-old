@@ -18,6 +18,7 @@ public interface ICardLogger
 
 public interface IPlayer
 {
+	int RunAway{ get; set; }
 	Character.CharacterClass PlayerClass {
 		get;
 		set;

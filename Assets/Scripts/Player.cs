@@ -23,6 +23,9 @@ namespace Character
 			m_maxGold = 1000;
 			transform.LookAt (Vector3.zero);
 			m_power = Power;
+			m_level = Level;
+			m_gold = Gold;
+			m_runAway = RunAway;
 	
 		}
 
@@ -114,8 +117,8 @@ namespace Character
 
 		public int SellCard (TreasureCardMono a_card)
 		{
-			GainGold (a_card.CardObject.GoldValue);
-			MoveCard ();
+			GainGold (a_card.CardObject.Gold);
+			//MoveCard ();
 			return 0;
 		}
 
@@ -158,7 +161,6 @@ namespace Character
 		[SerializeField] private CharacterClass m_playerClass;
 		[SerializeField] private int m_level;
 		[SerializeField] private int m_runAway;
-
 		[SerializeField] private int m_gold;
 		[SerializeField] private int m_power;
 
@@ -168,8 +170,11 @@ namespace Character
 		private int m_maxLevel;
 		private int m_maxGold;
 
-		#region MyRegion
-
+		#region IPlayer interface
+		public int RunAway { 
+			get { return UnityEngine.Random.Range (1, 6) + m_runAway; } 
+			set { m_runAway = value; } 
+		}
 		public CharacterClass PlayerClass {
 			get {
 				return m_playerClass;
@@ -196,6 +201,8 @@ namespace Character
 
 		public int Level {
 			get {
+				if (m_level <= 0)
+					return 1;
 				return m_level;
 			}
 			set{ }
@@ -205,15 +212,15 @@ namespace Character
 
 		public int Power {
 			get {		
-				int powerCounter = 0;
+				m_power = 0;
 
 				foreach (GameObject m in cards) {
 					//Debug.Log ("power is " + powerCounter.ToString ());
 					if (m.GetComponent<MysteryCardMono> () != null)
-						powerCounter += m.GetComponent<MysteryCardMono> ().Power;
+						m_power += m.GetComponent<MysteryCardMono> ().Power;
 
 				}
-				return powerCounter + m_level;
+				return m_power + m_level;
 			}
 			set { 
 				m_power = value; 
@@ -225,13 +232,21 @@ namespace Character
 
 		public int Gold {
 			get {
-				return m_gold;
+				int goldCounter = 0;
+				foreach (GameObject m in cards) {
+					//Debug.Log ("power is " + powerCounter.ToString ());
+					if (m.GetComponent<TreasureCardMono> () != null)
+						goldCounter += m.GetComponent<TreasureCardMono> ().Gold;					
+				}
+				return goldCounter;
+
+			
 			}
 			set{ }
 		}
 
 	
 
-		#endregion
+		#endregion IPlayer interface
 	}
 }

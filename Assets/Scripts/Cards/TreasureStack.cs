@@ -13,7 +13,7 @@ public class TreasureStack : CardStack<TreasureCard, TreasureCardMono>
 	{
 		foreach (var v in CardMonos) {
 			int randomGold = UnityEngine.Random.Range (100, 1000);
-			v._gold = randomGold;
+			v.Gold = randomGold;
 		}
 	}
 }
