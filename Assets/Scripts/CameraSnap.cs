@@ -3,22 +3,22 @@ using System.Collections;
 
 public class CameraSnap : MonoBehaviour
 {
-    public static void CameraSnapOverTarget(Transform target)
+    public static void CameraSnapOverTarget(Transform targetPos)
     {
-        GameObject camera = Camera.main.gameObject;     // Find Main camera in Scene 
-        camera.transform.parent = target;               // Parents Camera to target's transform to insure posistion displacement is realtive to target 
-        
-        camera.transform.localPosition = new Vector3(0, 28f, -6f);  // Apply new position
-        camera.transform.parent = null;                             // Un-Parent camera from target
-       
-        camera.transform.LookAt(new Vector3(0, 0, 0));  // Camera center of view facing origin
+        GameObject camera = Camera.main.gameObject;
+        camera.transform.parent = targetPos;
+
+        camera.transform.localPosition = new Vector3(0,0,0);
+        camera.transform.localPosition += new Vector3(0, 28f, -6f);
+        camera.transform.parent = null;
+
+        camera.transform.rotation = new Quaternion(0,0,0,0);
+        camera.transform.LookAt(new Vector3(0, 0, 0));
     }
 
-    ///
-    /// Sample use:
-    /// CameraSnap.CameraSnap(transform);
-    /// 
-    /// Result :    Moves camera, relative to the object that call the funtion, +28 in the Y, -6 in the Z
-    ///             Makes camera forward point to the origin (Assumed center of the board).
-    ///
+    
+    //void Update()
+    //{
+    //    Debug.DrawLine(transform.position, Vector3.zero, Color.blue);
+    //}
 }
