@@ -11,10 +11,10 @@ public class CustomMysteryStackEditor : Editor {
 		MysteryStack script = (MysteryStack)target;
 		if (GUILayout.Button ("Generate Deck")) {
 			script.Test ();	
-		}
-
-
-
+		} 
+		if (GUILayout.Button ("Clear Deck")) {
+			script.Clear ();	
+		} 
 	}
 }
 
@@ -27,6 +27,9 @@ public class CustomTreasureStackEditor : Editor {
 		TreasureStack script = (TreasureStack)target;
 		if (GUILayout.Button ("Generate Deck")) {
 			script.Test ();	
+		}
+		if (GUILayout.Button ("Clear Deck")) {
+			script.Clear ();	
 		}
 
 
