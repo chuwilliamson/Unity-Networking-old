@@ -94,15 +94,24 @@ namespace Character
 
 		public bool DrawCard<T> () where T : class, new()
 		{
-			 
+			
+			
+			GameObject cardParent = transform.FindChild ("Cards").gameObject;
+
+			
+
+
+
 			ICard c = (typeof(T) == typeof(MysteryCard) 
 				? (Func<List<GameObject>,ICard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
 
 			hand.Add (c);
 
 			foreach (GameObject go in cards) {
-				go.transform.SetParent (this.transform);
-				go.transform.position = this.transform.position;
+
+
+				go.transform.SetParent (cardParent.transform);
+				go.transform.position = cardParent.transform.position;
 			}
 
 			return true;
