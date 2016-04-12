@@ -38,10 +38,12 @@ namespace Dylan
 		public static Player ActivePlayer
 		{
 			get{
-				return m_ActivePlayer;}
+				return m_ActivePlayer;
+			}
 			set
-			{ 
+			{ 				
 				m_ActivePlayer = value;
+				PlayerChange.Invoke();
 			}
 		}
 		//Current player taking his/her turn
@@ -70,7 +72,7 @@ namespace Dylan
 			
 			Players = new List<Player> ();
 			Players.AddRange (FindObjectsOfType<Player> ());
-			PlayerCycle ();
+
 
 			if (GameObject.Find ("UI") != null) {
 				TurnLabel = GameObject.Find ("TurnLabel").GetComponent<Text> ();
@@ -78,7 +80,7 @@ namespace Dylan
 				LevelLabel = GameObject.Find ("LevelLabel").GetComponent<Text> ();
 				GoldLabel = GameObject.Find ("GoldLabel").GetComponent<Text> ();
 				PlayerLabel = GameObject.Find ("PlayerLabel").GetComponent<Text> ();
-				UpdateUI ();
+
 			}
 
 			foreach (IPlayer p in Players) {
@@ -92,7 +94,7 @@ namespace Dylan
 
 		void Start ()
 		{
-
+			PlayerCycle ();
 			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
 			UpdateUI ();
 
@@ -147,7 +149,7 @@ namespace Dylan
 				PlayerCycle ();
 				break;
 			}
-			PlayerChange.Invoke();
+
 			UpdateUI ();
 		
 		}
