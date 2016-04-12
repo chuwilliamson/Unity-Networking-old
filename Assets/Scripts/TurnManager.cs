@@ -50,12 +50,17 @@ namespace Dylan
 			End,
 		}
 
+		public static UnityEvent PlayerChange;
 		[SerializeField]
 		private TurnPhases currentPhase = TurnPhases.First;
         //Current turnPhase the player is in
         
 		void Awake ()
-        { 
+		{ 
+			if (PlayerChange == null)
+				PlayerChange = new UnityEvent ();
+			
+
 			Players = new List<Player> ();
 			Players.AddRange (FindObjectsOfType<Player> ());
 			PlayerCycle ();
@@ -137,6 +142,7 @@ namespace Dylan
 				PlayerCycle ();
 				break;
 			}
+			PlayerChange.Invoke();
 			UpdateUI ();
 		
 		}
