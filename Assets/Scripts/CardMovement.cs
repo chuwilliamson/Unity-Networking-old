@@ -7,10 +7,10 @@ public class CardMovement : MonoBehaviour
 
     void Update()
     {
-        CardFlip();
+        
     }
 
-    void CardFlip()
+    void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(1))
         {
@@ -20,16 +20,25 @@ public class CardMovement : MonoBehaviour
             {
                 if (IsFlipped == false)
                 {
-                    transform.rotation = new Quaternion(0, 0, 1, 0);
-                    IsFlipped = true;
+                    StartCoroutine(CardFlip(new Quaternion(0, 0, 1, 0)));
                 }
                 else if (IsFlipped == true)
                 {
-                    transform.rotation = new Quaternion(0, 0, 0, 1);
-                    IsFlipped = false;
+                    StartCoroutine(CardFlip(new Quaternion(0, 0, 0, 1)));
                 }
             }
         }
+    }
+
+    IEnumerator CardFlip(Quaternion targetRotation)
+    {
+        while((transform.rotation.z - targetRotation.z <= -0.001f && IsFlipped == false) || (transform.rotation.z - targetRotation.z >= 0.001f && IsFlipped == true))
+        {
+            transform.Rotate((Time.deltaTime * 200) * transform.forward);
+            yield return null;
+        }
+        transform.rotation = targetRotation;
+        IsFlipped = !IsFlipped;
     }
 
 }
