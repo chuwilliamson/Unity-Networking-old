@@ -35,15 +35,13 @@ namespace Dylan
 		private static Player m_ActivePlayer;
 
 
-		public static Player ActivePlayer
-		{
-			get{
+		public static Player ActivePlayer {
+			get {
 				return m_ActivePlayer;
 			}
-			set
-			{ 				
+			set { 				
 				m_ActivePlayer = value;
-				PlayerChange.Invoke();
+				PlayerChange.Invoke ();
 			}
 		}
 		//Current player taking his/her turn
@@ -164,7 +162,16 @@ namespace Dylan
 				PowerLabel.text = "Power: " + ActivePlayer.Power.ToString ();
 
 			}
+			foreach (PeakInfo pi in m_PlayerInfo) {
+				foreach (Player cp in Players) {
+					if (pi.CorrelatedPlayer == cp)
+						pi.UpdatePlayerInfo ();
+				}
+			}
 		}
+
+		[SerializeField] private List<PeakInfo> m_PlayerInfo;
+
 
 
 	}
