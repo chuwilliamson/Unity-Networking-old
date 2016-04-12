@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 using Character;
+using UnityEngine.Events;
 
 
 namespace Dylan
@@ -58,11 +59,14 @@ namespace Dylan
 			End,
 		}
 
+		public static UnityEvent PlayerChange;
 		[SerializeField]
 		private TurnPhases currentPhase = TurnPhases.First;
 		//Current turnPhase the player is in
 		void Awake ()
 		{ 
+			if (PlayerChange == null)
+				PlayerChange = new UnityEvent ();
 			
 			Players = new List<Player> ();
 			Players.AddRange (FindObjectsOfType<Player> ());
@@ -143,6 +147,7 @@ namespace Dylan
 				PlayerCycle ();
 				break;
 			}
+			PlayerChange.Invoke();
 			UpdateUI ();
 		
 		}
