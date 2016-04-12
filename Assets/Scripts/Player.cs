@@ -1,9 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
-namespace Eric
+namespace Character
 {
+	public enum CharacterClass
+	{
+		NONE,
+		CLASS1,//+1 to RunAway lvl up from assisting
+		CLASS2,//discard a treasure for + 2 * cardPower till eot
+		CLASS3,//discard any card for + 3 power
+		CLASS4,//double gold on sell discard any card for + RunAway
+	}
+
 	public class Player : MonoBehaviour, IPlayer
 	{
 		void Start ()
@@ -12,53 +22,81 @@ namespace Eric
 			m_maxLevel = 10;
 			m_maxGold = 1000;
 			transform.LookAt (Vector3.zero);
-
+			m_power = Power;
+			m_level = Level;
+			m_gold = Gold;
+			m_runAway = RunAway;
+	
 		}
+
+
 
 		// TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ //
-		void Update ()
-		{
-			Debug.DrawLine (transform.position, Vector3.zero);
-			if (Input.GetKey (KeyCode.Alpha1)) {
-				GainExperience (1);
-			}
-			if (Input.GetKey (KeyCode.Alpha2)) {
-				GainGold (150);
-			}
-			if (Input.GetKeyDown (KeyCode.Alpha3)) {
-				DrawCard<MysteryCard> ();
+		//		void Update ()
+		//		{
+		//			Debug.DrawLine (transform.position, Vector3.zero);
+		//			if (Input.GetKey (KeyCode.Alpha1)) {
+		//				GainExperience (1);
+		//			}
+		//			if (Input.GetKey (KeyCode.Alpha2)) {
+		//				GainGold (150);
+		//			}
+		//			if (Input.GetKeyDown (KeyCode.Alpha3)) {
+		//				DrawCard<MysteryCard> ();
+		//
+		//			}
+		//			if (Input.GetKeyDown (KeyCode.Alpha4)) {
+		//				DrawCard<TreasureCard> ();
+		//
+		//			}
+		//		}
 
-			}
-			if (Input.GetKeyDown (KeyCode.Alpha4)) {
-				DrawCard<TreasureCard> ();
 
-			}
-		}
-		// TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
+		//		//ugh dont like this
+		//		[ContextMenu ("Get the Power")]
+		//		public void GetPower ()
+		//		{
+		//			int powerCounter = 0;
+		//			if (hand.Count < 1)
+		//				Debug.Log ("no cards in hand");
+		//			foreach (GameObject m in cards) {
+		//				Debug.Log ("power is " + powerCounter.ToString ());
+		//				if (m.GetComponent<MysteryCardMono> () != null)
+		//					powerCounter += m.GetComponent<MysteryCardMono> ().Power;
+		//				
+		//			}
+		//			Debug.Log ("power counter: " + powerCounter.ToString ());
+		//			 
+		//		}
+		//		// TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
 
 		public int PlayCard ()
 		{
 			return 0;
 		}
 
- 
- 
-		public void Test()
+
+		public void Test ()
 		{
 			DrawCard<MysteryCard> ();
 		}
 
-		public void TestTreasure()
+		public void TestTreasure ()
 		{
 			DrawCard<TreasureCard> ();
 		}
-		 
+
 		[SerializeField]
-		private List <GameObject> cards = new List<GameObject>();
-		public bool DrawCard<T>() where T : class, new()
+		 
+		private List <GameObject> cards = new List<GameObject> ();
+		public List<ICard> hand = new List<ICard> ();
+		public List<ICard> equipment = new List<ICard> ();
+
+		public bool DrawCard<T> () where T : class, new()
 		{
 			 
-			ICard c = (typeof(T) == typeof(MysteryCard) ? (Func<List<GameObject>,ICard>) MysteryStack.Draw : TreasureStack.Draw)(cards);
+			ICard c = (typeof(T) == typeof(MysteryCard) 
+				? (Func<List<GameObject>,ICard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
 
 			hand.Add (c);
 
@@ -69,48 +107,7 @@ namespace Eric
 
 			return true;
 
-
-
-//			ICard card = MysteryStack.Draw (cards);
-//			(Func<List<GameObject>,iCard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
-//			if (typeof(T) == typeof(MysteryCardMono)) {
-//				card = MysteryStack.Draw ();
-//			} else if (typeof(T) == typeof(TreasureCardMono)) {
-//				card = TreasureStack.Draw ();
-//			} else {
-//				card = null;
-//				Debug.Log ("no card type found");
-//			}
-//
-//
-//				print (card.Info);
-//				print ("Type of Card: " + card.Type.ToString ());
-//				if (card == null)
-//					return false;
-//
-//
-//	 
-// 
-//				hand.Add (card);
-//			 
-//				return true;
-
 		}
-
-		//        public int DrawTreasureCard()
-		//        {
-		//            TreasureCard c = TreasureStack.Draw() as TreasureCard;
-		//            hand.Add(c);
-		//            return 0;
-		//        }
-		//
-		//        public int DrawMysteryCard()
-		//        {
-		//            MysteryCard c = MysteryStack.Draw() as MysteryCard;
-		//            hand.Add(c);
-		//            return 0;
-		//        }
-
 		public int MoveCard ()
 		{
 			return 0;
@@ -118,8 +115,8 @@ namespace Eric
 
 		public int SellCard (TreasureCardMono a_card)
 		{
-			GainGold (a_card.CardObject.GoldValue);
-			MoveCard ();
+			GainGold (a_card.CardObject.Gold);
+
 			return 0;
 		}
 
@@ -159,31 +156,33 @@ namespace Eric
 			return 0;
 		}
 
-		[SerializeField] private CLASS m_currentClass;
-		[SerializeField] private int m_maxExperience;
-		[SerializeField] private int m_experience;
-		[SerializeField] private int m_maxLevel;
+		[SerializeField] private CharacterClass m_playerClass;
 		[SerializeField] private int m_level;
-		[SerializeField] private int m_modPower;
-		[SerializeField] private int m_maxGold;
+		[SerializeField] private int m_runAway;
 		[SerializeField] private int m_gold;
-        
+		[SerializeField] private int m_power;
 
-		public List<ICard> hand = new List<ICard> ();
-		public List<ICard> equipment = new List<ICard> ();
+		private int m_modPower;
+		private int m_maxExperience;
+		private int m_experience;
+		private int m_maxLevel;
+		private int m_maxGold;
 
-		#region MyRegion
-
-		public CLASS currentClass {
+		#region IPlayer interface
+		public int RunAway { 
+			get { return UnityEngine.Random.Range (1, 6) + m_runAway; } 
+			set { m_runAway = value; } 
+		}
+		public CharacterClass PlayerClass {
 			get {
-				return m_currentClass;
+				return m_playerClass;
 			}
 			set {
-				m_currentClass = value;
+				m_playerClass = value;
 			}
 		}
 
-		public int experience {
+		public int Experience {
 			get {
 				return m_experience;
 			}
@@ -191,39 +190,61 @@ namespace Eric
 
 		public int modPower {
 			get {
-				return m_modPower;
+				return m_modPower + Power;
 			}
 			set {
 				m_modPower = value;
 			}
 		}
 
-		public int level {
+		public int Level {
 			get {
+				if (m_level <= 0)
+					return 1;
 				return m_level;
 			}
+			set{ }
+
+		
 		}
 
-		public int power {
-			get {
-				return level + modPower;
+		public int Power {
+			get {		
+				m_power = 0;
+
+				foreach (GameObject m in cards) {
+					//Debug.Log ("power is " + powerCounter.ToString ());
+					if (m.GetComponent<MysteryCardMono> () != null)
+						m_power += m.GetComponent<MysteryCardMono> ().Power;
+
+				}
+				return m_power + m_level;
 			}
-		}
-
-		public int gold {
-			get {
-				return m_gold;
+			set { 
+				m_power = value; 
 			}
+
 		}
 
-		public enum CLASS
-		{
-			NONE,
-			WARRIOR,
-			WIZARD,
-			ARCHER,
+
+
+		public int Gold {
+			get {
+				int goldCounter = 0;
+				foreach (GameObject m in cards) {
+					//Debug.Log ("power is " + powerCounter.ToString ());
+					if (m.GetComponent<TreasureCardMono> () != null)
+						goldCounter += m.GetComponent<TreasureCardMono> ().Gold;					
+				}
+				return goldCounter;
+
+			
+			}
+			set{ }
 		}
 
-		#endregion
+	
+
+		#endregion IPlayer interface
 	}
 }

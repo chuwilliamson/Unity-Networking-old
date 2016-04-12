@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +14,12 @@ public enum MysteryType
 	CLASS = 0,
 	EVENT = 1,
 	MONSTER = 2,
+}
+
+public enum TreasureType
+{
+	EQUIPMENT = 0,
+	DEFAULT = 1,
 }
 public class MysteryCard : ICard
 {
@@ -99,7 +105,7 @@ public class MysteryCard : ICard
 	}
 }
 
-public class TreasureCard : ICard
+public class TreasureCard : ICard, ITreasure
 {
 	
 	[SerializeField]
@@ -110,10 +116,10 @@ public class TreasureCard : ICard
 	//Effect the card has when played on field
 
 	protected bool m_state;
-
-	public CardType Type {
-		get{ return CardType.TREASURE; }
-		set{ }
+	private TreasureType m_cardType;
+	public TreasureType CardType {
+		get{ return m_cardType;}
+		set{ m_cardType = value;}
 	}
 
 	public System.Type MonoType {
@@ -157,8 +163,9 @@ public class TreasureCard : ICard
 	protected Equipment ItemSlot;
 	private int m_GoldValue;
 
-	public int GoldValue {
+	public int Gold {
 		get{ return m_GoldValue; }
+		set{ }
 
 	}
 

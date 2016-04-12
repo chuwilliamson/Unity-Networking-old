@@ -18,9 +18,22 @@ public interface ICardLogger
 
 public interface IPlayer
 {
+	int RunAway{ get; set; }
+	Character.CharacterClass PlayerClass {
+		get;
+		set;
+	}
+	int Gold{ get; set; }
+	int Level { get; set;
+	}
+	int Power 
+	{
+		get;
+		set;
+	}
 	int PlayCard ();
 
-	//bool DrawCard<T> () where T : class, new();
+	bool DrawCard<T> () where T : class, new();
 
 	int MoveCard ();
 
@@ -31,5 +44,17 @@ public interface IPlayer
 	int GainExperience (int a_experience);
 
 	int LevelUp (int a_levels);
+}
+
+public interface IMystery : ICard
+{
+	int Power{ get; set; }
+	MysteryType CardType{ get; set; }
+}
+
+public interface ITreasure : ICard
+{
+	int Gold{ get; set; }
+	TreasureType CardType{get; set;}
 }
 
