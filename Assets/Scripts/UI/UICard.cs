@@ -13,7 +13,7 @@ public class UICard : MonoBehaviour
 	void Start()
 	{
 		DiscardCard = new UIDiscardEvent();
-		o = Resources.Load ("Button");
+		o = Resources.Load ("CardButton");
 		TurnManager.PlayerChange.AddListener (UpdateHand);
 		Character.Player.onDrawCard.AddListener (UpdateHand);
 
@@ -73,3 +73,4 @@ public class UICard : MonoBehaviour
 		Destroy (card);
 	}
 }
+
