@@ -15,7 +15,7 @@ public class UICard : MonoBehaviour
 		DiscardCard = new UIDiscardEvent();
 		o = Resources.Load ("Button");
 		TurnManager.PlayerChange.AddListener (UpdateHand);
-		//Character.Player.onDrawCard.AddListener (UpdateHand);
+		Character.Player.onDrawCard.AddListener (UpdateHand);
 
 	}
 //	[ContextMenu("Populate Cards")]
@@ -44,7 +44,7 @@ public class UICard : MonoBehaviour
 			}
 
 		} 
-		foreach (ICard c in Player.hand) {
+		foreach (ICard c in p.hand) {
 			GameObject card = Instantiate (o) as GameObject;
 			card.transform.SetParent (this.transform);
 			card.name = c.Name;
@@ -67,7 +67,7 @@ public class UICard : MonoBehaviour
 
 	public void Discard(string n, GameObject card)
 	{
-		TurnManager.ActivePlayer.Discard (n);
+		//TurnManager.ActivePlayer.Discard (n);
 		//player.discard(n);
 
 

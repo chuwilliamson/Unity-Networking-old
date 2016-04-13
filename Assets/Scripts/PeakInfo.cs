@@ -9,24 +9,31 @@ public class PeakInfo : MonoBehaviour
 	Object playerInfo;
 	[SerializeField]
 	Transform panelParent;
+
+	[ContextMenu("spawn")]
 	void Awake ()
 	{
 		playerInfo = Resources.Load ("PlayerInfo");
 		this.GetComponent<UnityEngine.UI.Button> ().onClick.AddListener (ToggleInfo);
 		panel = Instantiate (playerInfo) as GameObject;
+		panel.transform.SetParent (panelParent.transform);
+		panel.name = "PlayerPanel";
+		m_togglableInfo = panel;
+
+
+	}
+
+	[ContextMenu("reset")]
+	void reset()
+	{
+
+		Debug.Log ("PlayerPanel.localPosition" + panel.transform.localPosition);
 	}
 
 	void Start ()
 	{
+		panel.transform.localScale = new Vector3 (1, 1, 1);
 		Character.Player.onDrawCard.AddListener (UpdatePlayerInfo);
-		panel.transform.SetParent (panelParent.transform);
-		panel.transform.localPosition = new Vector3(0,0,0);
-		panel.name = "PlayerPanel";
-
-
-		m_togglableInfo = panel;
-
-
 	}
 
 	public void ToggleInfo ()

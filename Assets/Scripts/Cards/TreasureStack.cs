@@ -26,6 +26,7 @@ public class TreasureStack : CardStack<TreasureCard, TreasureCardMono>
 		}
 	}
 
+	[ContextMenu("DO IT DO IT")]
 	public void EditorInit()
 	{
 		this.Setup();

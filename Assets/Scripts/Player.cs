@@ -102,7 +102,7 @@ namespace Character
 
 		[SerializeField]		 
 		private List <GameObject> cards = new List<GameObject> ();
-		public static List<ICard> hand = new List<ICard> ();
+		public List<ICard> hand = new List<ICard> ();
 		public static List<ICard> equipment = new List<ICard> ();
 
 		public bool DrawCard<T> () where T : class, new()
@@ -138,10 +138,10 @@ namespace Character
 
 		public static void Discard(string name)
 		{
-			ICard c = hand.Find (x => x.Name == name);
-			Debug.Log ("discard " + c.Name);
-			hand.Remove (c);
-			Player p = new Player()
+//			ICard c = hand.Find (x => x.Name == name);
+		//	Debug.Log ("discard " + c.Name);
+		//	hand.Remove (c);
+
 		}
 		public bool Discard(CardMono c)
 		{

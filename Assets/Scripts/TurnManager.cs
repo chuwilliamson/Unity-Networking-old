@@ -70,9 +70,8 @@ namespace Dylan
 
 		void Start ()
 		{			
-			ActivePlayer = Players [m_CurrentPlayerIndex];
+			
 			PlayerCycle ();
-			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
 
 
 		}
