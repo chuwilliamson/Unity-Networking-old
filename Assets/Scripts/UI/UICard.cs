@@ -4,7 +4,7 @@ using Dylan;
 using Character;
 using UnityEngine.Events;
 
-public class UIDiscardEvent : UnityEvent<Player>
+public class UIDiscardEvent : UnityEvent<CardMono>
 {}
 public class UICard : MonoBehaviour 
 {
@@ -18,23 +18,23 @@ public class UICard : MonoBehaviour
 		//Character.Player.onDrawCard.AddListener (UpdateHand);
 
 	}
-	[ContextMenu("Populate Cards")]
-	void PopulateCards()
-	{
-		if (transform.childCount > 0) {
-			foreach (Transform t in transform) {
-				Destroy (t.gameObject);
-			}
-
-		} 
-			foreach (ICard c in Dylan.TurnManager.ActivePlayer.hand) {
-				GameObject card = Instantiate (o) as GameObject;
-				card.transform.SetParent (this.transform);
-				card.name = c.Name;
-				card.GetComponentInChildren<UnityEngine.UI.Text> ().text = card.name;
-			}
-
-	}
+//	[ContextMenu("Populate Cards")]
+//	void PopulateCards()
+//	{
+//		if (transform.childCount > 0) {
+//			foreach (Transform t in transform) {
+//				Destroy (t.gameObject);
+//			}
+//
+//		} 
+//			foreach (ICard c in Dylan.TurnManager.ActivePlayer.hand) {
+//				GameObject card = Instantiate (o) as GameObject;
+//				card.transform.SetParent (this.transform);
+//				card.name = c.Name;
+//				card.GetComponentInChildren<UnityEngine.UI.Text> ().text = card.name;
+//			}
+//
+//	}
 
 	void PopulateCards(Player p)
 	{
@@ -44,15 +44,18 @@ public class UICard : MonoBehaviour
 			}
 
 		} 
-		foreach (ICard c in p.hand) {
+		foreach (ICard c in Player.hand) {
 			GameObject card = Instantiate (o) as GameObject;
 			card.transform.SetParent (this.transform);
 			card.name = c.Name;
 			card.GetComponentInChildren<UnityEngine.UI.Text> ().text = card.name;
 			 
 			card.GetComponentInChildren<UnityEngine.UI.Button> ().onClick.AddListener (delegate {
-				Discard(card.name);
+				Discard(card.name, card);
 			});
+
+
+
 		}
 
 	}
@@ -62,9 +65,11 @@ public class UICard : MonoBehaviour
 		PopulateCards (p);
 	}
 
-	public void Discard(string n)
+	public void Discard(string n, GameObject card)
 	{
-		
-		Debug.Log ("Discard Card: "+ n); 
+		TurnManager.ActivePlayer.Discard (n);
+		//player.discard(n);
+
+
 	}
 }

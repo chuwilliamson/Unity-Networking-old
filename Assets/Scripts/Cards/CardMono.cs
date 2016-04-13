@@ -4,7 +4,12 @@ using System;
 //T is MysteryCard or TreasureCard
 //allows the construction of an object via the new operator 
 //by calling a function that news it then setting the type as a reference.
-public class CardMono<T> : MonoBehaviour, ICard 
+
+public class CardMono : MonoBehaviour
+{
+	
+}
+public class CardMono<T> : CardMono, ICard 
 	where T : class, new()  {
 	[SerializeField]
 	protected string _description;
