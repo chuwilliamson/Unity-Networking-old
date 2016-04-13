@@ -41,7 +41,8 @@ public class MysteryCard : ICard
 		state = false;
 		description = d;
 		name = n;
-		_mysteryType = mt;
+		m_power = p;
+		m_mysteryType = mt;
 	}
 
 
@@ -96,12 +97,12 @@ public class MysteryCard : ICard
 		set{ m_power = value; }
 	}
 
-	private MysteryType _mysteryType;
+	private MysteryType m_mysteryType;
 
-	public MysteryType mType
+	public MysteryType mysteryType
 	{
-		get{ return _mysteryType; }
-		set{ _mysteryType = value; }
+		get{ return m_mysteryType; }
+		set{ m_mysteryType = value; }
 	}
 }
 
@@ -115,6 +116,10 @@ public class TreasureCard : ICard, ITreasure
 	protected string m_description;
 	//Effect the card has when played on field
 
+	[SerializeField]
+	protected int m_power;
+	//Effect the card has when played on field
+
 	protected bool m_state;
 	private TreasureType m_cardType;
 	public TreasureType CardType {
@@ -125,6 +130,11 @@ public class TreasureCard : ICard, ITreasure
 	public System.Type MonoType {
 		get{ return typeof(TreasureCardMono); }
 		set{ }
+	}
+
+	public int Power{
+		get{ return m_power; }
+		set{ m_power = value;}
 	}
 	public string Info
 	{
@@ -144,6 +154,14 @@ public class TreasureCard : ICard, ITreasure
 
 	}
 
+	public TreasureCard (string n, string d, int g, int p)
+	{
+		m_state = false;
+		m_description = d;
+		m_name = n;
+		m_GoldValue = g;
+		m_power = p;
+	}
 	public TreasureCard (string n, string d, int g)
 	{
 		m_state = false;

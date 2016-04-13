@@ -67,9 +67,8 @@ public class UICard : MonoBehaviour
 
 	public void Discard(string n, GameObject card)
 	{
-		//TurnManager.ActivePlayer.Discard (n);
-		//player.discard(n);
-
-
+		Player p = TurnManager.ActivePlayer;
+		p.Discard (n);
+		Destroy (card);
 	}
 }
