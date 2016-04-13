@@ -139,15 +139,12 @@ namespace Character
 			ICard c = hand.Find (x => x.Name == name);
 			Debug.Log ("discard " + c.Name + "for Player: "+ this.name);
 			hand.Remove (c);
+			GameObject cm = cards.Find (x => x.name == name);
+			cards.Remove (cm);
+			onDrawCard.Invoke (this,"null");
 
 		}
-		public bool Discard(CardMono c)
-		{
-			Debug.Log ("Removing card: " + c.name);
-			cards.Remove (c.gameObject);
-
-			return true;
-		}
+	
 		public int MoveCard ()
 		{
 			return 0;
