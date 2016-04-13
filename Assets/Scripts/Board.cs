@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0414
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Matthew
+namespace Table
 {
 	///EXAMPLE: Transform mysteryPos = Board.Instance.MysteryCardStackPosition;
 	/// <summary>
@@ -20,10 +21,24 @@ namespace Matthew
 		{
 			get
 			{
-				if (m_instance == null)
-					m_instance = FindObjectOfType<Board>();
+				if (m_instance == null) {
+					m_instance = FindObjectOfType<Board> ();
+				}
+				
 				return m_instance;
 			}
+		}
+
+		private void Awake()
+		{
+			m_MysteryCardStack = FindObjectOfType <MysteryStack>().gameObject;
+			m_TreasureCardStack = FindObjectOfType <TreasureStack>().gameObject;
+			if (m_Players.Count < 1)
+				m_Players = new List<GameObject> ();
+			foreach (var v in FindObjectsOfType<Character.Player>()) {
+				m_Players.Add (v.GetComponent<GameObject>());
+			}
+
 		}
 		[SerializeField]
 		private GameObject m_MysteryCardStack;

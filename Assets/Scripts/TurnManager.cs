@@ -1,89 +1,134 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0168
+#pragma warning disable 0219
+#pragma warning disable 0414
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
-using Eric;
+using Character;
+using UnityEngine.Events;
+
 
 namespace Dylan
 {
-    public class TurnManager : MonoBehaviour
-    {
-        private List<Player> Players; //All players in the current game
-        private int m_CurrentPlayerIndex; //index of the current player
-        [SerializeField]
-        private Player ActivePlayer; //Current player taking his/her turn
+	public class PlayerChangeEvent : UnityEvent<Player,string>
+	{
 
-        /// <Testing>
-        //public Text cPlayer;
-        //public Text cPhase;
-        /// </Testing>
+	}
+	public class TurnManager : MonoBehaviour
+	{
+ 
+		public static PlayerChangeEvent PlayerChange;
+		[SerializeField]
+		private static TurnPhases currentPhase = TurnPhases.First;
+		private List<Player> Players;
+		//All players in the current game
+		private int m_CurrentPlayerIndex = 0;
+		//index of the current player
+		[SerializeField]
+		private Player thePlayer;
+		private static Player m_ActivePlayer;
 
-        private enum TurnPhases
-        {
-            firstPhase,
-            secondPhase,
-            combatPhase,
-            endPhase
-        }
-        [SerializeField]
-        private TurnPhases currentPhase = TurnPhases.firstPhase; //Current turnPhase the player is in
 
-        void Awake()
-        {
-            Players = new List<Player>();
-            Players.AddRange(FindObjectsOfType<Player>());
-            PlayerCycle();
-            //cPhase.text = currentPhase.ToString();
-        }
+		public static Player ActivePlayer {
+			get {
+				return m_ActivePlayer;
+			}
+			set { 				
+				m_ActivePlayer = value;
+				PlayerChange.Invoke(m_ActivePlayer, currentPhase.ToString());
+			}
+		}
+		//Current player taking his/her turn
+        
+		/// <Testing>
+		//public Text cPlayer;
+		//public Text cPhase;
+		/// </Testing>
 
-         /// <summary>
-         /// Cycles from one player to the next
-         /// </summary>
-        void PlayerCycle()
-        {
-            ActivePlayer = Players[m_CurrentPlayerIndex];
-            //cPlayer.text = ActivePlayer.name;
-            if (m_CurrentPlayerIndex >= 3)
-                m_CurrentPlayerIndex = 0;
-            else
-                m_CurrentPlayerIndex++;
-        }
+		private enum TurnPhases
+		{
+			First,
+			Second,
+			Combat,
+			End,
+		}
 
-        void Update()
-        {
-            ///<Testing>
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                PhaseTransition();
-                //cPhase.text = currentPhase.ToString();
-            }
-            /// </Testing>
-        }
 
-        /// <summary>
-        /// Handles the transitions from one phase to another
-        /// as the Active player takes his/her turn
-        /// </summary>
-        void PhaseTransition()
-        {
-            switch(currentPhase)
-            {
-                case TurnPhases.firstPhase:
-                    currentPhase = TurnPhases.secondPhase;
-                    break;
-                case TurnPhases.secondPhase:
-                    currentPhase = TurnPhases.combatPhase;
-                    break;
-                case TurnPhases.combatPhase:
-                    currentPhase = TurnPhases.endPhase;
-                    break;
-                case TurnPhases.endPhase:
-                    currentPhase = TurnPhases.firstPhase;
-                    PlayerCycle();
-                    break;
-            }
-        }
-    }
+		//Current turnPhase the player is in
+		void Awake ()
+		{ 
+			if (PlayerChange == null)
+				PlayerChange = new PlayerChangeEvent ();
+			
+			Players = new List<Player> ();
+			Players.AddRange (FindObjectsOfType<Player> ());
+			ActivePlayer = Players [m_CurrentPlayerIndex];
+		}
+
+		void Start ()
+		{			
+			
+			PlayerCycle ();
+
+
+		}
+
+		/// <summary>
+		/// Cycles from one player to the next
+		/// </summary>
+		void PlayerCycle ()
+		{            
+			ActivePlayer = Players [m_CurrentPlayerIndex];
+			thePlayer = ActivePlayer;
+			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
+			if (m_CurrentPlayerIndex >= 3)
+				m_CurrentPlayerIndex = 0;
+			else
+				m_CurrentPlayerIndex++;
+
+
+
+		}
+
+		void Update ()
+		{
+			///<Testing>
+			if (Input.GetKeyDown (KeyCode.D)) {
+				PhaseTransition ();
+                
+				 
+			}
+			/// </Testing>
+		}
+
+		/// <summary>
+		/// Handles the transitions from one phase to another
+		/// as the Active player takes his/her turn
+		/// </summary>
+		void PhaseTransition ()
+		{
+			switch (currentPhase) {
+			case TurnPhases.First:
+				currentPhase = TurnPhases.Second;					
+				break;
+			case TurnPhases.Second:
+				currentPhase = TurnPhases.Combat;
+				break;
+			case TurnPhases.Combat:
+				currentPhase = TurnPhases.End;
+				break;
+			case TurnPhases.End:
+				currentPhase = TurnPhases.First;
+				PlayerCycle ();
+				break;
+			}
+		}
+
+
+
+	}
 }
 
