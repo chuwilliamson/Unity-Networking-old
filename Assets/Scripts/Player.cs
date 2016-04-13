@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using UnityEngine.Events;
 
 namespace Character
 {
+	
 	public enum CharacterClass
 	{
 		NONE,
@@ -14,18 +16,30 @@ namespace Character
 		CLASS4,//double gold on sell discard any card for + RunAway
 	}
 
+
+	public class DrawCardEvent : UnityEvent<Player, string>
+	{}
 	public class Player : MonoBehaviour, IPlayer
 	{
+		public static DrawCardEvent onDrawCard;
+		void Awake()
+		{
+			if (onDrawCard == null)
+				onDrawCard = new DrawCardEvent ();
+		}
 		void Start ()
 		{
+			
 			m_maxExperience = 10;
 			m_maxLevel = 10;
 			m_maxGold = 1000;
 			transform.LookAt (Vector3.zero);
-			m_power = Power;
-			m_level = Level;
-			m_gold = Gold;
-			m_runAway = RunAway;
+
+			for (int i = 0; i < 4; i++) {
+				DrawCard<MysteryCard> ();
+				DrawCard<TreasureCard> ();
+			}
+		
 	
 		}
 
@@ -86,11 +100,10 @@ namespace Character
 			DrawCard<TreasureCard> ();
 		}
 
-		[SerializeField]
-		 
+		[SerializeField]		 
 		private List <GameObject> cards = new List<GameObject> ();
-		public List<ICard> hand = new List<ICard> ();
-		public List<ICard> equipment = new List<ICard> ();
+		public static List<ICard> hand = new List<ICard> ();
+		public static List<ICard> equipment = new List<ICard> ();
 
 		public bool DrawCard<T> () where T : class, new()
 		{		
@@ -98,11 +111,11 @@ namespace Character
 				? (Func<List<GameObject>,ICard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
 			if (c == null) {
 				Debug.LogWarning ("Card Draw returned null..");
+
 				return false;
 			}
+
 			GameObject cardParent = transform.FindChild ("Cards").gameObject;
-
-
 
 			hand.Add (c);
 
@@ -111,8 +124,31 @@ namespace Character
 				go.transform.position = cardParent.transform.position;
 			}
 
+			m_power = Power;
+			m_level = Level;
+			m_gold = Gold;
+			m_runAway = RunAway;
+
+			onDrawCard.Invoke (this,"null");
+
 			return true;
 
+		}
+
+
+		public static void Discard(string name)
+		{
+			ICard c = hand.Find (x => x.Name == name);
+			Debug.Log ("discard " + c.Name);
+			hand.Remove (c);
+			Player p = new Player()
+		}
+		public bool Discard(CardMono c)
+		{
+			Debug.Log ("Removing card: " + c.name);
+			cards.Remove (c.gameObject);
+
+			return true;
 		}
 		public int MoveCard ()
 		{
@@ -236,17 +272,18 @@ namespace Character
 
 		public int Gold {
 			get {
-				int goldCounter = 0;
+				int m_gold = 0;
 				foreach (GameObject m in cards) {
-					//Debug.Log ("power is " + powerCounter.ToString ());
+					
 					if (m.GetComponent<TreasureCardMono> () != null)
-						goldCounter += m.GetComponent<TreasureCardMono> ().Gold;					
+						m_gold += m.GetComponent<TreasureCardMono> ().Gold;					
 				}
-				return goldCounter;
+
+				return m_gold;
 
 			
 			}
-			set{ }
+			set{m_gold = value; }
 		}
 
 	

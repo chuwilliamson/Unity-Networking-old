@@ -8,23 +8,21 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 using Character;
+using UnityEngine.Events;
 
 
 namespace Dylan
 {
+	public class PlayerChangeEvent : UnityEvent<Player,string>
+	{
+
+	}
 	public class TurnManager : MonoBehaviour
 	{
  
-		private Text TurnLabel;
- 
-		private Text PowerLabel;
- 
-		private Text LevelLabel;
- 
-		private Text GoldLabel;
- 
-		private Text PlayerLabel;
-
+		public static PlayerChangeEvent PlayerChange;
+		[SerializeField]
+		private static TurnPhases currentPhase = TurnPhases.First;
 		private List<Player> Players;
 		//All players in the current game
 		private int m_CurrentPlayerIndex = 0;
@@ -34,13 +32,13 @@ namespace Dylan
 		private static Player m_ActivePlayer;
 
 
-		public static Player ActivePlayer
-		{
-			get{
-				return m_ActivePlayer;}
-			set
-			{ 
+		public static Player ActivePlayer {
+			get {
+				return m_ActivePlayer;
+			}
+			set { 				
 				m_ActivePlayer = value;
+				PlayerChange.Invoke(m_ActivePlayer, currentPhase.ToString());
 			}
 		}
 		//Current player taking his/her turn
@@ -58,39 +56,24 @@ namespace Dylan
 			End,
 		}
 
-		[SerializeField]
-		private TurnPhases currentPhase = TurnPhases.First;
+
 		//Current turnPhase the player is in
 		void Awake ()
 		{ 
+			if (PlayerChange == null)
+				PlayerChange = new PlayerChangeEvent ();
 			
 			Players = new List<Player> ();
 			Players.AddRange (FindObjectsOfType<Player> ());
-			PlayerCycle ();
-
-			if (GameObject.Find ("UI") != null) {
-				TurnLabel = GameObject.Find ("TurnLabel").GetComponent<Text> ();
-				PowerLabel = GameObject.Find ("PowerLabel").GetComponent<Text> ();
-				LevelLabel = GameObject.Find ("LevelLabel").GetComponent<Text> ();
-				GoldLabel = GameObject.Find ("GoldLabel").GetComponent<Text> ();
-				PlayerLabel = GameObject.Find ("PlayerLabel").GetComponent<Text> ();
-				UpdateUI ();
-			}
-
-			foreach (IPlayer p in Players) {
-				for (int i = 0; i < 4; i++) {					
-					p.DrawCard<MysteryCard> ();
-					p.DrawCard<TreasureCard> ();
-				}
-			}
-
+			ActivePlayer = Players [m_CurrentPlayerIndex];
 		}
 
 		void Start ()
-		{
-
+		{			
+			ActivePlayer = Players [m_CurrentPlayerIndex];
+			PlayerCycle ();
 			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
-			UpdateUI ();
+
 
 		}
 
@@ -143,21 +126,8 @@ namespace Dylan
 				PlayerCycle ();
 				break;
 			}
-			UpdateUI ();
-		
 		}
 
-		void UpdateUI ()
-		{
-			if (GameObject.Find ("UI")) {
-				TurnLabel.text = "Phase: " + currentPhase.ToString ();
-				PlayerLabel.text = "Player: " + ActivePlayer.name;
-				GoldLabel.text = "Gold: " + ActivePlayer.Gold.ToString ();
-				LevelLabel.text = "Level: " + ActivePlayer.Level.ToString ();
-				PowerLabel.text = "Power: " + ActivePlayer.Power.ToString ();
-
-			}
-		}
 
 
 	}
