@@ -7,27 +7,16 @@ using System.Collections.Generic;
 public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : class, new()
 {
 	
-	protected static List<T> cards = new List<T>();
-	[SerializeField]
-	protected List<V> m_cards = new List<V>();
-	public static List<V> CardMonos = new List<V> ();
 
-
-	private string cardName = typeof(T).ToString().Replace("Card","");
-	private string cardParentName = "cards";
-	private string cardTemplateName = typeof(T).ToString()+"Template";
-	protected void Awake ()
+	protected virtual void Setup()
 	{
-		Setup ();
+		
 
-	}
-
-	void Setup()
-	{
-		Debug.Log ("No cards... Generating");
 		if (m_cards.Count <= 0) {
+			Debug.Log ("No cards... Generating");
 			if(transform.FindChild("cards"))
 			{
+				
 				Debug.LogWarning ("cards found but their are no cards in list.. Fixing.");
 				DestroyImmediate (transform.FindChild ("cards").gameObject);
 			}
@@ -114,5 +103,18 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 			return null;
 		}
 	}
+
+
+	[SerializeField]
+	protected List<V> m_cards = new List<V>();
+	public static List<V> CardMonos = new List<V> ();
+	protected static List<T> cards = new List<T>();
+
+
+	private string cardName = typeof(T).ToString().Replace("Card","");
+	private string cardParentName = "cards";
+	private string cardTemplateName = typeof(T).ToString()+"Template";
+
+
 }
  

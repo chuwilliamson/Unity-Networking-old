@@ -5,6 +5,7 @@ using Character;
 
 public class PeakInfo : MonoBehaviour
 {
+	GameObject panel;
 	Object playerInfo;
 	[SerializeField]
 	Transform panelParent;
@@ -12,14 +13,12 @@ public class PeakInfo : MonoBehaviour
 	{
 		playerInfo = Resources.Load ("PlayerInfo");
 		this.GetComponent<UnityEngine.UI.Button> ().onClick.AddListener (ToggleInfo);
+		panel = Instantiate (playerInfo) as GameObject;
 	}
 
 	void Start ()
 	{
-
-
-		GameObject panel = Instantiate (playerInfo) as GameObject;
-
+		Character.Player.onDrawCard.AddListener (UpdatePlayerInfo);
 		panel.transform.SetParent (panelParent.transform);
 		panel.transform.localPosition = new Vector3(0,0,0);
 		panel.name = "PlayerPanel";
@@ -27,12 +26,13 @@ public class PeakInfo : MonoBehaviour
 
 		m_togglableInfo = panel;
 
-		UpdatePlayerInfo ();}
+
+	}
 
 	public void ToggleInfo ()
 	{
-		m_togglableInfo.SetActive (!m_togglableInfo.active);
-		UpdatePlayerInfo ();
+		m_togglableInfo.SetActive (!m_togglableInfo.activeInHierarchy);
+
 	}
 
 	public Character.Player CorrelatedPlayer {
@@ -41,7 +41,7 @@ public class PeakInfo : MonoBehaviour
 		}
 	}
 
-	public void UpdatePlayerInfo ()
+	public void UpdatePlayerInfo (Player p, string s)
 	{
         
 		foreach (Transform child in m_togglableInfo.transform) {
