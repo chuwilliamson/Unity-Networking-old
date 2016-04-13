@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+
 //T is MysteryCard
 //V is MysteryCardMono
 public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : class, new()
@@ -10,8 +11,6 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 
 	protected virtual void Setup()
 	{
-		
-
 		if (m_cards.Count <= 0) {
 			Debug.Log ("No cards... Generating");
 			if(transform.FindChild("cards"))

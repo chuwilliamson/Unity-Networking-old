@@ -62,14 +62,14 @@ public class UICard : MonoBehaviour
 
 	public void UpdateHand(Player p, string t)
 	{
-		PopulateCards (p);
+		if(p == TurnManager.ActivePlayer)
+			PopulateCards (p);
 	}
 
 	public void Discard(string n, GameObject card)
 	{
-		//TurnManager.ActivePlayer.Discard (n);
-		//player.discard(n);
-
-
+		Player p = TurnManager.ActivePlayer;
+		p.Discard (n);
+		Destroy (card);
 	}
 }
