@@ -39,11 +39,9 @@ namespace Character
 				DrawCard<MysteryCard> ();
 				DrawCard<TreasureCard> ();
 			}
-		
-	
 		}
 
-
+	
 
 		// TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ //
 		//		void Update ()
@@ -256,8 +254,8 @@ namespace Character
 
 				foreach (GameObject m in cards) {
 					//Debug.Log ("power is " + powerCounter.ToString ());
-					if (m.GetComponent<MysteryCardMono> () != null)
-						m_power += m.GetComponent<MysteryCardMono> ().Power;
+					if (m.GetComponent<TreasureCardMono> () != null)
+						m_power += m.GetComponent<TreasureCardMono> ().Power;
 
 				}
 				return m_power + m_level;
