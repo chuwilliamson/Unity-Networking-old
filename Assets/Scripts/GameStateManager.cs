@@ -3,6 +3,43 @@ using System.Collections;
 
 public class GameStateManager : MonoBehaviour
 {
+    static private GAMESTATES InitToRunning()
+    {
+        return GAMESTATES.RUNNING;
+    }
+    static private GAMESTATES RunningToStart()
+    {
+        return GAMESTATES.START;
+    }
+    static private GAMESTATES StartToCombat()
+    {
+        return GAMESTATES.COMBAT;
+    }
+    static private GAMESTATES CombatToPause()
+    {
+        return GAMESTATES.PAUSE;
+    }
+    static private GAMESTATES PauseToCombat()
+    {
+        return GAMESTATES.COMBAT;
+    }
+    static private GAMESTATES PauseToStart()
+    {
+        return GAMESTATES.START;
+    }
+    static private GAMESTATES CombatToCredits()
+    {
+        return GAMESTATES.CREDITS;
+    }
+    static private GAMESTATES CreditsToQuit()
+    {
+        return GAMESTATES.QUIT;
+    }
+    static private GAMESTATES NoTransistion()
+    {
+        return m_currentState;
+    }
+
     static public int ChangeStateTo(GAMESTATES a_state)
     {
         currentState = a_state;
@@ -12,44 +49,79 @@ public class GameStateManager : MonoBehaviour
     public enum GAMESTATES
     {
         INIT,
+        RUNNING,
         START,
         COMBAT,
-        END,
         PAUSE,
-        EXIT,
+        CREDITS,
+        QUIT,
     }
 
-    static private GAMESTATES m_currentState;
+    static private GAMESTATES m_currentState = GAMESTATES.INIT;
 
-    static public GAMESTATES currentState
+    static private GAMESTATES currentState
     {
         get { return m_currentState; }
         set
         {
-            m_currentState = value;
-
-            switch(m_currentState)
+            switch (value)
             {
                 case GAMESTATES.INIT:
                     // do something
                     break;
+
+                case GAMESTATES.RUNNING:
+                    switch(currentState)
+                    {
+                        case GAMESTATES.INIT:   m_currentState = InitToRunning();   break;
+                        default:                m_currentState = NoTransistion();   break;
+                    }
+                    break;
+
                 case GAMESTATES.START:
-                    // do something
+                    switch(currentState)
+                    {
+                        case GAMESTATES.RUNNING:    m_currentState = RunningToStart();  break;
+                        case GAMESTATES.PAUSE:      m_currentState = PauseToStart();    break;
+                        default:                    m_currentState = NoTransistion();   break;
+                    }
                     break;
+
                 case GAMESTATES.COMBAT:
-                    // do something
+                    switch(currentState)
+                    {
+                        case GAMESTATES.START:  m_currentState = StartToCombat();   break;
+                        case GAMESTATES.PAUSE:  m_currentState = PauseToCombat();   break;
+                        default:                m_currentState = NoTransistion();   break;
+                    }
                     break;
-                case GAMESTATES.END:
-                    // do something
-                    break;
+
                 case GAMESTATES.PAUSE:
-                    // do something
+                    switch(currentState)
+                    {
+                        case GAMESTATES.COMBAT: m_currentState = CombatToPause();   break;
+                        default:                m_currentState = NoTransistion();   break;
+                    }
                     break;
-                case GAMESTATES.EXIT:
-                    // do something
+
+                case GAMESTATES.CREDITS:
+                    switch(currentState)
+                    {
+                        case GAMESTATES.COMBAT: m_currentState = CombatToCredits(); break;
+                        default:                m_currentState = NoTransistion();   break;
+                    }
                     break;
+
+                case GAMESTATES.QUIT:
+                    switch(currentState)
+                    {
+                        case GAMESTATES.CREDITS:    m_currentState = CreditsToQuit();   break;
+                        default:                    m_currentState = NoTransistion();   break;
+                    }
+                    break;
+
                 default:
-                    // do something
+                    m_currentState = NoTransistion();
                     break;
             }
         }
