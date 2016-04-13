@@ -134,11 +134,11 @@ namespace Character
 		}
 
 
-		public static void Discard(string name)
+		public void Discard(string name)
 		{
-//			ICard c = hand.Find (x => x.Name == name);
-		//	Debug.Log ("discard " + c.Name);
-		//	hand.Remove (c);
+			ICard c = hand.Find (x => x.Name == name);
+			Debug.Log ("discard " + c.Name + "for Player: "+ this.name);
+			hand.Remove (c);
 
 		}
 		public bool Discard(CardMono c)
