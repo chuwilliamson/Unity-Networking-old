@@ -30,7 +30,7 @@ public class MysteryCard : ICard
 	//Effect the card has when played on field
 
 
-
+        
 	public MysteryCard ()
 	{
 		int randPower = UnityEngine.Random.Range (0, 10);
@@ -154,8 +154,12 @@ public class TreasureCard : ICard, ITreasure
 	}
 	public TreasureCard ()
 	{
-
-	}
+        int randGold = UnityEngine.Random.Range(0, 100);
+        int randPower = UnityEngine.Random.Range(0, 10);        
+        m_power = randPower;        
+        m_GoldValue = randGold;
+        m_description = "This is a default treasure card...";
+    }
 
 	public TreasureCard (string n, string d, int g, int p)
 	{

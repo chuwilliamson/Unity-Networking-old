@@ -28,7 +28,12 @@ public class TreasureCardMono : CardMono<TreasureCard>, ITreasure
 
 	public override void Init()
 	{
-		m_cardObject = new TreasureCard(Name, Description, m_gold, m_power);
+        int randGold = UnityEngine.Random.Range(0, 100);
+        int randPower = UnityEngine.Random.Range(0, 10);
+        m_power = randPower;
+        m_gold = randGold;
+        Description = "This is a default treasure card...";
+        m_cardObject = new TreasureCard(Name, Description, m_gold, m_power);
 	}
 
 	public void Init(string n, string d, int p)
