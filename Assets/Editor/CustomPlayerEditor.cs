@@ -7,7 +7,7 @@ public class CustomPlayerEditor : Editor {
 
 	public override void OnInspectorGUI()
 	{
-		DrawDefaultInspector ();
+		
 		Character.Player script = (Character.Player)target;
 		if (GUILayout.Button ("Draw Mystery")) {
 			script.Test ();
@@ -15,5 +15,7 @@ public class CustomPlayerEditor : Editor {
 		if (GUILayout.Button ("Draw Treasure")) {
 			script.TestTreasure ();
 		}
+		//move to bottom because list keeps pushing it down inspector window
+		DrawDefaultInspector ();
 	}
 }

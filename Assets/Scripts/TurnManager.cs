@@ -9,32 +9,39 @@ using UnityEngine.UI;
 using System;
 using Character;
 using UnityEngine.Events;
+using System.Linq;
+
 
 namespace Dylan
 {
-    
-    public class TurnManager : MonoBehaviour
+	public class PlayerChangeEvent : UnityEvent<Player,string>
 	{
-        [SerializeField]
-		private Text TurnLabel;
-		[SerializeField]
-		private Text PowerLabel;
-		[SerializeField]
-		private Text LevelLabel;
 
+	}
+	public class TurnManager : MonoBehaviour
+	{
+ 
+		public static PlayerChangeEvent PlayerChange;
 		[SerializeField]
-		private Text GoldLabel;
-
-
-		[SerializeField]
-		private Text PlayerLabel;
-
+		private static TurnPhases currentPhase = TurnPhases.First;
 		private List<Player> Players;
 		//All players in the current game
-		private int m_CurrentPlayerIndex;
+		private int m_CurrentPlayerIndex = 0;
 		//index of the current player
 		[SerializeField]
-		private Player ActivePlayer;
+		private Player thePlayer;
+		private static Player m_ActivePlayer;
+
+
+		public static Player ActivePlayer {
+			get {
+				return m_ActivePlayer;
+			}
+			set { 				
+				m_ActivePlayer = value;
+				PlayerChange.Invoke(m_ActivePlayer, currentPhase.ToString());
+			}
+		}
 		//Current player taking his/her turn
         
 		/// <Testing>
@@ -50,49 +57,27 @@ namespace Dylan
 			End,
 		}
 
-		public static UnityEvent PlayerChange;
-		[SerializeField]
-		private TurnPhases currentPhase = TurnPhases.First;
-        //Current turnPhase the player is in
-        
+
+		//Current turnPhase the player is in
 		void Awake ()
 		{ 
 			if (PlayerChange == null)
-				PlayerChange = new UnityEvent ();
+				PlayerChange = new PlayerChangeEvent ();
 			
 
-			Players = new List<Player> ();
-			Players.AddRange (FindObjectsOfType<Player> ());
-			PlayerCycle ();
+			var p = FindObjectsOfType<Player> ();
+			Players = p.OrderBy (x => x.transform.name).ToList();
 
-			if (GameObject.Find ("UI") != null) {
-				TurnLabel = GameObject.Find ("TurnLabel").GetComponent<Text> ();
-				PowerLabel = GameObject.Find ("PowerLabel").GetComponent<Text> ();
-				LevelLabel = GameObject.Find ("LevelLabel").GetComponent<Text> ();
-				GoldLabel = GameObject.Find ("GoldLabel").GetComponent<Text> ();
-				PlayerLabel = GameObject.Find ("PlayerLabel").GetComponent<Text> ();
-				UpdateUI ();
-			}
-
-			foreach (IPlayer p in Players) {
-				for (int i = 0; i < 4; i++) {					
-					p.DrawCard<MysteryCard> ();
-					p.DrawCard<TreasureCard> ();
-				}
-			}
-
+			ActivePlayer = Players [m_CurrentPlayerIndex];
 		}
 
-        void PlayerChanged()
-        {
-
-
-        }
-
 		void Start ()
-		{
-			UpdateUI ();
-        }
+		{			
+			
+			PlayerCycle ();
+
+
+		}
 
 		/// <summary>
 		/// Cycles from one player to the next
@@ -100,14 +85,15 @@ namespace Dylan
 		void PlayerCycle ()
 		{            
 			ActivePlayer = Players [m_CurrentPlayerIndex];
-           
+			thePlayer = ActivePlayer;
+			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
 			if (m_CurrentPlayerIndex >= 3)
 				m_CurrentPlayerIndex = 0;
 			else
 				m_CurrentPlayerIndex++;
 
-            UpdateUI();
-            CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
+
+
 		}
 
 		void Update ()
@@ -116,7 +102,7 @@ namespace Dylan
 			if (Input.GetKeyDown (KeyCode.D)) {
 				PhaseTransition ();
                 
-				//cPhase.text = currentPhase.ToString();
+				 
 			}
 			/// </Testing>
 		}
@@ -142,32 +128,10 @@ namespace Dylan
 				PlayerCycle ();
 				break;
 			}
-			PlayerChange.Invoke();
-			UpdateUI ();
-		
 		}
 
-		void UpdateUI ()
-		{
-			if (GameObject.Find ("UI")) {
-				TurnLabel.text = "Phase: " + currentPhase.ToString ();
-				PlayerLabel.text = "Player: " + ActivePlayer.name;
-				GoldLabel.text = "Gold: " + ActivePlayer.Gold.ToString ();
-				LevelLabel.text = "Level: " + ActivePlayer.Level.ToString ();
-				PowerLabel.text = "Power: " + ActivePlayer.Power.ToString ();
-			}
 
-            foreach (PeakInfo pi in m_PlayerInfo)
-            {
-                foreach (Player cp in Players)
-                {
-                    if (pi.CorrelatedPlayer == cp)
-                        pi.UpdatePlayerInfo();
-                }
-            }
-		}
 
-        [SerializeField] private List<PeakInfo> m_PlayerInfo;
-    }
+	}
 }
 
