@@ -8,141 +8,47 @@ namespace Quinton
     /// <summary>
     /// Information of Field Event
     /// </summary>
-    public class FieldInfo
+    public class ResolutionInfo
     {
-        public ICard[] Cards; //All Cards in play
-        public IMystery[] MysteryCards; //Mystery Cards in play
-        public ITreasure[] TreasureCards; //Treasure Cards in play
 
+        public string Message;
 
-        public string Message; //Message Given
-
-        /// <summary>
-        /// Gets highest card(s) of both card type
-        /// </summary>
-        /// <returns>Array of ICards</returns>
-        public ICard[] CardsWithHighestPower()
+        public ResolutionInfo(string msg)
         {
-            List<ICard> returnCards = new List<ICard>();
-
-            var m = HighMysteryCards();
-            var t = HighTreasureCards();
-
-
-            if (m != null && m[0].Power > t[0].Power)
-                foreach (ICard c in m)
-                    returnCards.Add(c);
-            else if (m != null && m[0].Power < t[0].Power)
-                foreach (ICard c in t)
-                    returnCards.Add(c);
-            else if(m!=null && t != null)
-            {
-                foreach (ICard c in t)
-                    returnCards.Add(c);
-                foreach (ICard c in m)
-                    returnCards.Add(c);
-            }
-            else
-            {
-                return null;
-            }
-
-                return returnCards.ToArray();
-        }
-        /// <summary>
-        /// Gets Highest card(s) of IMystery types type
-        /// </summary>
-        /// <returns>Array of IMystery</returns>
-        public IMystery[] HighMysteryCards()
-        {
-            List<IMystery> returnCards = new List<IMystery>();
-            int highNumber = 0;
-
-            if (MysteryCards == null)
-                return null;
-
-            foreach(IMystery c in MysteryCards)
-            {
-                if (highNumber < c.Power)
-                {
-                    highNumber = c.Power;
-                    returnCards.Clear();
-                    returnCards.Add(c);
-                }
-                else if (highNumber == c.Power)
-                    returnCards.Add(c);
-            }
-
-            return returnCards.ToArray();
-        }
-        /// <summary>
-        /// Gets Highest card(s) of ITreasure type
-        /// </summary>
-        /// <returns>Array of ITreasure</returns>
-        public ITreasure[] HighTreasureCards()
-        {
-            List<ITreasure> returnCards = new List<ITreasure>();
-            int highNumber = 0;
-
-            if (TreasureCards == null)
-                return null;
-
-            foreach (ITreasure c in TreasureCards)
-            {
-                if (highNumber < c.Power)
-                {
-                    highNumber = c.Power;
-                    returnCards.Clear();
-                    returnCards.Add(c);
-                }
-                else if (highNumber == c.Power)
-                    returnCards.Add(c);
-            }
-            
-            return returnCards.ToArray();
-        }
-
-        public FieldInfo(ICard[] cards, string msg)
-        {
-            Cards = cards;
             Message = msg;
-
-            List<IMystery> tmpMyst = new List<IMystery>();
-            List<ITreasure> tmpTres = new List<ITreasure>();
-
-            foreach(ICard c in cards)
-            {
-                if (c == typeof(IMystery))
-                    tmpMyst.Add((IMystery)c);
-                else if (c == typeof(ITreasure))
-                    tmpTres.Add((ITreasure)c);
-            }
-
-            if (tmpMyst.Count == 0)
-                MysteryCards = null;
-            else
-            MysteryCards = tmpMyst.ToArray();
-
-            if (tmpTres.Count == 0)
-                TreasureCards = null;
-            else
-            TreasureCards = tmpTres.ToArray();
-
-
+            
         }
+            
     }
 
 
-    public class FieldEvent : UnityEvent<FieldInfo>
+    public class FieldEvent : UnityEvent<ResolutionInfo>
     {
+
+        static private FieldEvent _instance;
+
+        static public FieldEvent instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new FieldEvent();
+
+                return _instance;
+            }
+        }
         
+
+        private FieldEvent()
+        { }
+
     }
 
    public class FieldHandler : MonoBehaviour
     {
         static private FieldHandler _instance;
 
-        public FieldHandler instance
+        public static FieldHandler instance
         {
             get
             {
@@ -153,38 +59,51 @@ namespace Quinton
             }
         }
 
-        public static FieldEvent m_FieldEvent;
+        public FieldEvent fieldEvent = FieldEvent.instance;
 
-        List<ICard> Cards;
+        List<GameObject> GoodDudes = new List<GameObject>();
+        List<GameObject> BadDudes = new List<GameObject>();
 
-        /// <summary>
-        /// Adds to list of Cards in play
-        /// Invokes FieldEvent
-        /// Message: a.Name + "Added"
-        /// </summary>
-        /// <param name="a">ICard to be added to list</param>
-        public void PlayCard(ICard a)
+        public void AddGoodDudes(List<GameObject> gd)
         {
-            Cards.Add(a);
-            m_FieldEvent.Invoke(new FieldInfo(Cards.ToArray(),a.Name + "Added"));
+            foreach (GameObject g in gd)
+                GoodDudes.Add(g);
         }
-        /// <summary>
-        /// Removes from list of Cards in play
-        /// Invokes FieldEvent
-        /// Message: a.Name + "Removed"
-        /// </summary>
-        /// <param name="a">ICard to be removed from list</param>
-        public void RemoveFromPlay(ICard a)
+        public void AddBadDudes(List<GameObject> bd)
         {
-            Cards.Remove(a);
-            m_FieldEvent.Invoke(new FieldInfo(Cards.ToArray(), a.Name + "Removed"));
+            foreach (GameObject b in bd)
+                BadDudes.Add(b);
         }
-        /// <summary>
-        /// Forces Invoke of FieldEvent
-        /// </summary>
-        public void ForceInfoCall()
+
+        public void ClearDudes()
         {
-            m_FieldEvent.Invoke(new FieldInfo(Cards.ToArray(), "CallForced" ));
+            BadDudes.Clear();
+            GoodDudes.Clear();
+        }
+        public void Resolve()
+        {
+            int GoodDudesPower=0;
+            int BadDudesPower = 0;
+
+
+            foreach (GameObject go in GoodDudes)
+                if (go.GetComponent<MysteryCardMono>() != null)
+                    GoodDudesPower += go.GetComponent<MysteryCardMono>().Power;
+            foreach (GameObject go in BadDudes)
+                if (go.GetComponent<MysteryCardMono>() != null)
+                    BadDudesPower += go.GetComponent<MysteryCardMono>().Power;
+
+
+
+            string resolveMessage;
+
+            if (GoodDudesPower > BadDudesPower)
+                resolveMessage = "GoodDudesWin";
+            else if (GoodDudesPower < BadDudesPower)
+                resolveMessage = "BadDudesWin";
+            else resolveMessage = "Tie";
+            fieldEvent.Invoke(new ResolutionInfo(resolveMessage));
+            
         }
 
     }
