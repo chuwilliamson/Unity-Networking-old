@@ -28,20 +28,24 @@ namespace Quinton
             var m = HighMysteryCards();
             var t = HighTreasureCards();
 
-            if (m[0].Power > t[0].Power)
+
+            if (m != null && m[0].Power > t[0].Power)
                 foreach (ICard c in m)
                     returnCards.Add(c);
-            else if (m[0].Power > t[0].Power)
+            else if (m != null && m[0].Power < t[0].Power)
                 foreach (ICard c in t)
                     returnCards.Add(c);
-            else
+            else if(m!=null && t != null)
             {
                 foreach (ICard c in t)
                     returnCards.Add(c);
                 foreach (ICard c in m)
                     returnCards.Add(c);
             }
-
+            else
+            {
+                return null;
+            }
 
                 return returnCards.ToArray();
         }
@@ -53,6 +57,9 @@ namespace Quinton
         {
             List<IMystery> returnCards = new List<IMystery>();
             int highNumber = 0;
+
+            if (MysteryCards == null)
+                return null;
 
             foreach(IMystery c in MysteryCards)
             {
@@ -77,7 +84,10 @@ namespace Quinton
             List<ITreasure> returnCards = new List<ITreasure>();
             int highNumber = 0;
 
-            foreach (ITreasure c in MysteryCards)
+            if (TreasureCards == null)
+                return null;
+
+            foreach (ITreasure c in TreasureCards)
             {
                 if (highNumber < c.Power)
                 {
@@ -88,7 +98,7 @@ namespace Quinton
                 else if (highNumber == c.Power)
                     returnCards.Add(c);
             }
-
+            
             return returnCards.ToArray();
         }
 
@@ -108,8 +118,17 @@ namespace Quinton
                     tmpTres.Add((ITreasure)c);
             }
 
+            if (tmpMyst.Count == 0)
+                MysteryCards = null;
+            else
             MysteryCards = tmpMyst.ToArray();
+
+            if (tmpTres.Count == 0)
+                TreasureCards = null;
+            else
             TreasureCards = tmpTres.ToArray();
+
+
         }
     }
 
