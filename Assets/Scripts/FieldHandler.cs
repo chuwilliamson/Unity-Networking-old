@@ -75,6 +75,15 @@ namespace Quinton
                 BadDudes.Add(b);
         }
 
+        public void AddGoodDude(GameObject gd)
+        {
+            GoodDudes.Add(gd);
+        }
+        public void AddBadDude(GameObject bd)
+        {
+            BadDudes.Add(bd);
+        }
+
         public void ClearDudes()
         {
             BadDudes.Clear();
