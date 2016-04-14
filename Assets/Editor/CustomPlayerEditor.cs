@@ -15,7 +15,11 @@ public class CustomPlayerEditor : Editor {
 		if (GUILayout.Button ("Draw Treasure")) {
 			script.TestTreasure ();
 		}
-		//move to bottom because list keeps pushing it down inspector window
-		DrawDefaultInspector ();
+        if (GUILayout.Button("TEST PLAY"))
+        {
+            script.TestPlayCard();
+        }
+        //move to bottom because list keeps pushing it down inspector window
+        DrawDefaultInspector ();
 	}
 }

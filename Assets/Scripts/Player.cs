@@ -99,12 +99,23 @@ namespace Character
 			DrawCard<TreasureCard> ();
 		}
 
+        List<GameObject> dealerCards = new List<GameObject>();
+        public void TestPlayCard()
+        {
+            MysteryStack.Draw(dealerCards);
+            Quinton.FieldHandler.instance.AddBadDude(dealerCards[0]);
+            Quinton.FieldHandler.instance.AddGoodDude(cards[0]);
+
+            Discard(cards[0].name);
+        }
+
 		[SerializeField]		 
 		public List <GameObject> cards = new List<GameObject> ();
 		public List<ICard> hand = new List<ICard> ();
 		public static List<ICard> equipment = new List<ICard> ();
 
-		public bool DrawCard<T> () where T : class, new()
+       
+        public bool DrawCard<T> () where T : class, new()
 		{		
 			ICard c = (typeof(T) == typeof(MysteryCard) 
 				? (Func<List<GameObject>,ICard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
