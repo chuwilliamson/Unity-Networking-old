@@ -7,53 +7,54 @@ using System;
 
 public class CardMono : MonoBehaviour
 {
-	
+
 }
-public class CardMono<T> : CardMono, ICard where T : class, new() 
+public class CardMono<T> : CardMono, ICard where T : class, new()
 {
-	[SerializeField]
-	protected string _description;
-	[SerializeField]
-	protected string _name;
-	public string Name
-	{
-		get{ return _name;}
-		set{ _name = value;}
-	}
+    [SerializeField]
+    protected string _description;
+    [SerializeField]
+    protected string _name;
+    public string Name
+    {
+        get { return _name; }
+        set { _name = value; }
+    }
 
 
-	public string Description
-	{
-		get{ return _description; }
-		set{  _description = value;}
-	}
+    public string Description
+    {
+        get { return _description; }
+        set { _description = value; }
+    }
 
 
-	public T CardObject
-	{
-		get{return m_cardObject;}
+    public T CardObject
+    {
+        get { return m_cardObject; }
 
-	}
-	//reference to the card
-	protected T m_cardObject;
+    }
+    //reference to the card
+    //the cardmono can access this and change it 
+    protected T m_cardObject;
 
-	/// <summary>
-	/// overridable custom constructor
-	/// </summary>
-	public virtual void Init()
-	{
-		m_cardObject = new T ();
-	}
+    /// <summary>
+    /// overridable custom constructor
+    /// </summary>
+    public virtual void Init()
+    {
+        m_cardObject = new T();
+    }
 
-	public Type theType
-	{
-		get
-		{			
-			return typeof(T); 
-		}
-	}
+    public Type theType
+    {
+        get
+        {
+            return typeof(T);
+        }
+    }
 
-	
+
 
 
 }
