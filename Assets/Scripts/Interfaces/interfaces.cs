@@ -50,6 +50,9 @@ public interface IMystery : ICard
 {
 	int Power{ get; set; }
 	MysteryType CardType{ get; set; }
+
+
+
 }
 
 public interface ITreasure : ICard
