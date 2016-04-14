@@ -12,6 +12,7 @@ GameObject:
   - 114: {fileID: 11439080}
   - 114: {fileID: 11433320}
   - 114: {fileID: 11448392}
+  - 114: {fileID: 11418654}
   m_Layer: 5
   m_Name: CardButton
   m_TagString: Untagged
@@ -36,6 +37,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &11418654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 125482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 18
+    i1: 139
+    i2: 206
+    i3: 82
+    i4: 166
+    i5: 108
+    i6: 182
+    i7: 84
+    i8: 251
+    i9: 237
+    i10: 235
+    i11: 144
+    i12: 86
+    i13: 210
+    i14: 109
+    i15: 171
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11433320
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3384346}
   - 23: {fileID: 2330044}
   - 114: {fileID: 11468042}
+  - 114: {fileID: 11484756}
   m_Layer: 0
   m_Name: MysteryCardTemplate
   m_TagString: Untagged
@@ -78,6 +79,38 @@ MonoBehaviour:
   _name: 
   m_cardType: 0
   m_power: 0
+--- !u!114 &11484756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 176322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 150
+    i1: 211
+    i2: 189
+    i3: 72
+    i4: 241
+    i5: 136
+    i6: 196
+    i7: 228
+    i8: 232
+    i9: 152
+    i10: 27
+    i11: 41
+    i12: 124
+    i13: 144
+    i14: 190
+    i15: 142
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
