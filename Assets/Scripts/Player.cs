@@ -40,47 +40,7 @@ namespace Character
 				DrawCard<TreasureCard> ();
 			}
 		}
-
-	
-
-		// TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ //
-		//		void Update ()
-		//		{
-		//			Debug.DrawLine (transform.position, Vector3.zero);
-		//			if (Input.GetKey (KeyCode.Alpha1)) {
-		//				GainExperience (1);
-		//			}
-		//			if (Input.GetKey (KeyCode.Alpha2)) {
-		//				GainGold (150);
-		//			}
-		//			if (Input.GetKeyDown (KeyCode.Alpha3)) {
-		//				DrawCard<MysteryCard> ();
-		//
-		//			}
-		//			if (Input.GetKeyDown (KeyCode.Alpha4)) {
-		//				DrawCard<TreasureCard> ();
-		//
-		//			}
-		//		}
-
-
-		//		//ugh dont like this
-		//		[ContextMenu ("Get the Power")]
-		//		public void GetPower ()
-		//		{
-		//			int powerCounter = 0;
-		//			if (hand.Count < 1)
-		//				Debug.Log ("no cards in hand");
-		//			foreach (GameObject m in cards) {
-		//				Debug.Log ("power is " + powerCounter.ToString ());
-		//				if (m.GetComponent<MysteryCardMono> () != null)
-		//					powerCounter += m.GetComponent<MysteryCardMono> ().Power;
-		//				
-		//			}
-		//			Debug.Log ("power counter: " + powerCounter.ToString ());
-		//			 
-		//		}
-		//		// TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
+		
 
 		public int PlayCard ()
 		{

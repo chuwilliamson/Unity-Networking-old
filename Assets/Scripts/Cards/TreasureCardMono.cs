@@ -28,9 +28,11 @@ public class TreasureCardMono : CardMono<TreasureCard>, ITreasure
     [SerializeField]
     private int m_power;
 
+    /// <summary>
+    /// create a TreasureCard and assign the values of this mono
+    /// </summary>
     public override void Init()
     {
-
         Description = "This is a randomly generated Treasure Card.";
 
         m_cardObject = new TreasureCard(Name, Description, Gold, Power);

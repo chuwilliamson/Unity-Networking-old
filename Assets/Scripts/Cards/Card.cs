@@ -6,44 +6,45 @@ using System;
 
 public enum CardType
 {
-	MYSTERY,
-	TREASURE,
+    MYSTERY,
+    TREASURE,
 }
 
 public enum MysteryType
 {
-	CURSE = 0,
-	MONSTER = 1,
+    CURSE = 0,
+    MONSTER = 1,
 }
 
 public enum TreasureType
 {
-	EQUIPMENT = 0,
-	DEFAULT = 1,
+    EQUIPMENT = 0,
+    DEFAULT = 1,
 }
 public class MysteryCard : ICard, IMystery
 {
-	public MysteryCard ()
-	{
-		int randPower = UnityEngine.Random.Range (0, 10);
-		int randClass = UnityEngine.Random.Range (0, 2);
-		m_power = randPower;
-		m_mysteryType = (MysteryType)randClass;
-		description = "This is a default mystery card...";
-	} 
+    public MysteryCard()
+    {
+        int randPower = UnityEngine.Random.Range(0, 10);
+        int randClass = UnityEngine.Random.Range(0, 2);
+        m_power = randPower;
+        m_mysteryType = (MysteryType)randClass;
+        m_reward = UnityEngine.Random.Range(1, 5);
+        description = "This is a default mystery card...";
+    }
 
-	public MysteryCard (string n, string d, int p, MysteryType mt)
-	{ 		
-		description = d;
-		name = n;
-		m_power = p;
-		m_mysteryType = mt;
-	}
-    
-	private MysteryType m_mysteryType;
-	 
-	private int m_power;
-    
+    public MysteryCard(string n, string d, int p, MysteryType mt)
+    {
+        description = d;
+        name = n;
+        m_power = p;
+        m_mysteryType = mt;
+    }
+
+    private MysteryType m_mysteryType;
+
+    private int m_power;
+
     private int m_reward;
 
     [SerializeField]
@@ -58,6 +59,25 @@ public class MysteryCard : ICard, IMystery
     /// 0 if it's a curse
     /// # if it's a monster
     /// </summary>
+    public MysteryType CardType
+    {
+        get
+        {
+            return m_mysteryType;
+        }
+
+        set
+        {
+            m_mysteryType = value;
+        }
+    }
+
+    public int Power
+    {
+        get { return m_power; }
+        set { m_power = value; }
+    }
+
     public int Reward
     {
         get
@@ -71,17 +91,16 @@ public class MysteryCard : ICard, IMystery
         }
     }
 
-    public MysteryType CardType
+    public string Name
     {
-        get
-        {
-            return m_mysteryType;
-        }
+        get { return name; }
+        set { name = value; }
+    }
 
-        set
-        {
-            m_mysteryType = value;
-        }
+    public string Description
+    {
+        get { return description; }
+        set { description = value; }
     }
 
     public string Info
@@ -98,22 +117,10 @@ public class MysteryCard : ICard, IMystery
         set { }
     }
 
-    public string Name
+    public System.Type MonoType
     {
-        get { return name; }
-        set { name = value; }
-    }
-
-    public string Description
-    {
-        get { return description; }
-        set { description = value; }
-    }
-
-    public int Power
-    {
-        get { return m_power; }
-        set { m_power = value; }
+        get { return typeof(MysteryCardMono); }
+        set { }
     }
 
 }
@@ -129,31 +136,33 @@ public class TreasureCard : ICard, ITreasure
     }
     //Effect the card has when played on field	
 
-    public TreasureCard ()
-	{
+    public TreasureCard()
+    {
+        int randPower = UnityEngine.Random.Range(1, 10);
+        int randGold = UnityEngine.Random.Range(10, 100);
+        m_power = randPower;
+        m_GoldValue = randGold;
+        Description = "This is a default Treasure card...";
+    }
 
-	}
+    public TreasureCard(string n, string d, int g, int p)
+    {
 
-	public TreasureCard (string n, string d, int g, int p)
-	{
-		
-		m_description = d;
-		m_name = n;
-		m_GoldValue = g;
-		m_power = p;
-	}
+        m_description = d;
+        m_name = n;
+        m_GoldValue = g;
+        m_power = p;
+    }
 
-    public TreasureCard (string n, string d, int g)
-	{
-		
-		m_description = d;
-		m_name = n;
-		m_GoldValue = g;
-	}
-    
-	protected Equipment ItemSlot;
+    public TreasureCard(string n, string d, int g)
+    {
 
-    private TreasureType m_cardType;
+        m_description = d;
+        m_name = n;
+        m_GoldValue = g;
+    }
+
+
 
     [SerializeField]
     protected string m_name;
@@ -167,22 +176,25 @@ public class TreasureCard : ICard, ITreasure
 
     private int m_GoldValue;
 
-	public int Gold {
-		get{ return m_GoldValue; }
-		set{ m_GoldValue = value; }
+    public int Gold
+    {
+        get { return m_GoldValue; }
+        set { m_GoldValue = value; }
 
-	}
-    
-	public string Name { 
-		get { return m_name; }
-		set { m_name = value; }
-	}
+    }
 
-	public string Description {
-		get { return m_description; } 
-		set { m_description = value; }
-	}
-    
+    public string Name
+    {
+        get { return m_name; }
+        set { m_name = value; }
+    }
+
+    public string Description
+    {
+        get { return m_description; }
+        set { m_description = value; }
+    }
+
     public int Power
     {
         get { return m_power; }
@@ -200,7 +212,7 @@ public class TreasureCard : ICard, ITreasure
         }
         set { }
     }
-    
+
     public TreasureType CardType
     {
         get { return m_cardType; }
@@ -212,5 +224,9 @@ public class TreasureCard : ICard, ITreasure
         get { return typeof(TreasureCardMono); }
         set { }
     }
+
+    protected Equipment ItemSlot;
+
+    private TreasureType m_cardType;
 
 }

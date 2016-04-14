@@ -16,9 +16,9 @@ namespace Quinton
         public ResolutionInfo(string msg)
         {
             Message = msg;
-            
+
         }
-            
+
     }
 
 
@@ -37,14 +37,14 @@ namespace Quinton
                 return _instance;
             }
         }
-        
+
 
         private FieldEvent()
         { }
 
     }
 
-   public class FieldHandler : MonoBehaviour
+    public class FieldHandler : MonoBehaviour
     {
         static private FieldHandler _instance;
 
@@ -91,7 +91,7 @@ namespace Quinton
         }
         public void Resolve()
         {
-            int GoodDudesPower=0;
+            int GoodDudesPower = 0;
             int BadDudesPower = 0;
 
 
@@ -112,7 +112,7 @@ namespace Quinton
                 resolveMessage = "BadDudesWin";
             else resolveMessage = "Tie";
             fieldEvent.Invoke(new ResolutionInfo(resolveMessage));
-            
+
         }
 
     }

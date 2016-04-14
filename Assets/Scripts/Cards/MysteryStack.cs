@@ -6,35 +6,29 @@ using System.Collections.Generic;
 /// Mystery stack.
 /// This is attached to the GameObject in the scene.
 /// </summary>
-public class MysteryStack : CardStack<MysteryCard,MysteryCardMono>
+public class MysteryStack : CardStack<MysteryCard, MysteryCardMono>
 {
-	void Awake()
-	{
-		if (this.m_cards.Count < 1) {
-			this.Setup ();
-		}
-	}
-	protected override void Setup()
-	{
-		base.Setup ();
-//		foreach (var v in CardMonos) {
-//			int randPower = UnityEngine.Random.Range (0, 10);
-//			int randClass = UnityEngine.Random.Range (0, 2);
-//			v.Power = randPower;
-//			v.CardType = (MysteryType)randClass;
-//			v.Description = "This is a default mystery card...";
-//		}
-	}
- 
+    void Awake()
+    {
+        if (this.m_cards.Count < 1)
+        {
+            this.Setup();
+        }
+    }
+    protected override void Setup()
+    {
+        base.Setup();
+    }
 
-	public void EditorInit()
-	{
-		this.Setup();
-	}
 
-	public void EditorClear()
-	{
-		this.Clear();
-	}
+    public void EditorInit()
+    {
+        this.Setup();
+    }
+
+    public void EditorClear()
+    {
+        this.Clear();
+    }
 }
 
