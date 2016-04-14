@@ -2,31 +2,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using Character;
+using UnityEngine.UI;
 
 public class PeakInfo : MonoBehaviour
 {
-	GameObject panel;
-	Object playerInfo;
-	[SerializeField]
-	Transform panelParent;
+	
+	[ContextMenu("spawn")]
 	void Awake ()
 	{
 		playerInfo = Resources.Load ("PlayerInfo");
+
 		this.GetComponent<UnityEngine.UI.Button> ().onClick.AddListener (ToggleInfo);
 		panel = Instantiate (playerInfo) as GameObject;
-	}
-
-	void Start ()
-	{
-		Character.Player.onDrawCard.AddListener (UpdatePlayerInfo);
 		panel.transform.SetParent (panelParent.transform);
-		panel.transform.localPosition = new Vector3(0,0,0);
 		panel.name = "PlayerPanel";
-
-
 		m_togglableInfo = panel;
 
 
+	}
+
+	[ContextMenu("reset")]
+	void reset()
+	{
+
+		Debug.Log ("PlayerPanel.localPosition" + panel.transform.localPosition);
+	}
+
+	void Start ()
+	{		
+		panel.transform.localScale = new Vector3 (1, 1, 1);
+		Character.Player.onDrawCard.AddListener (UpdatePlayerInfo);
 	}
 
 	public void ToggleInfo ()
@@ -35,28 +40,32 @@ public class PeakInfo : MonoBehaviour
 
 	}
 
-	public Character.Player CorrelatedPlayer {
-		get {
-			return m_correlatedPlayer;
-		}
-	}
 
 	public void UpdatePlayerInfo (Player p, string s)
 	{
         
 		foreach (Transform child in m_togglableInfo.transform) {
 			if (child.gameObject.name == "GoldLabel") {
-				child.gameObject.GetComponent<UnityEngine.UI.Text> ().text = "Gold: " + m_correlatedPlayer.Gold.ToString ();
+				child.gameObject.GetComponent<UnityEngine.UI.Text> ().text = "Text: " + m_Player.name;
+			}
+			if (child.gameObject.name == "GoldLabel") {
+				child.gameObject.GetComponent<UnityEngine.UI.Text> ().text = "Gold: " + m_Player.Gold.ToString ();
 			}
 			if (child.gameObject.name == "PowerLabel") {
-				child.gameObject.GetComponent<UnityEngine.UI.Text> ().text = "Power: " + m_correlatedPlayer.Power.ToString ();
+				child.gameObject.GetComponent<UnityEngine.UI.Text> ().text = "Power: " + m_Player.Power.ToString ();
 			}
 			if (child.gameObject.name == "LevelLabel") {
-				child.gameObject.GetComponent<UnityEngine.UI.Text> ().text = "Level: " + m_correlatedPlayer.Level.ToString ();
+				child.gameObject.GetComponent<UnityEngine.UI.Text> ().text = "Level: " + m_Player.Level.ToString ();
 			}
 		}
 	}
 
+
+	private GameObject panel;
+	private Object playerInfo;
+	[SerializeField]
+	private Transform panelParent;
+
 	[SerializeField] private GameObject m_togglableInfo;
-	[SerializeField] private Character.Player m_correlatedPlayer;
+	[SerializeField] private Player m_Player;
 }

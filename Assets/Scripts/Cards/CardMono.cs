@@ -9,8 +9,8 @@ public class CardMono : MonoBehaviour
 {
 	
 }
-public class CardMono<T> : CardMono, ICard 
-	where T : class, new()  {
+public class CardMono<T> : CardMono, ICard where T : class, new() 
+{
 	[SerializeField]
 	protected string _description;
 	[SerializeField]
@@ -24,7 +24,6 @@ public class CardMono<T> : CardMono, ICard
 
 	public string Description
 	{
-
 		get{ return _description; }
 		set{  _description = value;}
 	}

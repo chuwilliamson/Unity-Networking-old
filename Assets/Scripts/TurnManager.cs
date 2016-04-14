@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using System;
 using Character;
 using UnityEngine.Events;
+using System.Linq;
 
 
 namespace Dylan
@@ -63,16 +64,17 @@ namespace Dylan
 			if (PlayerChange == null)
 				PlayerChange = new PlayerChangeEvent ();
 			
-			Players = new List<Player> ();
-			Players.AddRange (FindObjectsOfType<Player> ());
+
+			var p = FindObjectsOfType<Player> ();
+			Players = p.OrderBy (x => x.transform.name).ToList();
+
 			ActivePlayer = Players [m_CurrentPlayerIndex];
 		}
 
 		void Start ()
 		{			
-			ActivePlayer = Players [m_CurrentPlayerIndex];
+			
 			PlayerCycle ();
-			CameraSnap.CameraSnapOverTarget (ActivePlayer.transform);
 
 
 		}

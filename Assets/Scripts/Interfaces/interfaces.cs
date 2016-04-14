@@ -50,11 +50,15 @@ public interface IMystery : ICard
 {
 	int Power{ get; set; }
 	MysteryType CardType{ get; set; }
+
+
+
 }
 
 public interface ITreasure : ICard
 {
 	int Gold{ get; set; }
+	int Power { get; set; }
 	TreasureType CardType{get; set;}
 }
 

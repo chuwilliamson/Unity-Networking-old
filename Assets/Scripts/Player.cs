@@ -39,11 +39,9 @@ namespace Character
 				DrawCard<MysteryCard> ();
 				DrawCard<TreasureCard> ();
 			}
-		
-	
 		}
 
-
+	
 
 		// TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ //
 		//		void Update ()
@@ -102,7 +100,7 @@ namespace Character
 
 		[SerializeField]		 
 		private List <GameObject> cards = new List<GameObject> ();
-		public static List<ICard> hand = new List<ICard> ();
+		public List<ICard> hand = new List<ICard> ();
 		public static List<ICard> equipment = new List<ICard> ();
 
 		public bool DrawCard<T> () where T : class, new()
@@ -136,20 +134,17 @@ namespace Character
 		}
 
 
-		public static void Discard(string name)
+		public void Discard(string name)
 		{
 			ICard c = hand.Find (x => x.Name == name);
-			Debug.Log ("discard " + c.Name);
+			Debug.Log ("discard " + c.Name + "for Player: "+ this.name);
 			hand.Remove (c);
-			Player p = new Player()
-		}
-		public bool Discard(CardMono c)
-		{
-			Debug.Log ("Removing card: " + c.name);
-			cards.Remove (c.gameObject);
+			GameObject cm = cards.Find (x => x.name == name);
+			cards.Remove (cm);
+			onDrawCard.Invoke (this,"null");
 
-			return true;
 		}
+	
 		public int MoveCard ()
 		{
 			return 0;
@@ -256,8 +251,8 @@ namespace Character
 
 				foreach (GameObject m in cards) {
 					//Debug.Log ("power is " + powerCounter.ToString ());
-					if (m.GetComponent<MysteryCardMono> () != null)
-						m_power += m.GetComponent<MysteryCardMono> ().Power;
+					if (m.GetComponent<TreasureCardMono> () != null)
+						m_power += m.GetComponent<TreasureCardMono> ().Power;
 
 				}
 				return m_power + m_level;

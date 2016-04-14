@@ -11,9 +11,8 @@ public enum CardType
 
 public enum MysteryType
 {
-	CLASS = 0,
-	EVENT = 1,
-	MONSTER = 2,
+	CURSE = 0,
+	MONSTER = 1,
 }
 
 public enum TreasureType
@@ -30,18 +29,23 @@ public class MysteryCard : ICard
 	protected string description;
 	//Effect the card has when played on field
 
-	protected bool state;
+
 
 	public MysteryCard ()
 	{
+		int randPower = UnityEngine.Random.Range (0, 10);
+		int randClass = UnityEngine.Random.Range (0, 2);
+		m_power = randPower;
+		m_mysteryType = (MysteryType)randClass;
+		description = "This is a default mystery card...";
 	} 
 
 	public MysteryCard (string n, string d, int p, MysteryType mt)
-	{ 
-		state = false;
+	{ 		
 		description = d;
 		name = n;
-		_mysteryType = mt;
+		m_power = p;
+		m_mysteryType = mt;
 	}
 
 
@@ -50,11 +54,11 @@ public class MysteryCard : ICard
 
 		get
 		{
-			string s = state.ToString();
+			//string s = state.ToString();
 			string n = name.ToString ();
 			string d = name.ToString ();
 
-			return "State: " + s + "Name: " + n + "Description: " + d;
+			return "Name: " + n + "Description: " + d;
 		}
 		set{ }
 	}
@@ -81,10 +85,10 @@ public class MysteryCard : ICard
 		set { name = value; }
 	}
 
-	public bool State { 
-		get	{ return state; } 
-		set { state = value; }
-	}
+//	public bool State { 
+//		get	{ return state; } 
+//		set { state = value; }
+//	}
 
 	public string Description {
 		get { return description; } 
@@ -96,12 +100,12 @@ public class MysteryCard : ICard
 		set{ m_power = value; }
 	}
 
-	private MysteryType _mysteryType;
+	private MysteryType m_mysteryType;
 
-	public MysteryType mType
+	public MysteryType mysteryType
 	{
-		get{ return _mysteryType; }
-		set{ _mysteryType = value; }
+		get{ return m_mysteryType; }
+		set{ m_mysteryType = value; }
 	}
 }
 
@@ -115,6 +119,10 @@ public class TreasureCard : ICard, ITreasure
 	protected string m_description;
 	//Effect the card has when played on field
 
+	[SerializeField]
+	protected int m_power;
+	//Effect the card has when played on field
+
 	protected bool m_state;
 	private TreasureType m_cardType;
 	public TreasureType CardType {
@@ -125,6 +133,11 @@ public class TreasureCard : ICard, ITreasure
 	public System.Type MonoType {
 		get{ return typeof(TreasureCardMono); }
 		set{ }
+	}
+
+	public int Power{
+		get{ return m_power; }
+		set{ m_power = value;}
 	}
 	public string Info
 	{
@@ -144,6 +157,14 @@ public class TreasureCard : ICard, ITreasure
 
 	}
 
+	public TreasureCard (string n, string d, int g, int p)
+	{
+		m_state = false;
+		m_description = d;
+		m_name = n;
+		m_GoldValue = g;
+		m_power = p;
+	}
 	public TreasureCard (string n, string d, int g)
 	{
 		m_state = false;

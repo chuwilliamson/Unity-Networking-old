@@ -7,13 +7,16 @@ public class UIRoot : MonoBehaviour {
 
 	void UpdateUI (Player p, string phase)
 	{
-		if (GameObject.Find ("UI")) {
-			TurnLabel.text = "Phase: " + phase;
-			PlayerLabel.text = "Player: " + p.name;
-			GoldLabel.text = "Gold: " + p.Gold.ToString ();
-			LevelLabel.text = "Level: " + p.Level.ToString ();
-			PowerLabel.text = "Power: " + p.Power.ToString ();
+		if (TurnManager.ActivePlayer == p) {
+			if (GameObject.Find ("UI")) {
+				if(phase != "null")
+					TurnLabel.text = "Phase: " + phase;
+				PlayerLabel.text = "Player: " + p.name;
+				GoldLabel.text = "Gold: " + p.Gold.ToString ();
+				LevelLabel.text = "Level: " + p.Level.ToString ();
+				PowerLabel.text = "Power: " + p.Power.ToString ();
 
+			}
 		}
 
 
@@ -47,5 +50,6 @@ public class UIRoot : MonoBehaviour {
 	private Text GoldLabel;
 
 	private Text PlayerLabel;
+
 
 }
