@@ -86,7 +86,6 @@ public class UICard : MonoBehaviour
             Debug.Log("Playing MysteryCard");
             // make a Mystery Card
             GameObject generatedCard = Instantiate (Resources.Load("MysteryCardTemplate")) as GameObject;
-            MysteryCard cardValues = generatedCard.GetComponent<MysteryCard>();
             MysteryCardMono mcm = generatedCard.GetComponent<MysteryCardMono>();
 
             // Fill out info
@@ -100,7 +99,6 @@ public class UICard : MonoBehaviour
 
         if (c.GetType() == typeof(TreasureCard))
         {
-            Debug.Log("Playing TreasureCard");
             // make a Treasure Card
             GameObject generatedCard = Instantiate(Resources.Load("TreasureCardTemplate")) as GameObject;
             TreasureCardMono tcm = generatedCard.GetComponent<TreasureCardMono>();
@@ -113,7 +111,6 @@ public class UICard : MonoBehaviour
 
             // Place in game space
             generatedCard.transform.position = new Vector3(0, 0, 0);
-            Debug.Log("Playing TreasureCard End");
         }
         p.Discard(n);   // Removes for players hand
         Destroy(card);  // Destroys GUI GameObject that represented the card
