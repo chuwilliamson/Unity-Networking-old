@@ -100,7 +100,7 @@ namespace Character
 		}
 
 		[SerializeField]		 
-		private List <GameObject> cards = new List<GameObject> ();
+		public List <GameObject> cards = new List<GameObject> ();
 		public List<ICard> hand = new List<ICard> ();
 		public static List<ICard> equipment = new List<ICard> ();
 
