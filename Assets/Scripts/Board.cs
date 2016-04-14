@@ -2,6 +2,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Character;
+using System.Linq;
 
 namespace Table
 {
@@ -34,10 +36,11 @@ namespace Table
 			m_MysteryCardStack = FindObjectOfType <MysteryStack>().gameObject;
 			m_TreasureCardStack = FindObjectOfType <TreasureStack>().gameObject;
 			if (m_Players.Count < 1)
-				m_Players = new List<GameObject> ();
-			foreach (var v in FindObjectsOfType<Character.Player>()) {
-				m_Players.Add (v.GetComponent<GameObject>());
+				m_Players = new List<Player> ();
+			foreach (var v in FindObjectsOfType<Player>()) {
+				m_Players.Add (v);
 			}
+            m_Players = m_Players.OrderBy(x => x.name).ToList();
 
 		}
 		[SerializeField]
@@ -46,7 +49,7 @@ namespace Table
 		private GameObject m_TreasureCardStack;
 
 		[SerializeField]
-		private List<GameObject> m_Players;
+		private List<Player> m_Players;
 		/// <summary>
 		/// Gets the mystery card stack position.
 		/// </summary>
