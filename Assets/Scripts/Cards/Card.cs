@@ -1,7 +1,8 @@
-﻿ using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public enum CardType
 {
@@ -20,7 +21,7 @@ public enum TreasureType
 	EQUIPMENT = 0,
 	DEFAULT = 1,
 }
-public class MysteryCard : ICard
+public class MysteryCard : ICard, IMystery
 {
 	[SerializeField]
 	protected string name;
@@ -62,20 +63,7 @@ public class MysteryCard : ICard
 		}
 		set{ }
 	}
-	sealed class Class
-	{
 
-	}
-
-	internal class Event
-	{
-
-	}
-
-	internal class Monster
-	{
-		private int power;
-	}
 
 	private int m_power;
 
@@ -85,10 +73,7 @@ public class MysteryCard : ICard
 		set { name = value; }
 	}
 
-//	public bool State { 
-//		get	{ return state; } 
-//		set { state = value; }
-//	}
+
 
 	public string Description {
 		get { return description; } 
@@ -107,6 +92,38 @@ public class MysteryCard : ICard
 		get{ return m_mysteryType; }
 		set{ m_mysteryType = value; }
 	}
+
+    private int m_reward;
+    /// <summary>
+    /// the Treasure value of this card
+    /// 0 if it's a curse
+    /// # if it's a monster
+    /// </summary>
+    public int Reward
+    {
+        get
+        {
+            return m_reward;
+        }
+
+        set
+        {
+            m_reward = value;
+        }
+    }
+
+    public MysteryType CardType
+    {
+        get
+        {
+            throw new NotImplementedException();
+        }
+
+        set
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
 
 public class TreasureCard : ICard, ITreasure
