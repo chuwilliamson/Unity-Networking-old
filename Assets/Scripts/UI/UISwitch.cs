@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class UISwitch : MonoBehaviour
 {
@@ -22,11 +23,20 @@ public class UISwitch : MonoBehaviour
 		mouse = Input.mousePosition;
 	}
 
+	public void OnDragBegin()
+	{
+		GetComponent<ScrollRect> ().enabled = false;
+	}
 	public void OnDrag ()
 	{
 		deltaMouse = Input.mousePosition - mouse;
 		r.position = new Vector3 (r.anchoredPosition.x + deltaMouse.x, r.anchoredPosition.y + deltaMouse.y, zOffset);
 
+	}
+
+	public void OnDragEnd()
+	{
+		GetComponent<ScrollRect> ().enabled = true;
 	}
 
 	[SerializeField]

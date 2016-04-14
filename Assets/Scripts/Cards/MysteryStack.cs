@@ -17,13 +17,13 @@ public class MysteryStack : CardStack<MysteryCard,MysteryCardMono>
 	protected override void Setup()
 	{
 		base.Setup ();
-		foreach (var v in CardMonos) {
-			int randPower = UnityEngine.Random.Range (0, 10);
-			int randClass = UnityEngine.Random.Range (0, 3);
-			v.Power = randPower;
-			v.CardType = (MysteryType)randClass;
-			v.Description = "This is a default mystery card...";
-		}
+//		foreach (var v in CardMonos) {
+//			int randPower = UnityEngine.Random.Range (0, 10);
+//			int randClass = UnityEngine.Random.Range (0, 2);
+//			v.Power = randPower;
+//			v.CardType = (MysteryType)randClass;
+//			v.Description = "This is a default mystery card...";
+//		}
 	}
  
 
