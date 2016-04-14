@@ -21,6 +21,9 @@ public class MysteryCardMono : CardMono<MysteryCard>, IMystery
 
 	public override void Init ()
 	{
+		m_power = UnityEngine.Random.Range (0, 10);
+		m_cardType = (MysteryType)UnityEngine.Random.Range (0, 2);
+		Description = "This is a randomly generated Mystery Card.";
 		m_cardObject = new MysteryCard (Name, Description, m_power, m_cardType);
 	}
 

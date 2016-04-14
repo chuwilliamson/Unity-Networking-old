@@ -11,9 +11,8 @@ public enum CardType
 
 public enum MysteryType
 {
-	CLASS = 0,
-	EVENT = 1,
-	MONSTER = 2,
+	CURSE = 0,
+	MONSTER = 1,
 }
 
 public enum TreasureType
@@ -30,15 +29,19 @@ public class MysteryCard : ICard
 	protected string description;
 	//Effect the card has when played on field
 
-	protected bool state;
+
 
 	public MysteryCard ()
 	{
+		int randPower = UnityEngine.Random.Range (0, 10);
+		int randClass = UnityEngine.Random.Range (0, 2);
+		m_power = randPower;
+		m_mysteryType = (MysteryType)randClass;
+		description = "This is a default mystery card...";
 	} 
 
 	public MysteryCard (string n, string d, int p, MysteryType mt)
-	{ 
-		state = false;
+	{ 		
 		description = d;
 		name = n;
 		m_power = p;
@@ -51,11 +54,11 @@ public class MysteryCard : ICard
 
 		get
 		{
-			string s = state.ToString();
+			//string s = state.ToString();
 			string n = name.ToString ();
 			string d = name.ToString ();
 
-			return "State: " + s + "Name: " + n + "Description: " + d;
+			return "Name: " + n + "Description: " + d;
 		}
 		set{ }
 	}
@@ -82,10 +85,10 @@ public class MysteryCard : ICard
 		set { name = value; }
 	}
 
-	public bool State { 
-		get	{ return state; } 
-		set { state = value; }
-	}
+//	public bool State { 
+//		get	{ return state; } 
+//		set { state = value; }
+//	}
 
 	public string Description {
 		get { return description; } 

@@ -42,6 +42,7 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 
 		GameObject cardParent = new GameObject ();
 
+
 		cardParent.transform.SetParent (this.gameObject.transform);
 		cardParent.transform.localPosition = Vector3.zero;
 		cardParent.name = cardParentName;
@@ -52,6 +53,7 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 			GameObject card = Instantiate (go) as GameObject;
 			card.transform.SetParent (cardParent.transform);
 			card.transform.localPosition = Vector3.zero;
+			card.transform.localPosition = new Vector3 (0, (59 - i) * .25f, 0);
 			card.name = cardName +"_"+ i.ToString ();
 			V mc = card.GetComponent<V>();
 			mc.Name = card.name;
