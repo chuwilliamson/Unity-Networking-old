@@ -125,7 +125,7 @@ public class Network_Core : MonoBehaviour {
         GameObject p = Network.Instantiate(Player, Vector3.zero, Quaternion.identity, 0) as GameObject;
         p.name = PlayerName.text;
         ConnectedPlayers.Add(p);
-        Lobby.UpdatePLayers(ConnectedPlayers);
+        Lobby.UpdatePlayers(ConnectedPlayers);
     }
 
     /// <summary>

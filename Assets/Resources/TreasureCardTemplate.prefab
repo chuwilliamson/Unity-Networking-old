@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3384346}
   - 23: {fileID: 2330044}
   - 114: {fileID: 11469966}
+  - 114: {fileID: 11497614}
   m_Layer: 0
   m_Name: TreasureCardTemplate
   m_TagString: Untagged
@@ -76,6 +77,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _description: 
   _name: 
+  m_gold: 0
+  m_power: 0
+--- !u!114 &11497614
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 176322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 168
+    i1: 18
+    i2: 80
+    i3: 198
+    i4: 130
+    i5: 110
+    i6: 88
+    i7: 212
+    i8: 154
+    i9: 136
+    i10: 193
+    i11: 228
+    i12: 146
+    i13: 153
+    i14: 210
+    i15: 32
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using UnityEngine.Events;
-
+using UnityEngine.Networking;
 namespace Character
 {
 	
@@ -19,7 +19,7 @@ namespace Character
 
 	public class DrawCardEvent : UnityEvent<Player, string>
 	{}
-	public class Player : MonoBehaviour, IPlayer
+	public class Player : NetworkBehaviour, IPlayer
 	{
 		public static DrawCardEvent onDrawCard;
 		void Awake()
@@ -41,48 +41,46 @@ namespace Character
 			}
 		}
 
-	
-
-		// TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ //
-		//		void Update ()
-		//		{
-		//			Debug.DrawLine (transform.position, Vector3.zero);
-		//			if (Input.GetKey (KeyCode.Alpha1)) {
-		//				GainExperience (1);
-		//			}
-		//			if (Input.GetKey (KeyCode.Alpha2)) {
-		//				GainGold (150);
-		//			}
-		//			if (Input.GetKeyDown (KeyCode.Alpha3)) {
-		//				DrawCard<MysteryCard> ();
-		//
-		//			}
-		//			if (Input.GetKeyDown (KeyCode.Alpha4)) {
-		//				DrawCard<TreasureCard> ();
-		//
-		//			}
-		//		}
+        // TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ TESTING \/ //
+        //		void Update ()
+        //		{
+        //			Debug.DrawLine (transform.position, Vector3.zero);
+        //			if (Input.GetKey (KeyCode.Alpha1)) {
+        //				GainExperience (1);
+        //			}
+        //			if (Input.GetKey (KeyCode.Alpha2)) {
+        //				GainGold (150);
+        //			}
+        //			if (Input.GetKeyDown (KeyCode.Alpha3)) {
+        //				DrawCard<MysteryCard> ();
+        //
+        //			}
+        //			if (Input.GetKeyDown (KeyCode.Alpha4)) {
+        //				DrawCard<TreasureCard> ();
+        //
+        //			}
+        //		}
 
 
-		//		//ugh dont like this
-		//		[ContextMenu ("Get the Power")]
-		//		public void GetPower ()
-		//		{
-		//			int powerCounter = 0;
-		//			if (hand.Count < 1)
-		//				Debug.Log ("no cards in hand");
-		//			foreach (GameObject m in cards) {
-		//				Debug.Log ("power is " + powerCounter.ToString ());
-		//				if (m.GetComponent<MysteryCardMono> () != null)
-		//					powerCounter += m.GetComponent<MysteryCardMono> ().Power;
-		//				
-		//			}
-		//			Debug.Log ("power counter: " + powerCounter.ToString ());
-		//			 
-		//		}
-		//		// TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
+        //		//ugh dont like this
+        //		[ContextMenu ("Get the Power")]
+        //		public void GetPower ()
+        //		{
+        //			int powerCounter = 0;
+        //			if (hand.Count < 1)
+        //				Debug.Log ("no cards in hand");
+        //			foreach (GameObject m in cards) {
+        //				Debug.Log ("power is " + powerCounter.ToString ());
+        //				if (m.GetComponent<MysteryCardMono> () != null)
+        //					powerCounter += m.GetComponent<MysteryCardMono> ().Power;
+        //				
+        //			}
+        //			Debug.Log ("power counter: " + powerCounter.ToString ());
+        //			 
+        //		}
+        //		// TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ TESTING /\ //
 
-		public int PlayCard ()
+        public int PlayCard ()
 		{
 			return 0;
 		}
@@ -98,10 +96,12 @@ namespace Character
 			DrawCard<TreasureCard> ();
 		}
 
-		[SerializeField]		 
+ 
+        [SerializeField]	 
 		private List <GameObject> cards = new List<GameObject> ();
 		public List<ICard> hand = new List<ICard> ();
 		public static List<ICard> equipment = new List<ICard> ();
+
 
 		public bool DrawCard<T> () where T : class, new()
 		{		
@@ -127,12 +127,18 @@ namespace Character
 			m_gold = Gold;
 			m_runAway = RunAway;
 
-			onDrawCard.Invoke (this,"null");
 
+            CmdDrawCard();
 			return true;
 
 		}
 
+        [Command]
+        void CmdDrawCard()
+        {
+            print("invoke CMDDRAWCARD");
+            onDrawCard.Invoke(this, "null");
+        }
 
 		public void Discard(string name)
 		{
@@ -142,7 +148,6 @@ namespace Character
 			GameObject cm = cards.Find (x => x.name == name);
 			cards.Remove (cm);
 			onDrawCard.Invoke (this,"null");
-
 		}
 	
 		public int MoveCard ()
@@ -152,14 +157,18 @@ namespace Character
 
 		public int SellCard (TreasureCardMono a_card)
 		{
-			GainGold (a_card.CardObject.Gold);
+  
+
+            GainGold (a_card.CardObject.Gold);
 
 			return 0;
 		}
 
 		public int GainGold (int a_gold)
 		{
-			m_gold += a_gold;
+
+
+            m_gold += a_gold;
 
 			while (m_gold >= m_maxGold) {
 				m_gold -= m_maxGold;
@@ -171,7 +180,9 @@ namespace Character
 
 		public int GainExperience (int a_experience)
 		{
-			m_experience += a_experience;
+ 
+
+            m_experience += a_experience;
 
 			while (m_experience >= m_maxExperience) {
 				m_experience -= m_maxExperience;
@@ -183,6 +194,8 @@ namespace Character
 
 		public int LevelUp (int a_levels)
 		{
+
+
 			if (m_level < m_maxLevel) {
 				m_level += a_levels;
 
@@ -194,14 +207,14 @@ namespace Character
 		}
 
 		[SerializeField] private CharacterClass m_playerClass;
-		[SerializeField] private int m_level;
-		[SerializeField] private int m_runAway;
-		[SerializeField] private int m_gold;
-		[SerializeField] private int m_power;
+        [SerializeField] private int m_level;
+        [SerializeField] private int m_runAway;
+        [SerializeField] private int m_gold;
+        [SerializeField] private int m_power;
 
 		private int m_modPower;
 		private int m_maxExperience;
-		private int m_experience;
+        private int m_experience;
 		private int m_maxLevel;
 		private int m_maxGold;
 

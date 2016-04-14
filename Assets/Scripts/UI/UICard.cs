@@ -3,11 +3,11 @@ using System.Collections;
 using Dylan;
 using Character;
 using UnityEngine.Events;
-
+using UnityEngine.Networking;
 public class UIDiscardEvent : UnityEvent<CardMono>
 {}
-public class UICard : MonoBehaviour 
-{
+public class UICard : NetworkBehaviour
+    {
 	public static UIDiscardEvent DiscardCard;
 	private Object o;
 	void Start()
@@ -18,6 +18,7 @@ public class UICard : MonoBehaviour
 		Character.Player.onDrawCard.AddListener (UpdateHand);
 
 	}
+
 //	[ContextMenu("Populate Cards")]
 //	void PopulateCards()
 //	{
@@ -35,9 +36,16 @@ public class UICard : MonoBehaviour
 //			}
 //
 //	}
+    void OnConnectedToServer()
+    {
+        print("connected to server populate the cahds");
+        PopulateCards(TurnManager.ActivePlayer);
+        
 
+    }
 	void PopulateCards(Player p)
 	{
+        print("Receive draw card event");
 		if (transform.childCount > 0) {
 			foreach (Transform t in transform) {
 				Destroy (t.gameObject);
@@ -53,11 +61,7 @@ public class UICard : MonoBehaviour
 			card.GetComponentInChildren<UnityEngine.UI.Button> ().onClick.AddListener (delegate {
 				Discard(card.name, card);
 			});
-
-
-
 		}
-
 	}
 
 	public void UpdateHand(Player p, string t)

@@ -16,7 +16,7 @@ public class NetworkLobby : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	public void UpdatePLayers (List<GameObject> p)
+	public void UpdatePlayers (List<GameObject> p)
     {
         if (GetComponent<NetworkView>().isMine == true)
         {
