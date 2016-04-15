@@ -35,7 +35,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &185796
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,22 +151,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
+    i0: 116
+    i1: 171
+    i2: 5
+    i3: 147
+    i4: 81
+    i5: 53
+    i6: 72
+    i7: 164
+    i8: 251
+    i9: 242
+    i10: 18
+    i11: 75
+    i12: 75
+    i13: 24
+    i14: 146
+    i15: 13
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &11442650
