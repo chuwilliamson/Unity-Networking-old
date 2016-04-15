@@ -3,9 +3,10 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Character;
-public class Network_Core : MonoBehaviour {
+public class NetworkCore : MonoBehaviour {
 
     [Header("Create Servers")]
+    [Tooltip("aaaa")]
     public GameObject ServerCreation;
     public InputField ServerName;
     public InputField HostName;

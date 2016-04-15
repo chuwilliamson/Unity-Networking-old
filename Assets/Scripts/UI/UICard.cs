@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Dylan;
+using Server;
 using Character;
 using UnityEngine.Events;
 
@@ -10,6 +10,10 @@ public class UIPlayCard : UnityEvent<CardMono>
 { }
 public class UICard : MonoBehaviour
 {
+    public static UICard instance
+    {
+        get { return FindObjectOfType<UICard>(); }
+    }
     public static UIDiscardEvent DiscardCard;
     private Object o;
     void Start()
@@ -17,7 +21,7 @@ public class UICard : MonoBehaviour
         DiscardCard = new UIDiscardEvent();
         o = Resources.Load("CardButton");
         TurnManager.PlayerChange.AddListener(UpdateHand);
-        Character.Player.onDrawCard.AddListener(UpdateHand);
+        //Player.onDrawCard.AddListener(UpdateHand);
 
     }
     //	[ContextMenu("Populate Cards")]
@@ -38,7 +42,7 @@ public class UICard : MonoBehaviour
     //
     //	}
 
-    void PopulateCards(Player p)
+    public void PopulateCards(Player p)
     {
         if (transform.childCount > 0)
         {

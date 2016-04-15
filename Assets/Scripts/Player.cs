@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using UnityEngine.Events;
 using Quinton;
+using UnityEngine.Networking;
 namespace Character
 {
 	
@@ -16,21 +17,22 @@ namespace Character
 		CLASS4,//double gold on sell discard any card for + RunAway
 	}
 
-
+    
 	public class DrawCardEvent : UnityEvent<Player, string>
 	{}
-	public class Player : MonoBehaviour, IPlayer
+	public class Player : NetworkBehaviour, IPlayer
 	{
 		public static DrawCardEvent onDrawCard;
 		void Awake()
 		{
 			if (onDrawCard == null)
 				onDrawCard = new DrawCardEvent ();
+           
 		}
 		void Start ()
 		{
-			
-			m_maxExperience = 10;
+            RegisterWithServer();
+            m_maxExperience = 10;
 			m_maxLevel = 10;
 			m_maxGold = 1000;
 			transform.LookAt (Vector3.zero);
@@ -39,6 +41,8 @@ namespace Character
 				DrawCard<MysteryCard> ();
 				DrawCard<TreasureCard> ();
 			}
+            if (isClient)
+                UICard.instance.PopulateCards(GetComponent<Player>());
 		}
 		
 
@@ -48,8 +52,8 @@ namespace Character
 			return 0;
 		}
 
-
-		public void Test ()
+        #region Testing
+        public void Test ()
 		{
 			DrawCard<MysteryCard> ();
 		}
@@ -58,6 +62,7 @@ namespace Character
 		{
 			DrawCard<TreasureCard> ();
 		}
+        #endregion Testing
 
         List<GameObject> dealerCards = new List<GameObject>();
         public void TestPlayCard()
@@ -105,7 +110,11 @@ namespace Character
 
 		}
 
-
+        [ContextMenu("ADD TO SERVER GAMEOBJECT")]
+        public void RegisterWithServer()
+        {
+            Server.TurnManager.instance.AddToPlayers(GetComponent<Player>());
+        }
 		public void Discard(string name)
 		{
 			ICard c = hand.Find (x => x.Name == name);

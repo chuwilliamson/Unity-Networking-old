@@ -31,7 +31,7 @@ public class PeakInfo : MonoBehaviour
 	void Start ()
 	{		
 		panel.transform.localScale = new Vector3 (1, 1, 1);
-		Character.Player.onDrawCard.AddListener (UpdatePlayerInfo);
+		//Character.Player.onDrawCard.AddListener (UpdatePlayerInfo);
 	}
 
 	public void ToggleInfo ()

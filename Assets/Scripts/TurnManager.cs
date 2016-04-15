@@ -13,7 +13,7 @@ using System.Linq;
 using UnityEngine.Networking;
 
 
-namespace Dylan
+namespace Server
 {
     
     public class PlayerChangeEvent : UnityEvent<Player, string>
@@ -21,7 +21,17 @@ namespace Dylan
 
     }
     public class TurnManager : NetworkBehaviour
-    { 
+    {
+
+        [SerializeField]
+        private Player thePlayer;
+        private enum TurnPhases
+        {
+            First,
+            Second,
+            Combat,
+            End,
+        }
         public static PlayerChangeEvent PlayerChange;
 
         [SerializeField]
@@ -33,17 +43,24 @@ namespace Dylan
             get { return FindObjectOfType<TurnManager>(); }
         }
 
+        public void AddToPlayers(Player p)
+        {
+            
+            _players.Add(p);
+            if (_players.Count == 1)
+            {
+                m_ActivePlayer = _players[0];
+                thePlayer = m_ActivePlayer;
+            }
+        }
         
-        public static List<Player> Players;
-        
+
         [SerializeField]
-        private List<Player> _players;
+        private List<Player> _players = new List<Player>();
         //All players in the current game
         private int m_CurrentPlayerIndex = 0;
         //index of the current player
 
-        [SerializeField]
-        private Player thePlayer;
         private static Player m_ActivePlayer;
 
         public static Player ActivePlayer
@@ -55,8 +72,8 @@ namespace Dylan
             set
             {
                 Debug.Log("invoke Player Change EVent");
-                m_ActivePlayer = value;                
-                instance.CmdBroadCastPlayerChange();
+                m_ActivePlayer = value;
+                //instance.CmdBroadCastPlayerChange();
             }
         }
 
@@ -67,18 +84,12 @@ namespace Dylan
         }
         //Current player taking his/her turn
 
-        /// <Testing>
-        //public Text cPlayer;
-        //public Text cPhase;
-        /// </Testing>
+        //    /// <Testing>
+        //    //public Text cPlayer;
+        //    //public Text cPhase;
+        //    /// </Testing>
 
-        private enum TurnPhases
-        {
-            First,
-            Second,
-            Combat,
-            End,
-        }
+
 
         //Current turnPhase the player is in
         void Awake()
@@ -87,24 +98,24 @@ namespace Dylan
                 PlayerChange = new PlayerChangeEvent();
 
 
-            var p = FindObjectsOfType<Player>();
-            Players = p.OrderBy(x => x.transform.name).ToList();
-            _players = Players;
+            //var p = FindObjectsOfType<Player>();
+            //Players = p.OrderBy(x => x.transform.name).ToList();
+            //_players = Players;
 
-            ActivePlayer = Players[m_CurrentPlayerIndex];
+            //ActivePlayer = Players[m_CurrentPlayerIndex];
         }
 
-        void Start()
-        {
-            PlayerCycle();
-        }
+        //    void Start()
+        //    {
+        //        PlayerCycle();
+        //    }
 
-        /// <summary>
-        /// Cycles from one player to the next
-        /// </summary>
+        //    /// <summary>
+        //    /// Cycles from one player to the next
+        //    /// </summary>
         void PlayerCycle()
         {
-            ActivePlayer = Players[m_CurrentPlayerIndex];
+            ActivePlayer = _players[m_CurrentPlayerIndex];
             thePlayer = ActivePlayer;
             CameraSnap.CameraSnapOverTarget(ActivePlayer.transform);
             if (m_CurrentPlayerIndex >= 3)
@@ -113,21 +124,21 @@ namespace Dylan
                 m_CurrentPlayerIndex++;
         }
 
-        
-        void Update()
-        {
-            ///<Testing>
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                PhaseTransition();
-            }
-            /// </Testing>
-        }
 
-        /// <summary>
-        /// Handles the transitions from one phase to another
-        /// as the Active player takes his/her turn
-        /// </summary>
+        //    void Update()
+        //    {
+        //        ///<Testing>
+        //        if (Input.GetKeyDown(KeyCode.D))
+        //        {
+        //            PhaseTransition();
+        //        }
+        //        /// </Testing>
+        //    }
+
+        //    /// <summary>
+        //    /// Handles the transitions from one phase to another
+        //    /// as the Active player takes his/her turn
+        //    /// </summary>
         void PhaseTransition()
         {
             switch (currentPhase)

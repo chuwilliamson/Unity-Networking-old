@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-using Dylan;
+using Server;
 using Character;
 
 public class NetworkLobby : MonoBehaviour

@@ -19,6 +19,10 @@ public class CustomPlayerEditor : Editor {
         {
             script.TestPlayCard();
         }
+        if (GUILayout.Button("ADD TO SERVER"))
+        {
+            script.RegisterWithServer();
+        }
         //move to bottom because list keeps pushing it down inspector window
         DrawDefaultInspector ();
 	}
