@@ -29,9 +29,10 @@ namespace Character
 				onDrawCard = new DrawCardEvent ();
            
 		}
+        
 		void Start ()
 		{
-            RegisterWithServer();
+           
             m_maxExperience = 10;
 			m_maxLevel = 10;
 			m_maxGold = 1000;
@@ -41,8 +42,9 @@ namespace Character
 				DrawCard<MysteryCard> ();
 				DrawCard<TreasureCard> ();
 			}
-            if (isClient)
+            if (isLocalPlayer)
             {
+                CmdRegisterWithServer();
                 UICard.instance.PopulateCards(GetComponent<Player>());
                 UIRoot.instance.UpdateUI(GetComponent<Player>());
             }
@@ -112,6 +114,11 @@ namespace Character
 			return true;
 
 		}
+        [Command]
+        void CmdRegisterWithServer()
+        {
+            Server.TurnManager.instance.AddToPlayers(GetComponent<Player>());
+        }
 
         [ContextMenu("ADD TO SERVER GAMEOBJECT")]
         public void RegisterWithServer()

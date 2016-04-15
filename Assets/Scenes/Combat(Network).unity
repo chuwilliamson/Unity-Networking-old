@@ -175,8 +175,6 @@ GameObject:
   - 92: {fileID: 133803412}
   - 124: {fileID: 133803411}
   - 81: {fileID: 133803410}
-  - 114: {fileID: 133803416}
-  - 114: {fileID: 133803415}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -217,16 +215,16 @@ Camera:
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.75
+    y: 0.75
+    width: 0.25
+    height: 0.25
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: -1
+  orthographic: 1
+  orthographic size: 62
+  m_Depth: 2
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967263
@@ -245,64 +243,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 133803409}
-  m_LocalRotation: {x: 0.4383712, y: 0, z: 0, w: 0.89879405}
-  m_LocalPosition: {x: 0, y: 33, z: -37.5}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
+  m_LocalPosition: {x: 0, y: 88.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &133803415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 133803409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.033333335
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
---- !u!114 &133803416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 133803409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
 --- !u!1 &285374892
 GameObject:
   m_ObjectHideFlags: 0
@@ -2098,11 +2044,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22484466, guid: 4fa71a5daeb6c6d44ac7aecc1c809dc2, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 22484466, guid: 4fa71a5daeb6c6d44ac7aecc1c809dc2, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 22401366, guid: 4fa71a5daeb6c6d44ac7aecc1c809dc2, type: 2}
       propertyPath: m_AnchorMin.y
@@ -2214,13 +2160,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 2009700, guid: 4fa71a5daeb6c6d44ac7aecc1c809dc2, type: 2}
       propertyPath: m_ClearFlags
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2009700, guid: 4fa71a5daeb6c6d44ac7aecc1c809dc2, type: 2}
       propertyPath: m_Depth
       value: -2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 22418138, guid: 4fa71a5daeb6c6d44ac7aecc1c809dc2, type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 104418, guid: 4fa71a5daeb6c6d44ac7aecc1c809dc2, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11488876, guid: 4fa71a5daeb6c6d44ac7aecc1c809dc2, type: 2}
+    - {fileID: 11462448, guid: 4fa71a5daeb6c6d44ac7aecc1c809dc2, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 4fa71a5daeb6c6d44ac7aecc1c809dc2, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1939731509
@@ -2506,5 +2462,5 @@ MonoBehaviour:
     i13: 0
     i14: 0
     i15: 0
-  m_ServerOnly: 0
+  m_ServerOnly: 1
   m_LocalPlayerAuthority: 0
