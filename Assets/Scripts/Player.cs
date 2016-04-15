@@ -47,6 +47,10 @@ namespace Character
                 CmdRegisterWithServer();
                 UICard.instance.PopulateCards(GetComponent<Player>());
                 UIRoot.instance.UpdateUI(GetComponent<Player>());
+                Camera.main.transform.SetParent(this.transform);
+                Camera.main.transform.localPosition = new Vector3(5,5,0);
+                Camera.main.transform.LookAt(Vector3.zero);
+
             }
 		}
 		
