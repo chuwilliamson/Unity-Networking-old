@@ -7,6 +7,10 @@ using Server;
 
 public class UIRoot : MonoBehaviour
 {
+    public static UIRoot instance
+    {
+        get { return FindObjectOfType<UIRoot>(); }
+    }
     void UpdateUI(Player p, string phase)
     {
         
@@ -27,18 +31,37 @@ public class UIRoot : MonoBehaviour
 
     }
 
+    public void UpdateUI(Player p)
+    {
+
+        //if (TurnManager.ActivePlayer == p)
+        //{
+        if (GameObject.Find("UI"))
+        {            
+            PlayerLabel.text = "Player: " + p.name;
+            GoldLabel.text = "Gold: " + p.Gold.ToString();
+            LevelLabel.text = "Level: " + p.Level.ToString();
+            PowerLabel.text = "Power: " + p.Power.ToString();
+
+        }
+        //}
+
+
+    }
+
     void Awake()
 	{
         Debug.Log("UI Awake");
-		//if (GameObject.Find ("UI") != null) {
-		//	TurnLabel = GameObject.Find ("TurnLabel").GetComponent<Text> ();
-		//	PowerLabel = GameObject.Find ("PowerLabel").GetComponent<Text> ();
-		//	LevelLabel = GameObject.Find ("LevelLabel").GetComponent<Text> ();
-		//	GoldLabel = GameObject.Find ("GoldLabel").GetComponent<Text> ();
-		//	PlayerLabel = GameObject.Find ("PlayerLabel").GetComponent<Text> ();
+        if (GameObject.Find("UI") != null)
+        {
+            TurnLabel = GameObject.Find("TurnLabel").GetComponent<Text>();
+            PowerLabel = GameObject.Find("PowerLabel").GetComponent<Text>();
+            LevelLabel = GameObject.Find("LevelLabel").GetComponent<Text>();
+            GoldLabel = GameObject.Find("GoldLabel").GetComponent<Text>();
+            PlayerLabel = GameObject.Find("PlayerLabel").GetComponent<Text>();
 
-		//}
-	}
+        }
+    }
 
     void Start()
 	{
@@ -47,15 +70,16 @@ public class UIRoot : MonoBehaviour
 	
 	}
 
+    [SerializeField]
 	private Text TurnLabel;
-
-	private Text PowerLabel;
-
-	private Text LevelLabel;
-
-	private Text GoldLabel;
-
-	private Text PlayerLabel;
+    [SerializeField]
+    private Text PowerLabel;
+    [SerializeField]
+    private Text LevelLabel;
+    [SerializeField]
+    private Text GoldLabel;
+    [SerializeField]
+    private Text PlayerLabel;
 
 
 }

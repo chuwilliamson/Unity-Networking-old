@@ -42,7 +42,10 @@ namespace Character
 				DrawCard<TreasureCard> ();
 			}
             if (isClient)
+            {
                 UICard.instance.PopulateCards(GetComponent<Player>());
+                UIRoot.instance.UpdateUI(GetComponent<Player>());
+            }
 		}
 		
 
