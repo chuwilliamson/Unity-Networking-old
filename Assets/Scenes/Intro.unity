@@ -92,6 +92,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11422630, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
+      propertyPath: m_Channels.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 11433274, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -130,7 +134,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22432318, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22432318, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
       propertyPath: m_AnchorMax.y
@@ -138,11 +142,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22463908, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22463908, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22463908, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
       propertyPath: m_AnchoredPosition.x
@@ -407,6 +411,46 @@ Prefab:
     - target: {fileID: 11433274, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11422630, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
+      propertyPath: m_UseSimulator
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11422630, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
+      propertyPath: m_CustomConfig
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11422630, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
+      propertyPath: m_Channels.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11422630, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
+      propertyPath: m_MatchHost
+      value: eu1-mm.unet.unity3d.com
+      objectReference: {fileID: 0}
+    - target: {fileID: 11422630, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
+      propertyPath: m_AutoCreatePlayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11422630, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
+      propertyPath: m_LogLevel
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2004712, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2004712, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
+      propertyPath: m_BackGroundColor.r
+      value: 0.6838235
+      objectReference: {fileID: 0}
+    - target: {fileID: 2004712, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
+      propertyPath: m_BackGroundColor.g
+      value: 0.5480645
+      objectReference: {fileID: 0}
+    - target: {fileID: 2004712, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}
+      propertyPath: m_BackGroundColor.b
+      value: 0.5480645
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d1a491b6726926b488412f9bf50d02a4, type: 2}

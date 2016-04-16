@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine.Events;
 using Quinton;
 using UnityEngine.Networking;
+using Server;
 namespace Character
 {
 
@@ -22,12 +23,13 @@ namespace Character
     { }
     public class Player : NetworkBehaviour, IPlayer
     {
-        public static DrawCardEvent onDrawCard;
+       
+
+
         void Awake()
         {
             if (onDrawCard == null)
                 onDrawCard = new DrawCardEvent();
-
         }
 
         void Start()
@@ -46,60 +48,42 @@ namespace Character
             if (isLocalPlayer)
             {
                 CmdRegisterWithServer();
-                FindObjectOfType<UIRoot>().gameObject.SetActive(true);
-                UICard.instance.PopulateCards(GetComponent<Player>());
-                UIRoot.instance.UpdateUI(GetComponent<Player>());
-                Camera.main.transform.SetParent(this.transform);
-                Camera.main.transform.localPosition = new Vector3(5, 5, 0);
-                Camera.main.transform.LookAt(Vector3.zero);
+                //FindObjectOfType<UIRoot>().gameObject.SetActive(true);
+                UICard.Instance.PopulateCards(GetComponent<Player>());
+                UIRoot.Instance.UpdateUI(GetComponent<Player>());
+                //Camera.main.transform.SetParent(this.transform);
+                //Camera.main.transform.localPosition = new Vector3(5, 5, 0);
+                //Camera.main.transform.LookAt(Vector3.zero);
                 UnityEngine.Object o = Resources.Load("Button");
                 GameObject b = Instantiate(o) as GameObject;
-                b.transform.SetParent(GameObject.Find("UI").transform);
+                b.transform.SetParent(UIRoot.Instance.transform);
                 b.transform.localPosition = Vector3.zero;
                 b.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate
                 {
                     DrawCard<MysteryCard>();
                 });
 
-                onDrawCard.AddListener(UICard.instance.UpdateHand);
+                onDrawCard.AddListener(UICard.Instance.UpdateHand);
             }
 
-            serverPlayers = Server.TurnManager._players;
-            
-            
-            if (serverPlayers[0] == this)
-            {               
-                GameObject.Find("UI").gameObject.SetActive(true);
-            }
-            else
-            {
-                GameObject.Find("UI").gameObject.SetActive(false);
-            }
+            //if (TurnManager.Instance.ActivePlayer == gameObject)
+            //{
+            //    Debug.Log("I am the player!");     
+            //    UIRoot.Instance.gameObject.SetActive(true);
+            //}
+            //else
+            //{
+            //    UIRoot.Instance.gameObject.SetActive(false);
+            //}
         }
-
-
-        List<Player> serverPlayers = new List<Player>();
-
-
+ 
         public int PlayCard()
         {
 
             return 0;
         }
-
-        #region Testing
-        public void Test()
-        {
-            DrawCard<MysteryCard>();
-        }
-
-        public void TestTreasure()
-        {
-            DrawCard<TreasureCard>();
-        }
-        #endregion Testing
-
-        List<GameObject> dealerCards = new List<GameObject>();
+ 
+        
         public void TestPlayCard()
         {
             MysteryStack.Draw(dealerCards);
@@ -109,12 +93,7 @@ namespace Character
             Discard(cards[0].name);
         }
 
-        [SerializeField]
-        public List<GameObject> cards = new List<GameObject>();
-        public List<ICard> hand = new List<ICard>();
-        public static List<ICard> equipment = new List<ICard>();
-
-
+     
         public bool DrawCard<T>() where T : class, new()
         {
             ICard c = (typeof(T) == typeof(MysteryCard)
@@ -150,14 +129,10 @@ namespace Character
         [Command]
         void CmdRegisterWithServer()
         {
-            Server.TurnManager.instance.AddToPlayers(this);
+            Server.TurnManager.Instance.AddToPlayers(gameObject);
         }
 
-        [ContextMenu("ADD TO SERVER GAMEOBJECT")]
-        public void RegisterWithServer()
-        {
-            Server.TurnManager.instance.AddToPlayers(GetComponent<Player>());
-        }
+
         public void Discard(string name)
         {
             ICard c = hand.Find(x => x.Name == name);
@@ -237,6 +212,12 @@ namespace Character
         private int m_maxLevel;
         private int m_maxGold;
 
+        [SerializeField]
+        public List<GameObject> cards = new List<GameObject>();
+        public List<ICard> hand = new List<ICard>();
+        public static List<ICard> equipment = new List<ICard>();
+        public static DrawCardEvent onDrawCard = new DrawCardEvent();
+        private List<GameObject> dealerCards = new List<GameObject>();
         #region IPlayer interface
         public int RunAway
         {
@@ -334,5 +315,18 @@ namespace Character
 
 
         #endregion IPlayer interface
+
+        #region Testing
+        public void Test()
+        {
+            DrawCard<MysteryCard>();
+        }
+
+        public void TestTreasure()
+        {
+            DrawCard<TreasureCard>();
+        }
+        #endregion Testing
+
     }
 }

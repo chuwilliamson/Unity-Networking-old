@@ -71,7 +71,7 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 	}
 	//T is MysteryCard
 	//V is MysteryCardMono
-	internal static CardStack<T,V> stack
+	public static CardStack<T,V> stack
 	{
 		get{
 			CardStack<T,V> thisObject = FindObjectOfType<CardStack<T,V>> ();

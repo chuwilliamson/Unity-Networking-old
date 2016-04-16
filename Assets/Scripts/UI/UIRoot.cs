@@ -7,10 +7,8 @@ using Server;
 
 public class UIRoot : MonoBehaviour
 {
-    public static UIRoot instance
-    {
-        get { return FindObjectOfType<UIRoot>(); }
-    }
+    public static UIRoot Instance = null;
+  
     void UpdateUI(Player p, string phase)
     {
         
@@ -51,6 +49,7 @@ public class UIRoot : MonoBehaviour
 
     void Awake()
 	{
+        Instance = this;
         Debug.Log("UI Awake");
         if (GameObject.Find("UI") != null)
         {

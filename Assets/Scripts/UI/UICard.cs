@@ -10,12 +10,17 @@ public class UIPlayCard : UnityEvent<CardMono>
 { }
 public class UICard : MonoBehaviour
 {
-    public static UICard instance
-    {
-        get { return FindObjectOfType<UICard>(); }
-    }
+    public static UICard Instance = null;
+    
+        
+    
     public static UIDiscardEvent DiscardCard;
     private Object o;
+
+    void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         DiscardCard = new UIDiscardEvent();
@@ -24,23 +29,7 @@ public class UICard : MonoBehaviour
         //Player.onDrawCard.AddListener(UpdateHand);
 
     }
-    //	[ContextMenu("Populate Cards")]
-    //	void PopulateCards()
-    //	{
-    //		if (transform.childCount > 0) {
-    //			foreach (Transform t in transform) {
-    //				Destroy (t.gameObject);
-    //			}
-    //
-    //		} 
-    //			foreach (ICard c in Dylan.TurnManager.ActivePlayer.hand) {
-    //				GameObject card = Instantiate (o) as GameObject;
-    //				card.transform.SetParent (this.transform);
-    //				card.name = c.Name;
-    //				card.GetComponentInChildren<UnityEngine.UI.Text> ().text = card.name;
-    //			}
-    //
-    //	}
+
 
     public void PopulateCards(Player p)
     {
@@ -72,13 +61,13 @@ public class UICard : MonoBehaviour
 
     public void UpdateHand(Player p, string t)
     {
-        if (p == TurnManager.instance.ActivePlayer)
+        if (p == TurnManager.Instance.ActivePlayer)
             PopulateCards(p);
     }
 
     public void Discard(string n, GameObject card)
     {
-        Player p = TurnManager.instance.ActivePlayer;
+        Player p = TurnManager.Instance.ActivePlayer.GetComponent<Player>();
         p.Discard(n);
         Destroy(card);
     }
@@ -86,7 +75,7 @@ public class UICard : MonoBehaviour
     void doThing2() { }
     public void PlayCard(string n, GameObject card)
     {
-        Player p = TurnManager.instance.ActivePlayer;
+        Player p = TurnManager.Instance.ActivePlayer.GetComponent<Player>();
 
         ICard c = p.hand.Find(x => x.Name == n);
 

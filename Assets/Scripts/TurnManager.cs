@@ -16,7 +16,7 @@ using UnityEngine.Networking;
 namespace Server
 {
     
-    public class PlayerChangeEvent : UnityEvent<Player, string>
+    public class PlayerChangeEvent : UnityEvent<GameObject, string>
     {
 
     }
@@ -24,7 +24,7 @@ namespace Server
     {
 
         [SerializeField]
-        private Player thePlayer;
+        private GameObject currentPlayer;
         private enum TurnPhases
         {
             First,
@@ -32,49 +32,42 @@ namespace Server
             Combat,
             End,
         }
-        public static PlayerChangeEvent PlayerChange;
+        
 
         [SerializeField]
         private static TurnPhases currentPhase = TurnPhases.First;
-        private TurnPhases curPhase;
-        public static TurnManager instance
-        {
-
-            get { return FindObjectOfType<TurnManager>(); }
-        }
-
-        public void AddToPlayers(Player p)
+        public static TurnManager Instance = null;
+        public static PlayerChangeEvent PlayerChange;        
+        private List<GameObject> _players = new List<GameObject>();
+        //All players in the current game
+        private int m_CurrentPlayerIndex = 0;
+        //index of the current player 
+        [SyncVar]
+        public GameObject ActivePlayer;
+        public void AddToPlayers(GameObject p)
         {
             
             _players.Add(p);
             if (_players.Count == 1)
             {
-                m_ActivePlayer = _players[0];
-                thePlayer = m_ActivePlayer;
-                PlayerGo = thePlayer.gameObject;
+                ActivePlayer = _players[0];
+                currentPlayer = ActivePlayer;
+
+                
+                
             }
         }
         
 
-        [SerializeField]
-        public static List<Player> _players = new List<Player>();
-        //All players in the current game
-        private int m_CurrentPlayerIndex = 0;
-        //index of the current player
-
-      
-        public Player m_ActivePlayer;
-
-        [SyncVar]
-        public GameObject PlayerGo;
-        public Player ActivePlayer;
+        
+       
         
         
 
         [Command]
         void CmdBroadCastPlayerChange()
         {
-            PlayerChange.Invoke(m_ActivePlayer, currentPhase.ToString());
+            PlayerChange.Invoke(ActivePlayer, currentPhase.ToString());
         }
         //Current player taking his/her turn
 
@@ -88,6 +81,7 @@ namespace Server
         //Current turnPhase the player is in
         void Awake()
         {
+            Instance = this;
             if (PlayerChange == null)
                 PlayerChange = new PlayerChangeEvent();
 
@@ -109,8 +103,7 @@ namespace Server
         //    /// </summary>
         void PlayerCycle()
         {
-            ActivePlayer = _players[m_CurrentPlayerIndex];
-            thePlayer = ActivePlayer;
+            ActivePlayer = _players[m_CurrentPlayerIndex];             
             CameraSnap.CameraSnapOverTarget(ActivePlayer.transform);
             if (m_CurrentPlayerIndex >= 3)
                 m_CurrentPlayerIndex = 0;
@@ -138,20 +131,16 @@ namespace Server
             switch (currentPhase)
             {
                 case TurnPhases.First:
-                    currentPhase = TurnPhases.Second;
-                    curPhase = currentPhase;
+                    currentPhase = TurnPhases.Second;                    
                     break;
                 case TurnPhases.Second:
-                    currentPhase = TurnPhases.Combat;
-                    curPhase = currentPhase;
+                    currentPhase = TurnPhases.Combat;                    
                     break;
                 case TurnPhases.Combat:
-                    currentPhase = TurnPhases.End;
-                    curPhase = currentPhase;
+                    currentPhase = TurnPhases.End;                    
                     break;
                 case TurnPhases.End:
-                    currentPhase = TurnPhases.First;
-                    curPhase = currentPhase;
+                    currentPhase = TurnPhases.First;                    
                     PlayerCycle();
                     break;
             }
