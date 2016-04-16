@@ -7,70 +7,96 @@ using Quinton;
 using UnityEngine.Networking;
 namespace Character
 {
-	
-	public enum CharacterClass
-	{
-		NONE,
-		CLASS1,//+1 to RunAway lvl up from assisting
-		CLASS2,//discard a treasure for + 2 * cardPower till eot
-		CLASS3,//discard any card for + 3 power
-		CLASS4,//double gold on sell discard any card for + RunAway
-	}
 
-    
-	public class DrawCardEvent : UnityEvent<Player, string>
-	{}
-	public class Player : NetworkBehaviour, IPlayer
-	{
-		public static DrawCardEvent onDrawCard;
-		void Awake()
-		{
-			if (onDrawCard == null)
-				onDrawCard = new DrawCardEvent ();
-           
-		}
-        
-		void Start ()
-		{
-           
+    public enum CharacterClass
+    {
+        NONE,
+        CLASS1,//+1 to RunAway lvl up from assisting
+        CLASS2,//discard a treasure for + 2 * cardPower till eot
+        CLASS3,//discard any card for + 3 power
+        CLASS4,//double gold on sell discard any card for + RunAway
+    }
+
+
+    public class DrawCardEvent : UnityEvent<Player, string>
+    { }
+    public class Player : NetworkBehaviour, IPlayer
+    {
+        public static DrawCardEvent onDrawCard;
+        void Awake()
+        {
+            if (onDrawCard == null)
+                onDrawCard = new DrawCardEvent();
+
+        }
+
+        void Start()
+        {
+
             m_maxExperience = 10;
-			m_maxLevel = 10;
-			m_maxGold = 1000;
-			transform.LookAt (Vector3.zero);
+            m_maxLevel = 10;
+            m_maxGold = 1000;
+            transform.LookAt(Vector3.zero);
 
-			for (int i = 0; i < 4; i++) {
-				DrawCard<MysteryCard> ();
-				DrawCard<TreasureCard> ();
-			}
+            for (int i = 0; i < 4; i++)
+            {
+                DrawCard<MysteryCard>();
+                DrawCard<TreasureCard>();
+            }
             if (isLocalPlayer)
             {
                 CmdRegisterWithServer();
+                FindObjectOfType<UIRoot>().gameObject.SetActive(true);
                 UICard.instance.PopulateCards(GetComponent<Player>());
                 UIRoot.instance.UpdateUI(GetComponent<Player>());
                 Camera.main.transform.SetParent(this.transform);
-                Camera.main.transform.localPosition = new Vector3(5,5,0);
+                Camera.main.transform.localPosition = new Vector3(5, 5, 0);
                 Camera.main.transform.LookAt(Vector3.zero);
+                UnityEngine.Object o = Resources.Load("Button");
+                GameObject b = Instantiate(o) as GameObject;
+                b.transform.SetParent(GameObject.Find("UI").transform);
+                b.transform.localPosition = Vector3.zero;
+                b.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate
+                {
+                    DrawCard<MysteryCard>();
+                });
 
+                onDrawCard.AddListener(UICard.instance.UpdateHand);
             }
-		}
-		
 
-		public int PlayCard ()
-		{
+            serverPlayers = Server.TurnManager._players;
             
-			return 0;
-		}
+            
+            if (serverPlayers[0] == this)
+            {               
+                GameObject.Find("UI").gameObject.SetActive(true);
+            }
+            else
+            {
+                GameObject.Find("UI").gameObject.SetActive(false);
+            }
+        }
+
+
+        List<Player> serverPlayers = new List<Player>();
+
+
+        public int PlayCard()
+        {
+
+            return 0;
+        }
 
         #region Testing
-        public void Test ()
-		{
-			DrawCard<MysteryCard> ();
-		}
+        public void Test()
+        {
+            DrawCard<MysteryCard>();
+        }
 
-		public void TestTreasure ()
-		{
-			DrawCard<TreasureCard> ();
-		}
+        public void TestTreasure()
+        {
+            DrawCard<TreasureCard>();
+        }
         #endregion Testing
 
         List<GameObject> dealerCards = new List<GameObject>();
@@ -83,45 +109,48 @@ namespace Character
             Discard(cards[0].name);
         }
 
-		[SerializeField]		 
-		public List <GameObject> cards = new List<GameObject> ();
-		public List<ICard> hand = new List<ICard> ();
-		public static List<ICard> equipment = new List<ICard> ();
+        [SerializeField]
+        public List<GameObject> cards = new List<GameObject>();
+        public List<ICard> hand = new List<ICard>();
+        public static List<ICard> equipment = new List<ICard>();
 
-       
-        public bool DrawCard<T> () where T : class, new()
-		{		
-			ICard c = (typeof(T) == typeof(MysteryCard) 
-				? (Func<List<GameObject>,ICard>)MysteryStack.Draw : TreasureStack.Draw) (cards);
-			if (c == null) {
-				Debug.LogWarning ("Card Draw returned null..");
 
-				return false;
-			}
+        public bool DrawCard<T>() where T : class, new()
+        {
+            ICard c = (typeof(T) == typeof(MysteryCard)
+                ? (Func<List<GameObject>, ICard>)MysteryStack.Draw : TreasureStack.Draw)(cards);
+            if (c == null)
+            {
+                Debug.LogWarning("Card Draw returned null..");
 
-			GameObject cardParent = transform.FindChild ("Cards").gameObject;
+                return false;
+            }
 
-			hand.Add (c);
+            GameObject cardParent = transform.FindChild("Cards").gameObject;
 
-			foreach (GameObject go in cards) {
-				go.transform.SetParent (cardParent.transform);
-				go.transform.position = cardParent.transform.position;
-			}
+            hand.Add(c);
 
-			m_power = Power;
-			m_level = Level;
-			m_gold = Gold;
-			m_runAway = RunAway;
+            foreach (GameObject go in cards)
+            {
+                go.transform.SetParent(cardParent.transform);
+                go.transform.position = cardParent.transform.position;
+            }
 
-			onDrawCard.Invoke (this,"null");
+            m_power = Power;
+            m_level = Level;
+            m_gold = Gold;
+            m_runAway = RunAway;
 
-			return true;
+            onDrawCard.Invoke(this, "null");
 
-		}
+            return true;
+
+        }
+    
         [Command]
         void CmdRegisterWithServer()
         {
-            Server.TurnManager.instance.AddToPlayers(GetComponent<Player>());
+            Server.TurnManager.instance.AddToPlayers(this);
         }
 
         [ContextMenu("ADD TO SERVER GAMEOBJECT")]
@@ -129,155 +158,181 @@ namespace Character
         {
             Server.TurnManager.instance.AddToPlayers(GetComponent<Player>());
         }
-		public void Discard(string name)
-		{
-			ICard c = hand.Find (x => x.Name == name);
-			Debug.Log ("discard " + c.Name + "for Player: "+ this.name);
-			hand.Remove (c);
-			GameObject cm = cards.Find (x => x.name == name);
-			cards.Remove (cm);
-			onDrawCard.Invoke (this,"null");
+        public void Discard(string name)
+        {
+            ICard c = hand.Find(x => x.Name == name);
+            Debug.Log("discard " + c.Name + "for Player: " + this.name);
+            hand.Remove(c);
+            GameObject cm = cards.Find(x => x.name == name);
+            cards.Remove(cm);
+            onDrawCard.Invoke(this, "null");
 
-		}
-	
-		public int MoveCard ()
-		{
-			return 0;
-		}
+        }
 
-		public int SellCard (TreasureCardMono a_card)
-		{
-			GainGold (a_card.CardObject.Gold);
+        public int MoveCard()
+        {
+            return 0;
+        }
 
-			return 0;
-		}
+        public int SellCard(TreasureCardMono a_card)
+        {
+            GainGold(a_card.CardObject.Gold);
 
-		public int GainGold (int a_gold)
-		{
-			m_gold += a_gold;
+            return 0;
+        }
 
-			while (m_gold >= m_maxGold) {
-				m_gold -= m_maxGold;
-				LevelUp (1);
-			}
+        public int GainGold(int a_gold)
+        {
+            m_gold += a_gold;
 
-			return 0;
-		}
+            while (m_gold >= m_maxGold)
+            {
+                m_gold -= m_maxGold;
+                LevelUp(1);
+            }
 
-		public int GainExperience (int a_experience)
-		{
-			m_experience += a_experience;
+            return 0;
+        }
 
-			while (m_experience >= m_maxExperience) {
-				m_experience -= m_maxExperience;
-				LevelUp (1);
-			}
+        public int GainExperience(int a_experience)
+        {
+            m_experience += a_experience;
 
-			return 0;
-		}
+            while (m_experience >= m_maxExperience)
+            {
+                m_experience -= m_maxExperience;
+                LevelUp(1);
+            }
 
-		public int LevelUp (int a_levels)
-		{
-			if (m_level < m_maxLevel) {
-				m_level += a_levels;
+            return 0;
+        }
 
-				for (int i = 0; i < a_levels; i++)
-					m_maxExperience += (int)(m_maxExperience * 0.5f);
-			}
+        public int LevelUp(int a_levels)
+        {
+            if (m_level < m_maxLevel)
+            {
+                m_level += a_levels;
 
-			return 0;
-		}
+                for (int i = 0; i < a_levels; i++)
+                    m_maxExperience += (int)(m_maxExperience * 0.5f);
+            }
 
-		[SerializeField] private CharacterClass m_playerClass;
-		[SerializeField] private int m_level;
-		[SerializeField] private int m_runAway;
-		[SerializeField] private int m_gold;
-		[SerializeField] private int m_power;
+            return 0;
+        }
 
-		private int m_modPower;
-		private int m_maxExperience;
-		private int m_experience;
-		private int m_maxLevel;
-		private int m_maxGold;
+        [SerializeField]
+        private CharacterClass m_playerClass;
+        [SerializeField]
+        private int m_level;
+        [SerializeField]
+        private int m_runAway;
+        [SerializeField]
+        private int m_gold;
+        [SerializeField]
+        private int m_power;
 
-		#region IPlayer interface
-		public int RunAway { 
-			get { return UnityEngine.Random.Range (1, 6) + m_runAway; } 
-			set { m_runAway = value; } 
-		}
-		public CharacterClass PlayerClass {
-			get {
-				return m_playerClass;
-			}
-			set {
-				m_playerClass = value;
-			}
-		}
+        private int m_modPower;
+        private int m_maxExperience;
+        private int m_experience;
+        private int m_maxLevel;
+        private int m_maxGold;
 
-		public int Experience {
-			get {
-				return m_experience;
-			}
-		}
+        #region IPlayer interface
+        public int RunAway
+        {
+            get { return UnityEngine.Random.Range(1, 6) + m_runAway; }
+            set { m_runAway = value; }
+        }
+        public CharacterClass PlayerClass
+        {
+            get
+            {
+                return m_playerClass;
+            }
+            set
+            {
+                m_playerClass = value;
+            }
+        }
 
-		public int modPower {
-			get {
-				return m_modPower + Power;
-			}
-			set {
-				m_modPower = value;
-			}
-		}
+        public int Experience
+        {
+            get
+            {
+                return m_experience;
+            }
+        }
 
-		public int Level {
-			get {
-				if (m_level <= 0)
-					return 1;
-				return m_level;
-			}
-			set{ }
+        public int modPower
+        {
+            get
+            {
+                return m_modPower + Power;
+            }
+            set
+            {
+                m_modPower = value;
+            }
+        }
 
-		
-		}
-
-		public int Power {
-			get {		
-				m_power = 0;
-
-				foreach (GameObject m in cards) {
-					//Debug.Log ("power is " + powerCounter.ToString ());
-					if (m.GetComponent<TreasureCardMono> () != null)
-						m_power += m.GetComponent<TreasureCardMono> ().Power;
-
-				}
-				return m_power + m_level;
-			}
-			set { 
-				m_power = value; 
-			}
-
-		}
+        public int Level
+        {
+            get
+            {
+                if (m_level <= 0)
+                    return 1;
+                return m_level;
+            }
+            set { }
 
 
+        }
 
-		public int Gold {
-			get {
-				int m_gold = 0;
-				foreach (GameObject m in cards) {
-					
-					if (m.GetComponent<TreasureCardMono> () != null)
-						m_gold += m.GetComponent<TreasureCardMono> ().Gold;					
-				}
+        public int Power
+        {
+            get
+            {
+                m_power = 0;
 
-				return m_gold;
+                foreach (GameObject m in cards)
+                {
+                    //Debug.Log ("power is " + powerCounter.ToString ());
+                    if (m.GetComponent<TreasureCardMono>() != null)
+                        m_power += m.GetComponent<TreasureCardMono>().Power;
 
-			
-			}
-			set{m_gold = value; }
-		}
+                }
+                return m_power + m_level;
+            }
+            set
+            {
+                m_power = value;
+            }
 
-	
+        }
 
-		#endregion IPlayer interface
-	}
+
+
+        public int Gold
+        {
+            get
+            {
+                int m_gold = 0;
+                foreach (GameObject m in cards)
+                {
+
+                    if (m.GetComponent<TreasureCardMono>() != null)
+                        m_gold += m.GetComponent<TreasureCardMono>().Gold;
+                }
+
+                return m_gold;
+
+
+            }
+            set { m_gold = value; }
+        }
+
+
+
+        #endregion IPlayer interface
+    }
 }

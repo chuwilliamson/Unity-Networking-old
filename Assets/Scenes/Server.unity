@@ -210,6 +210,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 410761706}
+  - 114: {fileID: 292979419}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -217,6 +218,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &292979419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 292979418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 176
+    i1: 85
+    i2: 201
+    i3: 99
+    i4: 105
+    i5: 240
+    i6: 213
+    i7: 180
+    i8: 219
+    i9: 180
+    i10: 4
+    i11: 31
+    i12: 236
+    i13: 73
+    i14: 55
+    i15: 104
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1 &353111400
 GameObject:
   m_ObjectHideFlags: 0
@@ -2362,5 +2395,5 @@ MonoBehaviour:
     i13: 0
     i14: 0
     i15: 0
-  m_ServerOnly: 1
+  m_ServerOnly: 0
   m_LocalPlayerAuthority: 0

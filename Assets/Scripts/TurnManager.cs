@@ -37,7 +37,7 @@ namespace Server
         [SerializeField]
         private static TurnPhases currentPhase = TurnPhases.First;
         private TurnPhases curPhase;
-        internal static TurnManager instance
+        public static TurnManager instance
         {
 
             get { return FindObjectOfType<TurnManager>(); }
@@ -51,31 +51,25 @@ namespace Server
             {
                 m_ActivePlayer = _players[0];
                 thePlayer = m_ActivePlayer;
+                PlayerGo = thePlayer.gameObject;
             }
         }
         
 
         [SerializeField]
-        private List<Player> _players = new List<Player>();
+        public static List<Player> _players = new List<Player>();
         //All players in the current game
         private int m_CurrentPlayerIndex = 0;
         //index of the current player
 
-        private static Player m_ActivePlayer;
+      
+        public Player m_ActivePlayer;
 
-        public static Player ActivePlayer
-        {
-            get
-            {
-                return m_ActivePlayer;
-            }
-            set
-            {
-                Debug.Log("invoke Player Change EVent");
-                m_ActivePlayer = value;
-                //instance.CmdBroadCastPlayerChange();
-            }
-        }
+        [SyncVar]
+        public GameObject PlayerGo;
+        public Player ActivePlayer;
+        
+        
 
         [Command]
         void CmdBroadCastPlayerChange()

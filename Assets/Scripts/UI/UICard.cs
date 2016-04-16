@@ -20,7 +20,7 @@ public class UICard : MonoBehaviour
     {
         DiscardCard = new UIDiscardEvent();
         o = Resources.Load("CardButton");
-        TurnManager.PlayerChange.AddListener(UpdateHand);
+       // TurnManager.PlayerChange.AddListener(UpdateHand);
         //Player.onDrawCard.AddListener(UpdateHand);
 
     }
@@ -72,13 +72,13 @@ public class UICard : MonoBehaviour
 
     public void UpdateHand(Player p, string t)
     {
-        if (p == TurnManager.ActivePlayer)
+        if (p == TurnManager.instance.ActivePlayer)
             PopulateCards(p);
     }
 
     public void Discard(string n, GameObject card)
     {
-        Player p = TurnManager.ActivePlayer;
+        Player p = TurnManager.instance.ActivePlayer;
         p.Discard(n);
         Destroy(card);
     }
@@ -86,7 +86,7 @@ public class UICard : MonoBehaviour
     void doThing2() { }
     public void PlayCard(string n, GameObject card)
     {
-        Player p = TurnManager.ActivePlayer;
+        Player p = TurnManager.instance.ActivePlayer;
 
         ICard c = p.hand.Find(x => x.Name == n);
 

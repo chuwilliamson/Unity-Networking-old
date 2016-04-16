@@ -65,8 +65,8 @@ public class UIRoot : MonoBehaviour
 
     void Start()
 	{
-		TurnManager.PlayerChange.AddListener (UpdateUI);
-		//Player.onDrawCard.AddListener (UpdateUI);
+		//TurnManager.PlayerChange.AddListener (UpdateUI);
+		
 	
 	}
 
