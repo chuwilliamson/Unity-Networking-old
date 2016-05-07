@@ -3,13 +3,8 @@
 #pragma warning disable 0414
 
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
-using System;
-using Character;
 using UnityEngine.Events;
-using System.Linq;
 using UnityEngine.Networking;
 
 
@@ -52,30 +47,14 @@ namespace Server
             {
                 ActivePlayer = _players[0];
                 currentPlayer = ActivePlayer;
-
-                
-                
             }
         }
-        
-
-        
-       
-        
-        
 
         [Command]
         void CmdBroadCastPlayerChange()
         {
             PlayerChange.Invoke(ActivePlayer, currentPhase.ToString());
         }
-        //Current player taking his/her turn
-
-        //    /// <Testing>
-        //    //public Text cPlayer;
-        //    //public Text cPhase;
-        //    /// </Testing>
-
 
 
         //Current turnPhase the player is in
@@ -85,18 +64,7 @@ namespace Server
             if (PlayerChange == null)
                 PlayerChange = new PlayerChangeEvent();
 
-
-            //var p = FindObjectsOfType<Player>();
-            //Players = p.OrderBy(x => x.transform.name).ToList();
-            //_players = Players;
-
-            //ActivePlayer = Players[m_CurrentPlayerIndex];
         }
-
-        //    void Start()
-        //    {
-        //        PlayerCycle();
-        //    }
 
         //    /// <summary>
         //    /// Cycles from one player to the next
@@ -111,16 +79,6 @@ namespace Server
                 m_CurrentPlayerIndex++;
         }
 
-
-        //    void Update()
-        //    {
-        //        ///<Testing>
-        //        if (Input.GetKeyDown(KeyCode.D))
-        //        {
-        //            PhaseTransition();
-        //        }
-        //        /// </Testing>
-        //    }
 
         //    /// <summary>
         //    /// Handles the transitions from one phase to another

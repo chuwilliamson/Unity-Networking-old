@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
-using System.Linq;
 using UnityEngine.Events;
-using Quinton;
 using UnityEngine.Networking;
-using Server;
 namespace Character
 {
 
@@ -23,8 +20,6 @@ namespace Character
     { }
     public class Player : NetworkBehaviour, IPlayer
     {
-       
-
 
         void Awake()
         {
@@ -32,57 +27,35 @@ namespace Character
                 onDrawCard = new DrawCardEvent();
         }
 
-        void Start()
+        public override void OnStartClient()
         {
-
+            base.OnStartClient();
             m_maxExperience = 10;
             m_maxLevel = 10;
             m_maxGold = 1000;
             transform.LookAt(Vector3.zero);
 
+            Server.TurnManager.Instance.AddToPlayers(gameObject);
+            GetComponentInChildren<UICard>().Init();
             for (int i = 0; i < 4; i++)
             {
                 DrawCard<MysteryCard>();
                 DrawCard<TreasureCard>();
             }
-            if (isLocalPlayer)
-            {
-                CmdRegisterWithServer();
-                //FindObjectOfType<UIRoot>().gameObject.SetActive(true);
-                UICard.Instance.PopulateCards(GetComponent<Player>());
-                UIRoot.Instance.UpdateUI(GetComponent<Player>());
-                //Camera.main.transform.SetParent(this.transform);
-                //Camera.main.transform.localPosition = new Vector3(5, 5, 0);
-                //Camera.main.transform.LookAt(Vector3.zero);
-                UnityEngine.Object o = Resources.Load("Button");
-                GameObject b = Instantiate(o) as GameObject;
-                b.transform.SetParent(UIRoot.Instance.transform);
-                b.transform.localPosition = Vector3.zero;
-                b.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate
-                {
-                    DrawCard<MysteryCard>();
-                });
 
-                onDrawCard.AddListener(UICard.Instance.UpdateHand);
-            }
 
-            //if (TurnManager.Instance.ActivePlayer == gameObject)
-            //{
-            //    Debug.Log("I am the player!");     
-            //    UIRoot.Instance.gameObject.SetActive(true);
-            //}
-            //else
-            //{
-            //    UIRoot.Instance.gameObject.SetActive(false);
-            //}
         }
- 
+
+
+        [Command]
+        void CmdRegisterWithServer()
+        {
+        }
+
         public int PlayCard()
         {
-
             return 0;
         }
- 
         
         public void TestPlayCard()
         {
@@ -93,9 +66,22 @@ namespace Character
             Discard(cards[0].name);
         }
 
-     
+        //for quick adding a button and drawing a card
+        public void DrawCard(string type)
+        {
+
+            if (type.ToLower() == "mystery")
+                DrawCard<MysteryCard>();
+            else if (type.ToLower() == "treasure")
+                DrawCard<TreasureCard>();
+            else
+                throw new FieldAccessException();
+
+        }
+
         public bool DrawCard<T>() where T : class, new()
         {
+            Debug.Log("drawing card..");
             ICard c = (typeof(T) == typeof(MysteryCard)
                 ? (Func<List<GameObject>, ICard>)MysteryStack.Draw : TreasureStack.Draw)(cards);
             if (c == null)
@@ -125,12 +111,7 @@ namespace Character
             return true;
 
         }
-    
-        [Command]
-        void CmdRegisterWithServer()
-        {
-            Server.TurnManager.Instance.AddToPlayers(gameObject);
-        }
+
 
 
         public void Discard(string name)
@@ -215,7 +196,7 @@ namespace Character
         [SerializeField]
         public List<GameObject> cards = new List<GameObject>();
         public List<ICard> hand = new List<ICard>();
-        public static List<ICard> equipment = new List<ICard>();
+        public static List<ICard> equipment = new List<ICard>();        
         public static DrawCardEvent onDrawCard = new DrawCardEvent();
         private List<GameObject> dealerCards = new List<GameObject>();
         #region IPlayer interface

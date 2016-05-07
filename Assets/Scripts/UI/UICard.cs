@@ -11,28 +11,27 @@ public class UIPlayCard : UnityEvent<CardMono>
 public class UICard : MonoBehaviour
 {
     public static UICard Instance = null;
-    
-        
-    
     public static UIDiscardEvent DiscardCard;
-    private Object o;
+    public GameObject cardButton;
 
     void Awake()
     {
         Instance = this;
     }
-    void Start()
+    public void Init()
     {
         DiscardCard = new UIDiscardEvent();
-        o = Resources.Load("CardButton");
-       // TurnManager.PlayerChange.AddListener(UpdateHand);
-        //Player.onDrawCard.AddListener(UpdateHand);
+        //o = Resources.Load("CardButton");
+
+        Player.onDrawCard.AddListener(UpdateHand);
+        Debug.Log("add draw card listener");
 
     }
 
 
     public void PopulateCards(Player p)
     {
+        Debug.Log("populate UI cards");
         if (transform.childCount > 0)
         {
             foreach (Transform t in transform)
@@ -43,26 +42,23 @@ public class UICard : MonoBehaviour
         }
         foreach (ICard c in p.hand)
         {
-            GameObject card = Instantiate(o) as GameObject;
+            GameObject card = Instantiate(cardButton) as GameObject;
             card.transform.SetParent(this.transform);
             card.name = c.Name;
             card.GetComponentInChildren<UnityEngine.UI.Text>().text = card.name;
-
+            
             card.GetComponentInChildren<UnityEngine.UI.Button>().onClick.AddListener(delegate
             {
                 PlayCard(card.name, card);
             });
-
-
-
         }
 
     }
 
     public void UpdateHand(Player p, string t)
     {
-        if (p == TurnManager.Instance.ActivePlayer)
-            PopulateCards(p);
+        //  if (p == TurnManager.Instance.ActivePlayer)
+        PopulateCards(p);
     }
 
     public void Discard(string n, GameObject card)
@@ -71,8 +67,7 @@ public class UICard : MonoBehaviour
         p.Discard(n);
         Destroy(card);
     }
-    void doThing1() { }
-    void doThing2() { }
+
     public void PlayCard(string n, GameObject card)
     {
         Player p = TurnManager.Instance.ActivePlayer.GetComponent<Player>();
