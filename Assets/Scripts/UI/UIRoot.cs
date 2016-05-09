@@ -6,35 +6,35 @@ using UnityEngine.Events;
 
 
 public class UIRoot : NetworkBehaviour
-{
-    public UIRoot Instance = null;
-    [SerializeField]
+{   
     public Player m_Player;
     public GameObject cardButton;
     public Transform cardTransform;
 
-    private void UpdateUI(Player p)
-    {
-        PlayerLabel.text = "Player: " + m_Player.name;
-        GoldLabel.text = "Gold: " + m_Player.Gold.ToString();
-        LevelLabel.text = "Level: " + m_Player.Level.ToString();
-        PowerLabel.text = "Power: " + m_Player.Power.ToString();
 
-    }
 
     public void Setup(Player p)
     {
-        Instance = this;
         m_Player = p;
         Debug.Log("add draw card listener");
         m_Player.onDrawCard.AddListener(UpdateUI);
         m_Player.onDrawCard.AddListener(UpdateHand);
     }
 
-       
-    
+    public void UpdateUI(Player p)
+    {
+        if (p == m_Player)
+        {
+            PlayerLabel.text = "Player: " + m_Player.Name;
+            GoldLabel.text = "Gold: " + m_Player.Gold.ToString();
+            LevelLabel.text = "Level: " + m_Player.Level.ToString();
+            PowerLabel.text = "Power: " + m_Player.Power.ToString();
+        }
 
-    public void PopulateCards(Player p)
+    }
+
+
+    public void PopulateCards()
     {
         //Debug.Log("populate UI cards");
         if (transform.childCount > 0)
@@ -45,10 +45,14 @@ public class UIRoot : NetworkBehaviour
             }
 
         }
-        foreach (ICard c in p.hand)
+        foreach (ICard c in m_Player.hand)
         {
+          
             GameObject card = Instantiate(cardButton) as GameObject;
+            
             card.transform.SetParent(cardTransform);
+            card.transform.localPosition = Vector3.zero;
+            card.transform.localScale = new Vector3(1, 1, 1);
             card.name = c.Name;
             card.GetComponentInChildren<UnityEngine.UI.Text>().text = card.name;
 
@@ -62,19 +66,23 @@ public class UIRoot : NetworkBehaviour
 
     private void UpdateHand(Player p)
     {
-        PopulateCards(m_Player);
+        if (p == m_Player)
+        {
+            print("pop cards for " + m_Player.Name);
+            PopulateCards();
+        }
     }
 
     public void Discard(string n, GameObject card)
     {
-        
+
         m_Player.Discard(n);
         Destroy(card);
     }
 
     public void PlayCard(string n, GameObject card)
     {
-        Player p = GameManager.activePlayer.GetComponent<Player>();
+        Player p = m_Player;
 
         ICard c = p.hand.Find(x => x.Name == n);
 

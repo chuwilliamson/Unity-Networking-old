@@ -14,28 +14,33 @@ public enum CharacterClass
 }
 
 
+
 public class DrawCardEvent : UnityEvent<Player>
 { }
-
 public class Player : NetworkBehaviour, IPlayer
 {
-    public override void OnStartClient()
+    public string Name;
+    public GameObject UI;
+    public GameObject Camera;
+    public GameObject UICamera;    
+    public DrawCardEvent onDrawCard;
+   
+    public override void OnStartLocalPlayer()
     {
-        base.OnStartClient();
-        Debug.Log("OnStartClient");
-        if(!isServer)
-            Server.GameManager.AddPlayer(gameObject, "");
-        print("Start");
-    }
-
-
-    [SerializeField]
-    private PlayerCamera m_Camera;
-    [SerializeField]
-    private UIRoot m_UI;
-    public void Setup()
-    {
-
+        base.OnStartLocalPlayer();
+        if (!isServer)
+            Server.GameManager.AddPlayer(gameObject, Name);
+        if (isLocalPlayer)
+        {
+            //set the ui active
+            UI.SetActive(true);
+            //UICamera is seperate from UI and not a child
+            //only way to get screenspace ui working for now
+            UICamera.SetActive(true);
+            Camera.SetActive(true);
+            Camera.transform.LookAt(new Vector3(0, 5, 0));
+           
+        }
     }
 
 
@@ -47,26 +52,25 @@ public class Player : NetworkBehaviour, IPlayer
     private void Update()
     {
         if (!isLocalPlayer)
-            return;
-
+            return;        
         if (Input.GetKeyDown(KeyCode.Space))
-            DrawCard<TreasureCard>();
+            CmdDrawCard();
         if (Input.GetKeyDown(KeyCode.W))
             transform.position += Vector3.forward + new Vector3(0, 0, 1);
     }
 
-
-    //for quick adding a button and drawing a card
-    public void DrawCard(string type)
+    // called when disconnected from a server
+    public override void OnNetworkDestroy()
     {
+        base.OnNetworkDestroy(); 
+    }
 
-        if (type.ToLower() == "mystery")
-            DrawCard<MysteryCard>();
-        else if (type.ToLower() == "treasure")
-            DrawCard<TreasureCard>();
-        else
-            throw new FieldAccessException();
-
+    //call drawcard on the server
+    [Command]
+    public void CmdDrawCard() 
+    {
+        DrawCard<TreasureCard>();
+        onDrawCard.Invoke(this);
     }
 
     public bool DrawCard<T>() where T : class, new()
@@ -74,10 +78,10 @@ public class Player : NetworkBehaviour, IPlayer
         Debug.Log("drawing card..");
         ICard c = (typeof(T) == typeof(MysteryCard)
             ? (Func<List<GameObject>, ICard>)MysteryStack.Draw : TreasureStack.Draw)(cards);
+
         if (c == null)
         {
             Debug.LogWarning("Card Draw returned null..");
-
             return false;
         }
 
@@ -96,11 +100,12 @@ public class Player : NetworkBehaviour, IPlayer
         m_gold = Gold;
         m_runAway = RunAway;
 
-        onDrawCard.Invoke(this);
+        
 
         return true;
-
     }
+
+    
 
     public void Discard(string name)
     {
@@ -184,8 +189,7 @@ public class Player : NetworkBehaviour, IPlayer
     [SerializeField]
     public List<GameObject> cards = new List<GameObject>();
     public List<ICard> hand = new List<ICard>();
-    public List<ICard> equipment = new List<ICard>();
-    public DrawCardEvent onDrawCard = new DrawCardEvent();
+    public List<ICard> equipment = new List<ICard>();    
     private List<GameObject> dealerCards = new List<GameObject>();
     #region IPlayer interface
     public int RunAway
@@ -293,36 +297,6 @@ public class Player : NetworkBehaviour, IPlayer
             throw new NotImplementedException();
         }
     }
-
-    public PlayerCamera Camera
-    {
-        get
-        {
-            return m_Camera;
-        }
-
-        set
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-
-
-    public UIRoot UI
-    {
-        get
-        {
-            return m_UI;
-        }
-
-        set
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-
 
     #endregion IPlayer interface
 

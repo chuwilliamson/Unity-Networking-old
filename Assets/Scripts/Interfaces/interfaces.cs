@@ -12,22 +12,6 @@ public interface ICardLogger
 
 public interface IPlayer
 {
-    UnityEngine.GameObject Instance
-    {
-        get; set;
-    }//the player instance
-    
-    
-
-    PlayerCamera Camera
-    {
-        get; set;
-    }
-
-    UIRoot UI
-    {
-        get; set;
-    }
     int RunAway{ get; set; }
 	CharacterClass PlayerClass {
 		get;

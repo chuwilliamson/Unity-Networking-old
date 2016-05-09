@@ -17,8 +17,13 @@ namespace Server
     public class UIPlayCard : UnityEvent<CardMono>
     { }
 
+
     public class GameManager : NetworkBehaviour
     {
+        public static PlayerChangeEvent onPlayerChange;
+        public static UIDiscardEvent onDiscardCard;
+
+
         private enum TurnPhases
         {
             First,
@@ -29,19 +34,13 @@ namespace Server
 
 
         [SerializeField]
-        private static GameObject currentPlayer;
-        [SerializeField]
         private TurnPhases m_currentPhase = TurnPhases.First;
         public static GameManager singleton = null;
-        public static PlayerChangeEvent onPlayerChange;
-        public static UIDiscardEvent onDiscardCard;
-        [SerializeField]
-        static public List<GameObject> m_players = new List<GameObject>();
+
+        public static List<PlayerManager> m_players = new List<PlayerManager>();
         //All players in the current game
         private int m_CurrentPlayerIndex = 0;
-        //index of the current player 
-        
-        public static GameObject activePlayer;
+        //index of the current player         
 
         /// <summary>
         /// add the gameobject to the server then construct it
@@ -50,15 +49,11 @@ namespace Server
         public static void AddPlayer(GameObject p, string name)
         {
             PlayerManager pm = new PlayerManager();
-            m_players.Add(p);
+            pm.Setup(p, name);
+            m_players.Add(pm);
         }
 
-        [Command]
-        void CmdBroadCastPlayerChange()
-        {
-            onPlayerChange.Invoke(activePlayer, m_currentPhase.ToString());
-        }
-
+     
 
         //Current turnPhase the player is in
         public override void OnStartServer()
@@ -72,6 +67,7 @@ namespace Server
             if(onDiscardCard == null)
                 onDiscardCard = new UIDiscardEvent();
             
+
         }
 
     }

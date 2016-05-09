@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 //T is MysteryCard
 //V is MysteryCardMono
@@ -16,7 +17,7 @@ public class CardStack<T,V> : MonoBehaviour where V : CardMono<T> where T : clas
 			if(transform.FindChild("cards"))
 			{
 				
-				Debug.LogWarning ("cards found but their are no cards in list.. Fixing.");
+				Debug.LogWarning ("cards found but their are no cards in list.. Fixing."); 
 				DestroyImmediate (transform.FindChild ("cards").gameObject);
 			}
 			Test ();
