@@ -1,11 +1,7 @@
 ﻿public interface ICard// : ICardLogger
 {
 	string Name { get; set; }
-
 	string Description { get; set; }
-
- 
-
 }
 
 
@@ -14,12 +10,26 @@ public interface ICardLogger
 	string Info{ get; set; }
 }
 
-
-
 public interface IPlayer
 {
-	int RunAway{ get; set; }
-	Character.CharacterClass PlayerClass {
+    UnityEngine.GameObject Instance
+    {
+        get; set;
+    }//the player instance
+    
+    
+
+    PlayerCamera Camera
+    {
+        get; set;
+    }
+
+    UIRoot UI
+    {
+        get; set;
+    }
+    int RunAway{ get; set; }
+	CharacterClass PlayerClass {
 		get;
 		set;
 	}

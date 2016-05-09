@@ -2,15 +2,15 @@
 using System.Collections;
 using UnityEditor;
 
-[CustomEditor(typeof(Character.Player))]
+[CustomEditor(typeof(Player))]
 public class CustomPlayerEditor : Editor {
 
 	public override void OnInspectorGUI()
 	{
 		
-		Character.Player script = (Character.Player)target;
+		Player script = (Player)target;
 		if (GUILayout.Button ("Draw Mystery")) {
-			script.Test ();
+			script.TestMystery ();
 		}
 		if (GUILayout.Button ("Draw Treasure")) {
 			script.TestTreasure ();

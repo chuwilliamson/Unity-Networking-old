@@ -31,7 +31,7 @@ public class UISwitch : MonoBehaviour
     {
         deltaMouse = Input.mousePosition - mouse;
         r.position = new Vector3(r.anchoredPosition.x + deltaMouse.x, r.anchoredPosition.y + deltaMouse.y, zOffset);
-
+        
     }
 
     public void OnDragEnd()
