@@ -16,32 +16,40 @@ public enum CharacterClass
 
 
 
-public class DrawCardEvent : UnityEvent<Player>
+public class DrawCardEvent : UnityEvent
 { }
 public class Player : NetworkBehaviour, IPlayer
-{
+{ 
+    [SyncVar]
     public string Name;
+
+    [SyncVar]
+    public int id;
+    
+
     public GameObject UI;
     public GameObject Camera;
-    public GameObject UICamera;    
+    public GameObject UICamera;
     public DrawCardEvent onDrawCard;
-   
+
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
         if (!isServer)
-            GameManager.AddPlayer(gameObject, Name);
-        if (isLocalPlayer)
         {
-            //set the ui active
-            UI.SetActive(true);
-            //UICamera is seperate from UI and not a child
-            //only way to get screenspace ui working for now
-            UICamera.SetActive(true);
-            Camera.SetActive(true);
-            Camera.transform.LookAt(new Vector3(0, 5, 0));
-           
+            Debug.Log("not server adding client " + Name);
+            GameManager.AddPlayer(gameObject, Name);
         }
+
+        //set the ui active
+        UI.SetActive(true);
+        //UICamera is seperate from UI and not a child
+        //only way to get screenspace ui working for now
+        UICamera.SetActive(true);
+        Camera.SetActive(true);
+        Camera.transform.LookAt(new Vector3(0, 5, 0));
+
+
     }
 
     public void Setup()
@@ -58,9 +66,12 @@ public class Player : NetworkBehaviour, IPlayer
     private void Update()
     {
         if (!isLocalPlayer)
-            return;        
+            return;
         if (Input.GetKeyDown(KeyCode.Space))
+        {
             CmdDrawCard();
+            onDrawCard.Invoke();
+        }
         if (Input.GetKeyDown(KeyCode.W))
             transform.position += Vector3.forward + new Vector3(0, 0, 1);
     }
@@ -74,13 +85,11 @@ public class Player : NetworkBehaviour, IPlayer
 
     //call drawcard on the server
     [Command]
-    public void CmdDrawCard() 
+    public void CmdDrawCard()
     {
         DrawCard<TreasureCard>();
-        onDrawCard.Invoke(this);
     }
-
-
+  
     public bool DrawCard<T>() where T : class, new()
     {
         Debug.Log("drawing card..");
@@ -108,12 +117,10 @@ public class Player : NetworkBehaviour, IPlayer
         m_gold = Gold;
         m_runAway = RunAway;
 
-        
+
 
         return true;
     }
-
-    
 
     public void Discard(string name)
     {
@@ -122,7 +129,7 @@ public class Player : NetworkBehaviour, IPlayer
         hand.Remove(c);
         GameObject cm = cards.Find(x => x.name == name);
         cards.Remove(cm);
-        onDrawCard.Invoke(this);
+        onDrawCard.Invoke();
 
     }
 
@@ -177,27 +184,31 @@ public class Player : NetworkBehaviour, IPlayer
         return 0;
     }
 
-    [SerializeField]
+    [SyncVar]
     private CharacterClass m_playerClass;
-    [SerializeField]
+    [SyncVar]
     private int m_level;
-    [SerializeField]
+    [SyncVar]
     private int m_runAway;
-    [SerializeField]
+    [SyncVar]
     private int m_gold;
-    [SerializeField]
+    [SyncVar]
     private int m_power;
-
+    [SyncVar]
     private int m_modPower;
+    [SyncVar]
     private int m_maxExperience;
+    [SyncVar]
     private int m_experience;
+    [SyncVar]
     private int m_maxLevel;
+    [SyncVar]
     private int m_maxGold;
 
-    [SerializeField]
+   
     public List<GameObject> cards = new List<GameObject>();
     public List<ICard> hand = new List<ICard>();
-    public List<ICard> equipment = new List<ICard>();    
+    public List<ICard> equipment = new List<ICard>();
     private List<GameObject> dealerCards = new List<GameObject>();
     #region IPlayer interface
     public int RunAway
@@ -205,6 +216,7 @@ public class Player : NetworkBehaviour, IPlayer
         get { return UnityEngine.Random.Range(1, 6) + m_runAway; }
         set { m_runAway = value; }
     }
+
     public CharacterClass PlayerClass
     {
         get
@@ -271,9 +283,7 @@ public class Player : NetworkBehaviour, IPlayer
         }
 
     }
-
-
-
+    
     public int Gold
     {
         get

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 
 public class UIRoot : NetworkBehaviour
-{   
+{
     public Player m_Player;
     public GameObject cardButton;
     public Transform cardTransform;
@@ -21,18 +21,16 @@ public class UIRoot : NetworkBehaviour
         m_Player.onDrawCard.AddListener(UpdateHand);
     }
 
-    public void UpdateUI(Player p)
+    public void UpdateUI()
     {
-        if (p == m_Player)
-        {
-            PlayerLabel.text = "Player: " + m_Player.Name;
-            GoldLabel.text = "Gold: " + m_Player.Gold.ToString();
-            LevelLabel.text = "Level: " + m_Player.Level.ToString();
-            PowerLabel.text = "Power: " + m_Player.Power.ToString();
-        }
+        PlayerLabel.text = "Player: " + m_Player.Name;
+        GoldLabel.text = "Gold: " + m_Player.Gold.ToString();
+        LevelLabel.text = "Level: " + m_Player.Level.ToString();
+        PowerLabel.text = "Power: " + m_Player.Power.ToString();
+
 
     }
-    
+
     public void PopulateCards()
     {
         //Debug.Log("populate UI cards");
@@ -46,9 +44,9 @@ public class UIRoot : NetworkBehaviour
         }
         foreach (ICard c in m_Player.hand)
         {
-          
+
             GameObject card = Instantiate(cardButton) as GameObject;
-            
+
             card.transform.SetParent(cardTransform);
             card.transform.localPosition = Vector3.zero;
             card.transform.localScale = new Vector3(1, 1, 1);
@@ -63,13 +61,12 @@ public class UIRoot : NetworkBehaviour
 
     }
 
-    private void UpdateHand(Player p)
+    private void UpdateHand()
     {
-        if (p == m_Player)
-        {
-            print("pop cards for " + m_Player.Name);
-            PopulateCards();
-        }
+
+        print("pop cards for " + m_Player.Name);
+        PopulateCards();
+
     }
 
     public void Discard(string n, GameObject card)

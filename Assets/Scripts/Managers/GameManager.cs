@@ -114,6 +114,8 @@ namespace Server
             foreach(PlayerManager pm in m_players)
             {
                 pm.UpdateUI();
+                pm.UpdatePlayer();
+                
             }
         }
         public IEnumerator PlayerTurnStart()
