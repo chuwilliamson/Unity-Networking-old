@@ -32,8 +32,7 @@ public class UIRoot : NetworkBehaviour
         }
 
     }
-
-
+    
     public void PopulateCards()
     {
         //Debug.Log("populate UI cards");

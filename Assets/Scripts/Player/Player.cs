@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Events;
 using UnityEngine.Networking;
+using Server;
 
 public enum CharacterClass
 {
@@ -29,7 +30,7 @@ public class Player : NetworkBehaviour, IPlayer
     {
         base.OnStartLocalPlayer();
         if (!isServer)
-            Server.GameManager.AddPlayer(gameObject, Name);
+            GameManager.AddPlayer(gameObject, Name);
         if (isLocalPlayer)
         {
             //set the ui active
@@ -43,6 +44,11 @@ public class Player : NetworkBehaviour, IPlayer
         }
     }
 
+    public void Setup()
+    {
+        if (onDrawCard == null)
+            onDrawCard = new DrawCardEvent();
+    }
 
     public int PlayCard()
     {
@@ -62,7 +68,8 @@ public class Player : NetworkBehaviour, IPlayer
     // called when disconnected from a server
     public override void OnNetworkDestroy()
     {
-        base.OnNetworkDestroy(); 
+        base.OnNetworkDestroy();
+        Server.GameManager.singleton.RemovePlayer(gameObject);
     }
 
     //call drawcard on the server
@@ -72,6 +79,7 @@ public class Player : NetworkBehaviour, IPlayer
         DrawCard<TreasureCard>();
         onDrawCard.Invoke(this);
     }
+
 
     public bool DrawCard<T>() where T : class, new()
     {

@@ -79,7 +79,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 463782}
   - 20: {fileID: 2016800}
-  - 114: {fileID: 11455752}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -2261,18 +2260,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelParent: {fileID: 22459864}
   m_togglableInfo: {fileID: 0}
-  m_Player: {fileID: 0}
---- !u!114 &11455752
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 115396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02a72403493e4ac43a52a25b324fe757, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   m_Player: {fileID: 0}
 --- !u!114 &11457476
 MonoBehaviour:

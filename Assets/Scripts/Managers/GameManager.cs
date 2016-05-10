@@ -5,7 +5,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
+using System.Collections;
 using System.Collections.Generic;
+
 
 namespace Server
 {
@@ -22,7 +24,7 @@ namespace Server
     {
         public static PlayerChangeEvent onPlayerChange;
         public static UIDiscardEvent onDiscardCard;
-
+        
 
         private enum TurnPhases
         {
@@ -53,22 +55,79 @@ namespace Server
             m_players.Add(pm);
         }
 
-     
+        public void RemovePlayer(GameObject p)
+        {
+            PlayerManager toRemove = null;
+            foreach(var tmp in m_players)
+            {
+                if (tmp.m_Instance == p)
+                {
+                    toRemove = tmp;
+                    break;
+                }
 
+            }
+            if (toRemove != null)
+                m_players.Remove(toRemove);
+
+        }
+
+     
+        void Awake()
+        {
+            singleton = this;
+        }
         //Current turnPhase the player is in
         public override void OnStartServer()
         {
             
             base.OnStartServer();
             Debug.Log("OnStartServer");
-            singleton = this;
+            
             if (onPlayerChange == null)
                 onPlayerChange = new PlayerChangeEvent();
             if(onDiscardCard == null)
                 onDiscardCard = new UIDiscardEvent();
+        }
+        private WaitForSeconds m_Wait;
+        [ServerCallback]
+        private void Start()
+        {
+            m_Wait = new WaitForSeconds(1);
+            StartCoroutine(GameLoop());
+        }
+        public IEnumerator GameLoop()
+        {
             
+            while (m_players.Count < 1)
+                yield return null;
+            yield return StartCoroutine(PlayerTurnStart());
+            yield return StartCoroutine(PlayerTurnFinished());
+            Debug.Log("loop");
+            StartCoroutine(GameLoop());
 
         }
+
+        [ClientRpc]
+        void RpcTurnStart()
+        {
+            foreach(PlayerManager pm in m_players)
+            {
+                pm.UpdateUI();
+            }
+        }
+        public IEnumerator PlayerTurnStart()
+        {
+            RpcTurnStart();
+            yield return m_Wait;
+        }
+
+        public IEnumerator PlayerTurnFinished()
+        {
+            yield return m_Wait;
+        }
+
+        
 
     }
 }
