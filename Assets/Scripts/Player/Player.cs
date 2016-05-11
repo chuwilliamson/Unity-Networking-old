@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Events;
 using UnityEngine.Networking;
-using Server;
 
 public enum CharacterClass
 {
@@ -19,27 +18,46 @@ public enum CharacterClass
 public class DrawCardEvent : UnityEvent
 { }
 public class Player : NetworkBehaviour, IPlayer
-{ 
+{
     [SyncVar]
-    public string Name;
-
+    public string m_PlayerName;
     [SyncVar]
-    public int id;
-    
+    public int m_PlayerNumber;
+    [SyncVar]
+    public bool m_IsReady = false;
+    [SyncVar]
+    private CharacterClass m_playerClass;
+    [SyncVar]
+    private int m_level;
+    [SyncVar]
+    private int m_runAway;
+    [SyncVar]
+    private int m_gold;
+    [SyncVar]
+    private int m_power;
+    [SyncVar]
+    private int m_modPower;
+    [SyncVar]
+    private int m_maxExperience;
+    [SyncVar]
+    private int m_experience;
+    [SyncVar]
+    private int m_maxLevel;
+    [SyncVar]
+    private int m_maxGold;
 
     public GameObject UI;
     public GameObject Camera;
     public GameObject UICamera;
     public DrawCardEvent onDrawCard;
+    
 
-    public override void OnStartLocalPlayer()
+    public override void OnStartClient()
     {
-        base.OnStartLocalPlayer();
+        base.OnStartClient();
         if (!isServer)
-        {
-            Debug.Log("not server adding client " + Name);
-            GameManager.AddPlayer(gameObject, Name);
-        }
+            GameManager.AddPlayer(gameObject, m_PlayerName);
+        
 
         //set the ui active
         UI.SetActive(true);
@@ -48,10 +66,14 @@ public class Player : NetworkBehaviour, IPlayer
         UICamera.SetActive(true);
         Camera.SetActive(true);
         Camera.transform.LookAt(new Vector3(0, 5, 0));
-
+        
 
     }
-
+    [Command]
+    public void CmdSetReady()
+    {
+        m_IsReady = true;
+    }
     public void Setup()
     {
         if (onDrawCard == null)
@@ -63,13 +85,15 @@ public class Player : NetworkBehaviour, IPlayer
         return 0;
     }
 
+    [ClientCallback]
     private void Update()
     {
         if (!isLocalPlayer)
             return;
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            CmdDrawCard();
+            CmdSetReady();
+            CmdDrawCard(GameManager.singleton.Draw());          
             onDrawCard.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.W))
@@ -80,46 +104,63 @@ public class Player : NetworkBehaviour, IPlayer
     public override void OnNetworkDestroy()
     {
         base.OnNetworkDestroy();
-        Server.GameManager.singleton.RemovePlayer(gameObject);
+        GameManager.singleton.RemovePlayer(gameObject);
     }
 
     //call drawcard on the server
     [Command]
-    public void CmdDrawCard()
+    public void CmdDrawCard(GameObject go)
     {
-        DrawCard<TreasureCard>();
+        
+        print("SERVER: DRAW card" + go);      
+        RpcDrawCard(go);
+        
     }
-  
-    public bool DrawCard<T>() where T : class, new()
+
+    [Client]
+    public void RpcDrawCard(GameObject go)
     {
-        Debug.Log("drawing card..");
-        ICard c = (typeof(T) == typeof(MysteryCard)
-            ? (Func<List<GameObject>, ICard>)MysteryStack.Draw : TreasureStack.Draw)(cards);
+        print("CLIENT: add card " + go);
+        cards.Add(go);
+        UpdatePlayer();
+    }
 
-        if (c == null)
-        {
-            Debug.LogWarning("Card Draw returned null..");
-            return false;
-        }
-
-        GameObject cardParent = transform.FindChild("Cards").gameObject;
-
-        hand.Add(c);
-
+    public void UpdatePlayer()
+    {
         foreach (GameObject go in cards)
         {
-            go.transform.SetParent(cardParent.transform);
-            go.transform.position = cardParent.transform.position;
+            go.transform.SetParent(transform);
+            go.transform.position = transform.position;
         }
-
         m_power = Power;
         m_level = Level;
         m_gold = Gold;
         m_runAway = RunAway;
+    }
+
+    public GameObject DrawCard<T>() where T : class, new()
+    {
+        Debug.Log("drawing card..");
+        GameObject c = null;
 
 
+     
+         c = GameManager.singleton.Draw();
+      
 
-        return true;
+        if (c == null)
+        {
+            Debug.LogWarning("Card Draw returned null..");
+            return null;
+        }        
+
+  
+
+       
+
+
+        
+        return c;
     }
 
     public void Discard(string name)
@@ -184,32 +225,10 @@ public class Player : NetworkBehaviour, IPlayer
         return 0;
     }
 
-    [SyncVar]
-    private CharacterClass m_playerClass;
-    [SyncVar]
-    private int m_level;
-    [SyncVar]
-    private int m_runAway;
-    [SyncVar]
-    private int m_gold;
-    [SyncVar]
-    private int m_power;
-    [SyncVar]
-    private int m_modPower;
-    [SyncVar]
-    private int m_maxExperience;
-    [SyncVar]
-    private int m_experience;
-    [SyncVar]
-    private int m_maxLevel;
-    [SyncVar]
-    private int m_maxGold;
 
-   
     public List<GameObject> cards = new List<GameObject>();
     public List<ICard> hand = new List<ICard>();
-    public List<ICard> equipment = new List<ICard>();
-    private List<GameObject> dealerCards = new List<GameObject>();
+
     #region IPlayer interface
     public int RunAway
     {
@@ -283,7 +302,7 @@ public class Player : NetworkBehaviour, IPlayer
         }
 
     }
-    
+
     public int Gold
     {
         get
@@ -292,7 +311,7 @@ public class Player : NetworkBehaviour, IPlayer
             foreach (GameObject m in cards)
             {
 
-                if (m.GetComponent<TreasureCardMono>() != null)
+                if (m.GetComponent<TreasureCardMono>() )
                     m_gold += m.GetComponent<TreasureCardMono>().Gold;
             }
 
@@ -322,21 +341,21 @@ public class Player : NetworkBehaviour, IPlayer
 
     public void TestPlayCard()
     {
-        MysteryStack.Draw(dealerCards);
-        Quinton.FieldHandler.instance.AddBadDude(dealerCards[0]);
-        Quinton.FieldHandler.instance.AddGoodDude(cards[0]);
+        //MysteryStack.Draw(dealerCards);
+        //Quinton.FieldHandler.instance.AddBadDude(dealerCards[0]);
+        //Quinton.FieldHandler.instance.AddGoodDude(cards[0]);
 
         Discard(cards[0].name);
     }
-    public void TestMystery()
-    {
-        DrawCard<MysteryCard>();
-    }
+    //public void TestMystery()
+    //{
+    //    DrawCard<MysteryCard>();
+    //}
 
-    public void TestTreasure()
-    {
-        DrawCard<TreasureCard>();
-    }
+    //public void TestTreasure()
+    //{
+    //    DrawCard<TreasureCard>();
+    //}
     #endregion Testing
 
 }

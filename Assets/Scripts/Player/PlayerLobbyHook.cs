@@ -9,6 +9,6 @@ public class PlayerLobbyHook : Prototype.NetworkLobby.LobbyHook
             return;
         Prototype.NetworkLobby.LobbyPlayer lp = lobbyPlayer.GetComponent<Prototype.NetworkLobby.LobbyPlayer>();
         if (lp != null)
-            Server.GameManager.AddPlayer(gamePlayer, lp.nameInput.text);
+            GameManager.AddPlayer(gamePlayer, lp.nameInput.text);
     }
 }

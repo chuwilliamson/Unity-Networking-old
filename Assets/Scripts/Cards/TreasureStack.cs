@@ -11,9 +11,8 @@ public class TreasureStack : CardStack<TreasureCard, TreasureCardMono>
 {
 	protected override void Setup()
 	{
-		
 		base.Setup ();
-		foreach (var v in CardMonos) {
+		foreach (var v in m_cards) {
 			int randomGold = UnityEngine.Random.Range (100, 1000);
 			int randPower = UnityEngine.Random.Range (0, 10);
 			v.Gold = randomGold;
@@ -22,12 +21,11 @@ public class TreasureStack : CardStack<TreasureCard, TreasureCardMono>
 		}
 	}
 
-	void Awake()
-	{
-		if (this.m_cards.Count < 1) {
-			this.Setup ();
-		}
-	}
+    
+    public void StartStack()
+    {
+        Setup();
+    }
 
 	[ContextMenu("DO IT DO IT")]
 	public void EditorInit()

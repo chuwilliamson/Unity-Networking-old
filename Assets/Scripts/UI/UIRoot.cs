@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using Server;
 using UnityEngine.Events;
 
 
@@ -23,7 +22,7 @@ public class UIRoot : NetworkBehaviour
 
     public void UpdateUI()
     {
-        PlayerLabel.text = "Player: " + m_Player.Name;
+        PlayerLabel.text = "Player: " + m_Player.m_PlayerName;
         GoldLabel.text = "Gold: " + m_Player.Gold.ToString();
         LevelLabel.text = "Level: " + m_Player.Level.ToString();
         PowerLabel.text = "Power: " + m_Player.Power.ToString();
@@ -63,8 +62,7 @@ public class UIRoot : NetworkBehaviour
 
     private void UpdateHand()
     {
-
-        print("pop cards for " + m_Player.Name);
+        print("pop cards for " + m_Player.m_PlayerName);
         PopulateCards();
 
     }

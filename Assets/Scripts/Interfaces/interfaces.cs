@@ -27,7 +27,7 @@ public interface IPlayer
 	}
 	int PlayCard ();
 
-	bool DrawCard<T> () where T : class, new();
+	UnityEngine.GameObject DrawCard<T> () where T : class, new();
 
 	int MoveCard ();
 

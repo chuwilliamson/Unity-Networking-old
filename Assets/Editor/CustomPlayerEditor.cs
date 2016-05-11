@@ -10,14 +10,14 @@ public class CustomPlayerEditor : Editor {
 		
 		Player script = (Player)target;
 		if (GUILayout.Button ("Draw Mystery")) {
-			script.TestMystery ();
+		//	script.TestMystery ();
 		}
 		if (GUILayout.Button ("Draw Treasure")) {
-			script.TestTreasure ();
+		//	script.TestTreasure ();
 		}
         if (GUILayout.Button("TEST PLAY"))
         {
-            script.TestPlayCard();
+           // script.TestPlayCard();
         }
         //if (GUILayout.Button("ADD TO SERVER"))
         //{
