@@ -37,9 +37,9 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176322}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
@@ -75,10 +75,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a144547d98b5b49ac2537b23c51639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _description: 
-  _name: 
   m_gold: 0
   m_power: 0
+  m_name: 
+  m_description: 
 --- !u!114 &11491758
 MonoBehaviour:
   m_ObjectHideFlags: 1

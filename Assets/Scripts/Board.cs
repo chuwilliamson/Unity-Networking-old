@@ -33,8 +33,8 @@ namespace Table
 
 		private void Awake()
 		{
-			m_MysteryCardStack = FindObjectOfType <MysteryStack>().gameObject;
-			m_TreasureCardStack = FindObjectOfType <TreasureStack>().gameObject;
+			//m_MysteryCardStack = FindObjectOfType <MysteryStack>().gameObject;
+			//m_TreasureCardStack = FindObjectOfType <TreasureStack>().gameObject;
 			if (m_Players.Count < 1)
 				m_Players = new List<Player> ();
 			foreach (var v in FindObjectsOfType<Player>()) {

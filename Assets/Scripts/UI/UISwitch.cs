@@ -11,38 +11,46 @@ public class UISwitch : MonoBehaviour
         gameObject.SetActive(!gameObject.activeSelf);
     }
 
-    RectTransform r;
-
+    
+    public GameObject go;
+    public RectTransform r;
     private void Awake()
     {
-        r = GetComponent<RectTransform>();
+        r = go.GetComponent<RectTransform>();
+        
     }
 
     private void Update()
     {
-        mouse = Input.mousePosition;
+        
+        
     }
-
+    public Vector3 start;
+    public Vector3 current;
     public void OnDragBegin()
     {
-        GetComponent<ScrollRect>().enabled = false;
+        start = r.transform.localPosition;
+        mouse = Input.mousePosition;
+        go.GetComponent<ScrollRect>().enabled = false;
     }
     public void OnDrag()
     {
+        current = r.transform.position;
         deltaMouse = Input.mousePosition - mouse;
-        r.position = new Vector3(r.anchoredPosition.x + deltaMouse.x, r.anchoredPosition.y + deltaMouse.y, zOffset);
         
+        r.localPosition = new Vector3(start.x + deltaMouse.x, start.y + deltaMouse.y, 0.0f);
+
     }
 
     public void OnDragEnd()
     {
-        GetComponent<ScrollRect>().enabled = true;
+        go.GetComponent<ScrollRect>().enabled = true;
+        start = r.transform.position;
     }
 
     [SerializeField]
     Vector3 deltaMouse;
-    [SerializeField]
-    float MouseToLeft;
+    
     [SerializeField]
     float MouseToBottom;
 

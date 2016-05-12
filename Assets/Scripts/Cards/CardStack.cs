@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 
 //T is MysteryCard
 //V is MysteryCardMono
+/*
 public class CardStack<T, V> : MonoBehaviour where V : CardMono<T> where T : class, new()
 {
 
@@ -106,4 +107,4 @@ private string cardTemplateName = typeof(T).ToString() + "Template";
 
 
 }
- 
+ */

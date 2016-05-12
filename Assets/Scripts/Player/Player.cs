@@ -15,7 +15,7 @@ public enum CharacterClass
 
 
 
-public class DrawCardEvent : UnityEvent
+public class DrawCardEvent : UnityEvent<Player>
 { }
 public class Player : NetworkBehaviour, IPlayer
 {
@@ -46,46 +46,64 @@ public class Player : NetworkBehaviour, IPlayer
     [SyncVar]
     private int m_maxGold;
 
+
     public GameObject UI;
-    public GameObject Camera;
     public GameObject UICamera;
+    public GameObject Camera;
     public DrawCardEvent onDrawCard;
-    
+
+    public void Setup()
+    {
+        print("setup");
+ 
+            Camera.SetActive(true);
+            Camera.transform.LookAt(new Vector3(0, 5, 0));
+
+            UI.SetActive(true);
+
+            UICamera.SetActive(true);
+            Camera.SetActive(true);
+            Debug.Log("ready");
+            if (onDrawCard == null)
+                onDrawCard = new DrawCardEvent();
+
+
+            
+
+
+
+            m_power = Power;
+            m_level = Level;
+            m_gold = Gold;
+            m_runAway = RunAway;
+
+
+            CmdSetReady();
+        
+    }
 
     public override void OnStartClient()
     {
+        Debug.Log("on start client");
         base.OnStartClient();
+
         if (!isServer)
             GameManager.AddPlayer(gameObject, m_PlayerName);
-        
-
-        //set the ui active
-        UI.SetActive(true);
-        //UICamera is seperate from UI and not a child
-        //only way to get screenspace ui working for now
-        UICamera.SetActive(true);
-        Camera.SetActive(true);
-        Camera.transform.LookAt(new Vector3(0, 5, 0));
-        
 
     }
+
     [Command]
     public void CmdSetReady()
     {
         m_IsReady = true;
     }
-    public void Setup()
-    {
-        if (onDrawCard == null)
-            onDrawCard = new DrawCardEvent();
-    }
+
 
     public int PlayCard()
     {
         return 0;
     }
 
-    [ClientCallback]
     private void Update()
     {
         if (!isLocalPlayer)
@@ -93,8 +111,8 @@ public class Player : NetworkBehaviour, IPlayer
         if (Input.GetKeyDown(KeyCode.Space))
         {
             CmdSetReady();
-            CmdDrawCard(GameManager.singleton.Draw());          
-            onDrawCard.Invoke();
+            CmdDrawCard();
+
         }
         if (Input.GetKeyDown(KeyCode.W))
             transform.position += Vector3.forward + new Vector3(0, 0, 1);
@@ -109,58 +127,41 @@ public class Player : NetworkBehaviour, IPlayer
 
     //call drawcard on the server
     [Command]
-    public void CmdDrawCard(GameObject go)
+    public void CmdDrawCard()
     {
-        
-        print("SERVER: DRAW card" + go);      
+        GameObject go = TreasureStack.Draw();
+        if (go == null)
+        {
+            print("SERVER: Stack is empty NO DRAW");
+            return;
+        }
+        print("SERVER: DRAW card" + go);
         RpcDrawCard(go);
-        
     }
 
-    [Client]
+    [ClientRpc]
     public void RpcDrawCard(GameObject go)
     {
+        ICard goCard = go.GetComponent<TreasureCardMono>().Card;
         print("CLIENT: add card " + go);
         cards.Add(go);
+        hand.Add(goCard);
+        foreach (GameObject go1 in cards)
+        {
+            go1.transform.SetParent(transform);
+            go1.transform.position = transform.position;
+        }
         UpdatePlayer();
+
     }
 
     public void UpdatePlayer()
     {
-        foreach (GameObject go in cards)
-        {
-            go.transform.SetParent(transform);
-            go.transform.position = transform.position;
-        }
-        m_power = Power;
-        m_level = Level;
-        m_gold = Gold;
-        m_runAway = RunAway;
-    }
-
-    public GameObject DrawCard<T>() where T : class, new()
-    {
-        Debug.Log("drawing card..");
-        GameObject c = null;
+        if (!isLocalPlayer)
+            return;
+        onDrawCard.Invoke(this);
 
 
-     
-         c = GameManager.singleton.Draw();
-      
-
-        if (c == null)
-        {
-            Debug.LogWarning("Card Draw returned null..");
-            return null;
-        }        
-
-  
-
-       
-
-
-        
-        return c;
     }
 
     public void Discard(string name)
@@ -170,7 +171,7 @@ public class Player : NetworkBehaviour, IPlayer
         hand.Remove(c);
         GameObject cm = cards.Find(x => x.name == name);
         cards.Remove(cm);
-        onDrawCard.Invoke();
+        onDrawCard.Invoke(this);
 
     }
 
@@ -181,7 +182,7 @@ public class Player : NetworkBehaviour, IPlayer
 
     public int SellCard(TreasureCardMono a_card)
     {
-        GainGold(a_card.CardObject.Gold);
+        GainGold(a_card.Card.Gold);
 
         return 0;
     }
@@ -311,7 +312,7 @@ public class Player : NetworkBehaviour, IPlayer
             foreach (GameObject m in cards)
             {
 
-                if (m.GetComponent<TreasureCardMono>() )
+                if (m.GetComponent<TreasureCardMono>())
                     m_gold += m.GetComponent<TreasureCardMono>().Gold;
             }
 

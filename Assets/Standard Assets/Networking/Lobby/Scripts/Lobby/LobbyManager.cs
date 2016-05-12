@@ -7,6 +7,7 @@ using UnityEngine.Networking.Match;
 using System.Collections;
 
 
+
 namespace Prototype.NetworkLobby
 {
     public class LobbyManager : NetworkLobbyManager 
@@ -381,7 +382,7 @@ namespace Prototype.NetworkLobby
                     (lobbySlots[i] as LobbyPlayer).RpcUpdateCountdown(0);
                 }
             }
-
+             
             ServerChangeScene(playScene);
         }
 

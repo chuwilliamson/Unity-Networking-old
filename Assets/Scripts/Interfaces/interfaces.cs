@@ -18,16 +18,15 @@ public interface IPlayer
 		set;
 	}
 	int Gold{ get; set; }
-	int Level { get; set;
-	}
-	int Power 
+	int Level { get; set;}
+
+    int Power 
 	{
 		get;
 		set;
 	}
-	int PlayCard ();
 
-	UnityEngine.GameObject DrawCard<T> () where T : class, new();
+	int PlayCard ();
 
 	int MoveCard ();
 

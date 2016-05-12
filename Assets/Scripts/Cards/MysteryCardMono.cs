@@ -2,8 +2,8 @@
 using System.Collections;
 using System;
 
-public class MysteryCardMono : CardMono<MysteryCard>, IMystery
-{
+public class MysteryCardMono  //IMystery
+{/*
     [SerializeField]
     private MysteryType m_cardType;
 
@@ -53,4 +53,5 @@ public class MysteryCardMono : CardMono<MysteryCard>, IMystery
 
         m_cardObject = new MysteryCard(Name, Description, Power, CardType);
     }
+    */
 }

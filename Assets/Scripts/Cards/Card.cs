@@ -153,17 +153,7 @@ public class TreasureCard : ICard, ITreasure
         m_GoldValue = g;
         m_power = p;
     }
-
-    public TreasureCard(string n, string d, int g)
-    {
-
-        m_description = d;
-        m_name = n;
-        m_GoldValue = g;
-    }
-
-
-
+    
     [SerializeField]
     protected string m_name;
     //Name of the card
@@ -173,7 +163,7 @@ public class TreasureCard : ICard, ITreasure
 
     [SerializeField]
     protected int m_power;
-
+    [SerializeField]
     private int m_GoldValue;
 
     public int Gold

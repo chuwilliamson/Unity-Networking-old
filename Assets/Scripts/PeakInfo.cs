@@ -3,7 +3,7 @@
 
 public class PeakInfo : MonoBehaviour
 {
-	
+	/*
 	[ContextMenu("spawn")]
 	void Awake ()
 	{
@@ -65,4 +65,5 @@ public class PeakInfo : MonoBehaviour
 
 	[SerializeField] private GameObject m_togglableInfo;
 	[SerializeField] private Player m_Player;
+    */
 }

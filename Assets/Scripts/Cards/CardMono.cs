@@ -4,17 +4,32 @@ using System;
 //T is MysteryCard or TreasureCard
 //allows the construction of an object via the new operator 
 //by calling a function that news it then setting the type as a reference.
-
-public class CardMono : MonoBehaviour
+using UnityEngine.Networking;
+public interface ICardMono<T> : ICard
 {
+    void Init();
+    T Card { get; set; }
+    GameObject GameObject{ get; set; }
 
 }
-public class CardMono<T> : CardMono, ICard where T : class, new()
+/*
+public class CardMono<T> : NetworkBehaviour , ICard where T : new()
 {
     [SerializeField]
     protected string _description;
+    /// <summary>
+    /// description of the card in the inspector
+    /// </summary>
+    public string Description
+    {
+        get { return _description; }
+        set { _description = value; }
+    }
     [SerializeField]
     protected string _name;
+    /// <summary>
+    /// name of the card in the inspector
+    /// </summary>
     public string Name
     {
         get { return _name; }
@@ -22,39 +37,36 @@ public class CardMono<T> : CardMono, ICard where T : class, new()
     }
 
 
-    public string Description
-    {
-        get { return _description; }
-        set { _description = value; }
-    }
 
 
-    public T CardObject
-    {
-        get { return m_cardObject; }
-
-    }
     //reference to the card
     //the cardmono can access this and change it 
-    protected T m_cardObject;
+    protected T m_instance;
+    public T Card
+    {
+        get { return m_instance; }
+
+    }
+
+    protected GameObject m_gameObject;
+    public GameObject GameObject
+    {
+        get { return gameObject; }
+    }
+
+    
 
     /// <summary>
     /// overridable custom constructor
     /// </summary>
     public virtual void Init()
     {
-        m_cardObject = new T();
+        m_instance = new T();
     }
 
-    public Type theType
-    {
-        get
-        {
-            return typeof(T);
-        }
-    }
 
 
 
 
 }
+*/

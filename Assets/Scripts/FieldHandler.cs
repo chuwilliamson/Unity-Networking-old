@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 
 namespace Quinton
-{
+{/*
     /// <summary>
     /// Information of Field Event
     /// </summary>
@@ -116,4 +116,5 @@ namespace Quinton
         }
 
     }
+    */
 }
