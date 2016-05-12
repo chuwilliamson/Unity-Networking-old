@@ -7,10 +7,10 @@ public class PlayerManager
 
     public string m_Name;
     public UIRoot m_UI;
-    public Player m_Player;        
+    public Player m_Player;
     public Camera m_PlayerCamera;
     public Camera m_PlayerUICamera;
-    
+
     // Use this for initialization
     public void Setup(GameObject player)
     {
@@ -22,18 +22,17 @@ public class PlayerManager
         m_PlayerUICamera = m_Player.UICamera.GetComponent<Camera>();
         m_Player.m_PlayerName = m_Name;
         m_Player.Setup();
-    
-            m_Player.Camera.SetActive(true);
-            m_Player.Camera.transform.LookAt(new Vector3(0, 5, 0));
 
-            m_Player.UI.SetActive(true);
-            m_Player.UICamera.SetActive(true);
-            m_Player.Camera.SetActive(true);
-           // m_UI.Setup(m_Player);
-        
+        m_Player.Camera.SetActive(true);
+        m_Player.Camera.transform.LookAt(new Vector3(0, 5, 0));
+
+        m_Player.UI.SetActive(true);
+        m_Player.UICamera.SetActive(true);
+        m_Player.Camera.SetActive(true);
+        m_UI.Setup(m_Player);
+
         //UICamera is seperate from UI and not a child
         //only way to get screenspace ui working for now
-        
     }
 
     public bool IsReady()

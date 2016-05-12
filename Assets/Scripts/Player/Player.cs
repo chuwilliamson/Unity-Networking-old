@@ -45,6 +45,11 @@ public class Player : NetworkBehaviour, IPlayer
     private int m_maxLevel;
     [SyncVar]
     private int m_maxGold;
+    [SyncVar]
+    private int m_PlayerID;
+ 
+
+
 
 
     public GameObject UI;
@@ -62,19 +67,11 @@ public class Player : NetworkBehaviour, IPlayer
         if (onDrawCard == null)
             onDrawCard = new DrawCardEvent();
 
-
-
-
-
-
+        m_PlayerNumber = playerControllerId;
         m_power = Power;
         m_level = Level;
         m_gold = Gold;
         m_runAway = RunAway;
-
-
-       
-         
     }
 
     public override void OnStartClient()
@@ -151,8 +148,8 @@ public class Player : NetworkBehaviour, IPlayer
             go1.transform.SetParent(transform);
             go1.transform.position = transform.position;
         }
-        UpdatePlayer();
 
+        UpdatePlayer();
     }
 
     public void UpdatePlayer()
@@ -172,7 +169,6 @@ public class Player : NetworkBehaviour, IPlayer
         GameObject cm = cards.Find(x => x.name == name);
         cards.Remove(cm);
         onDrawCard.Invoke(this);
-
     }
 
     public int MoveCard()

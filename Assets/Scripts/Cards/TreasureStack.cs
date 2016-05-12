@@ -24,17 +24,6 @@ public class TreasureStack : NetworkBehaviour
                                     //should handle the stat generation
         }
     }
-    /*
-    void Awake()
-    {        
-        for (int i = 0; i < 10; i++)
-        {
-            GameObject go = Instantiate(TreasureCardPrefab);
-            m_Cards.Add(go);
-            NetworkServer.Spawn(go);//this should spawn 10 cards the Awake() 
-                                  //should handle the stat generation
-        }
-    }*/
 
     public static GameObject Draw()
     {
