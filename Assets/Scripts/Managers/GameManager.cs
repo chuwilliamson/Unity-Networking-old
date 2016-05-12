@@ -15,6 +15,7 @@ public class GameManager : NetworkBehaviour
     public static List<PlayerManager> m_players = new List<PlayerManager>();
     public bool quit = false;
     private WaitForSeconds m_Wait;
+    private int activePlayer;
 
 
     public static void AddPlayer(GameObject player, string name)
@@ -22,8 +23,8 @@ public class GameManager : NetworkBehaviour
         PlayerManager pm = new PlayerManager();
         pm.m_Instance = player;
         pm.m_Name = name;        
-        pm.Setup(player);
-        m_players.Add(pm);
+        pm.Setup();
+        m_players.Add(pm);        
     }
 
     public void RemovePlayer(GameObject p)
@@ -58,10 +59,10 @@ public class GameManager : NetworkBehaviour
     IEnumerator GameLoop()
     {
         yield return StartCoroutine(GameStart());
-        
+        yield return StartCoroutine(PlayerTurn());
         while(!quit)
         {
-            print("loop");
+            //print("loop");
             yield return m_Wait;
         }
         Prototype.NetworkLobby.LobbyManager.s_Singleton.ServerReturnToLobby();
@@ -69,7 +70,8 @@ public class GameManager : NetworkBehaviour
 
     IEnumerator GameStart()
     {
-        print(m_players.Count);
+        
+        activePlayer = 0;
         if (m_players.Count > 1)
         {
             Rect Left = new Rect(0, 0, .5f, 1);
@@ -79,6 +81,16 @@ public class GameManager : NetworkBehaviour
             m_players[1].m_PlayerCamera.rect = Right;
             m_players[1].m_PlayerUICamera.rect = Right;
         }
+        yield return null;
+    }
+
+    IEnumerator PlayerTurn()
+    {       
+        while(m_players[activePlayer].IsTakingTurn)
+        {
+
+        }
+
         yield return null;
     }
 }

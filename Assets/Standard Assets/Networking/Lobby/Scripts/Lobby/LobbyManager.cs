@@ -235,7 +235,7 @@ namespace Prototype.NetworkLobby
         public override void OnStartHost()
         {
             base.OnStartHost();
-
+            StartCoroutine(OnLobbyFullCoroutine());
             ChangeTo(lobbyPanel);
             backDelegate = StopHostClbk;
             SetServerInfo("Hosting", networkAddress);
@@ -404,7 +404,6 @@ namespace Prototype.NetworkLobby
             }
         }
 
-
         public override void OnClientDisconnect(NetworkConnection conn)
         {
             base.OnClientDisconnect(conn);
@@ -415,6 +414,16 @@ namespace Prototype.NetworkLobby
         {
             ChangeTo(mainMenuPanel);
             infoPanel.Display("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
+        }        
+       
+        private IEnumerator OnLobbyFullCoroutine()
+        {            
+            while (FindObjectsOfType<LobbyPlayer>().Length < 2)
+            {                
+                yield return null;
+            }
+
+            yield return StartCoroutine(ServerCountdownCoroutine());
         }
     }
 }

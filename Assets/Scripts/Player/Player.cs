@@ -47,23 +47,20 @@ public class Player : NetworkBehaviour, IPlayer
     private int m_maxGold;
     [SyncVar]
     private int m_PlayerID;
- 
-
-
-
+    [SyncVar]
+    public bool m_IsTakingTurn = false;
 
     public GameObject UI;
     public GameObject UICamera;
     public GameObject Camera;
     public DrawCardEvent onDrawCard;
+    public List<GameObject> m_Renderers;
 
-    
-    public void Setup()
+
+    public void Setup(string name)
     {
-        if(isLocalPlayer)
-            print("I am the LOCAL PLAYER" + m_PlayerName);
-
-        Debug.Log("ready");
+        m_Renderers = new List<GameObject> { UI, UICamera, Camera };
+        Debug.Log("Setup:" + m_PlayerName);
         if (onDrawCard == null)
             onDrawCard = new DrawCardEvent();
 
@@ -72,37 +69,50 @@ public class Player : NetworkBehaviour, IPlayer
         m_level = Level;
         m_gold = Gold;
         m_runAway = RunAway;
+        m_PlayerName = name;
+        foreach (var i in m_Renderers)
+            i.SetActive(false);
+            
+        
     }
 
     public override void OnStartClient()
-    {
-        
+    {        
         base.OnStartClient();
 
         if (!isServer)
         {
             GameManager.AddPlayer(gameObject, m_PlayerName);
-            Debug.Log("on start client");
+            Debug.Log("!isServer: GameManager.AddPlayer:" + m_PlayerName);
         }
 
+        Debug.Log("OnStartClient" + m_PlayerName);
+
     }
 
-    [Command]
-    public void CmdSetReady()
+    public override void OnStartLocalPlayer()
     {
-        m_IsReady = true;
+        base.OnStartLocalPlayer();
+        Debug.Log("OnStartLocalPlayer:" + m_PlayerName);
+        if (!isLocalPlayer)
+            return;
+        print("SetCamera: " + m_PlayerName);
+        Camera.SetActive(true);
+        Camera.transform.LookAt(new Vector3(0, 5, 0));
+        UI.SetActive(true);
+        UICamera.SetActive(true);
+        UpdatePlayer();
     }
-
-
-    public int PlayCard()
+    
+    public void UpdatePlayer()
     {
-        return 0;
+        if (!isLocalPlayer)
+            return;
+        onDrawCard.Invoke(this);
     }
 
     private void Update()
-    {
-        if (isLocalPlayer)
-            print("local player " + m_PlayerName);
+    {   
         if (!isLocalPlayer)
             return;
         if (Input.GetKeyDown(KeyCode.Space))
@@ -115,6 +125,12 @@ public class Player : NetworkBehaviour, IPlayer
             transform.position += Vector3.forward + new Vector3(0, 0, 1);
     }
 
+    [Command]
+    public void CmdSetReady()
+    {
+        m_IsReady = true;
+    }
+
     // called when disconnected from a server
     public override void OnNetworkDestroy()
     {
@@ -122,7 +138,10 @@ public class Player : NetworkBehaviour, IPlayer
         GameManager.singleton.RemovePlayer(gameObject);
     }
 
-    //call drawcard on the server
+    /// <summary>
+    /// Draw a card on the server, then update the client    
+    /// Command: allows this function to be called on server from client
+    /// </summary>
     [Command]
     public void CmdDrawCard()
     {
@@ -133,9 +152,14 @@ public class Player : NetworkBehaviour, IPlayer
             return;
         }
         print("SERVER: DRAW card" + go);
-        RpcDrawCard(go);
-    }
-
+        RpcDrawCard(go); //call the draw card function on all clients
+        //if we don't then client hands will not get updated
+    }    
+    /// <summary>
+    /// Draw card for all clients
+    /// ClientRpc: allows method be called on clients from server
+    /// </summary>
+    /// <param name="go"></param>
     [ClientRpc]
     public void RpcDrawCard(GameObject go)
     {
@@ -150,15 +174,12 @@ public class Player : NetworkBehaviour, IPlayer
         }
 
         UpdatePlayer();
+        m_IsTakingTurn = false;
     }
 
-    public void UpdatePlayer()
+    public int PlayCard()
     {
-        if (!isLocalPlayer)
-            return;
-        onDrawCard.Invoke(this);
-
-
+        return 0;
     }
 
     public void Discard(string name)
@@ -179,7 +200,6 @@ public class Player : NetworkBehaviour, IPlayer
     public int SellCard(TreasureCardMono a_card)
     {
         GainGold(a_card.Card.Gold);
-
         return 0;
     }
 
@@ -222,8 +242,8 @@ public class Player : NetworkBehaviour, IPlayer
         return 0;
     }
 
-
     public List<GameObject> cards = new List<GameObject>();
+
     public List<ICard> hand = new List<ICard>();
 
     #region IPlayer interface
@@ -244,7 +264,7 @@ public class Player : NetworkBehaviour, IPlayer
             m_playerClass = value;
         }
     }
-
+    
     public int Experience
     {
         get

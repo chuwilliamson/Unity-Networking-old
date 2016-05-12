@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 using UnityEngine.Events;
 using System;
+
 [Serializable]
 public class UIRoot : MonoBehaviour
 {
@@ -13,7 +13,6 @@ public class UIRoot : MonoBehaviour
     public void Setup(Player p)
     {        
         m_Player = p;
-        Debug.Log("add draw card listener for " + m_Player.m_PlayerName);
         m_Player.onDrawCard.AddListener(UpdateUI);        
     }
 
@@ -31,6 +30,8 @@ public class UIRoot : MonoBehaviour
                 Destroy(t.gameObject);
             }
         }
+        if (m_Player.hand.Count < 1)
+            return;
         foreach (ICard c in m_Player.hand)
         {
             GameObject card = Instantiate(cardButton, cardTransform.position, Quaternion.identity) as GameObject;
