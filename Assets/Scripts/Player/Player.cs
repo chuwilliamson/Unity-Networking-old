@@ -52,43 +52,41 @@ public class Player : NetworkBehaviour, IPlayer
     public GameObject Camera;
     public DrawCardEvent onDrawCard;
 
+    
     public void Setup()
     {
-        print("setup");
- 
-            Camera.SetActive(true);
-            Camera.transform.LookAt(new Vector3(0, 5, 0));
+        if(isLocalPlayer)
+            print("I am the LOCAL PLAYER" + m_PlayerName);
 
-            UI.SetActive(true);
-
-            UICamera.SetActive(true);
-            Camera.SetActive(true);
-            Debug.Log("ready");
-            if (onDrawCard == null)
-                onDrawCard = new DrawCardEvent();
-
-
-            
+        Debug.Log("ready");
+        if (onDrawCard == null)
+            onDrawCard = new DrawCardEvent();
 
 
 
-            m_power = Power;
-            m_level = Level;
-            m_gold = Gold;
-            m_runAway = RunAway;
 
 
-            CmdSetReady();
-        
+
+        m_power = Power;
+        m_level = Level;
+        m_gold = Gold;
+        m_runAway = RunAway;
+
+
+       
+         
     }
 
     public override void OnStartClient()
     {
-        Debug.Log("on start client");
+        
         base.OnStartClient();
 
         if (!isServer)
+        {
             GameManager.AddPlayer(gameObject, m_PlayerName);
+            Debug.Log("on start client");
+        }
 
     }
 
@@ -106,6 +104,8 @@ public class Player : NetworkBehaviour, IPlayer
 
     private void Update()
     {
+        if (isLocalPlayer)
+            print("local player " + m_PlayerName);
         if (!isLocalPlayer)
             return;
         if (Input.GetKeyDown(KeyCode.Space))

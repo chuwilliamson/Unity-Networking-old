@@ -22,7 +22,7 @@ public class GameManager : NetworkBehaviour
         PlayerManager pm = new PlayerManager();
         pm.m_Instance = player;
         pm.m_Name = name;        
-        pm.Setup();
+        pm.Setup(player);
         m_players.Add(pm);
     }
 
