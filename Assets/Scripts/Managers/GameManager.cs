@@ -60,8 +60,10 @@ public class GameManager : NetworkBehaviour
     {
         yield return StartCoroutine(GameStart());
         yield return StartCoroutine(PlayerTurn());
+       
         while(!quit)
         {
+            if (m_players.Count < 2) quit = true;
             //print("loop");
             yield return m_Wait;
         }

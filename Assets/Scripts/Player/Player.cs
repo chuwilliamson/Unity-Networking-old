@@ -182,6 +182,7 @@ public class Player : NetworkBehaviour, IPlayer
         return 0;
     }
 
+
     public void Discard(string name)
     {
         ICard c = hand.Find(x => x.Name == name);
@@ -189,7 +190,7 @@ public class Player : NetworkBehaviour, IPlayer
         hand.Remove(c);
         GameObject cm = cards.Find(x => x.name == name);
         cards.Remove(cm);
-        onDrawCard.Invoke(this);
+        UpdatePlayer();
     }
 
     public int MoveCard()
