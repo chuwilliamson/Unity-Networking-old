@@ -54,6 +54,7 @@ public class Player : NetworkBehaviour, IPlayer
     public GameObject UICamera;
     public GameObject Camera;
     public DrawCardEvent onDrawCard;
+    public DrawCardEvent onDiscardCard;
     public List<GameObject> m_Renderers;
 
 
@@ -62,7 +63,10 @@ public class Player : NetworkBehaviour, IPlayer
         m_Renderers = new List<GameObject> { UI, UICamera, Camera };
         Debug.Log("Setup:" + m_PlayerName);
         if (onDrawCard == null)
+        {
             onDrawCard = new DrawCardEvent();
+            onDiscardCard = new DrawCardEvent();
+        }
 
         m_PlayerNumber = playerControllerId;
         m_power = Power;
@@ -109,6 +113,9 @@ public class Player : NetworkBehaviour, IPlayer
         if (!isLocalPlayer)
             return;
         onDrawCard.Invoke(this);
+        handStrings.Clear();
+        foreach (ICard c in hand)
+            handStrings.Add(c.Name);
     }
 
     private void Update()
@@ -140,40 +147,59 @@ public class Player : NetworkBehaviour, IPlayer
 
     /// <summary>
     /// Draw a card on the server, then update the client    
-    /// Command: allows this function to be called on server from client
+    /// Command: Commands are sent from player objects on the client to player objects on the server.
     /// </summary>
     [Command]
     public void CmdDrawCard()
     {
-        GameObject go = TreasureStack.Draw();
+        GameObject go = TreasureStack.singleton.Draw();
         if (go == null)
         {
             print("SERVER: Stack is empty NO DRAW");
             return;
         }
         print("SERVER: DRAW card" + go);
+        //RpcDrawCard(go); //call the draw card function on all clients
         RpcDrawCard(go); //call the draw card function on all clients
         //if we don't then client hands will not get updated
-    }    
+    }
     /// <summary>
     /// Draw card for all clients
-    /// ClientRpc: allows method be called on clients from server
+    /// ClientRpc: ClientRpc calls are sent from objects on the server to objects on clients. 
     /// </summary>
     /// <param name="go"></param>
     [ClientRpc]
     public void RpcDrawCard(GameObject go)
     {
         ICard goCard = go.GetComponent<TreasureCardMono>().Card;
+        //print("CLIENT: add card " + go);
+        cards.Add(go);
+        hand.Add(goCard);
+        foreach (GameObject c in cards)
+        {
+            c.transform.SetParent(transform);
+            c.transform.position = transform.position;
+        }
+
+        onDrawCard.Invoke(this);
+        m_IsTakingTurn = false;
+    }
+
+    public void DrawCard(GameObject go)
+    {
+        if (!isLocalPlayer)
+            return;
+        ICard goCard = go.GetComponent<TreasureCardMono>().Card;
         print("CLIENT: add card " + go);
         cards.Add(go);
         hand.Add(goCard);
-        foreach (GameObject go1 in cards)
+        foreach (GameObject c in cards)
         {
-            go1.transform.SetParent(transform);
-            go1.transform.position = transform.position;
+            c.transform.SetParent(transform);
+            c.transform.position = transform.position;
         }
 
-        UpdatePlayer();
+        onDrawCard.Invoke(this);
         m_IsTakingTurn = false;
     }
 
@@ -181,16 +207,21 @@ public class Player : NetworkBehaviour, IPlayer
     {
         return 0;
     }
-
-
+    public List<string> handStrings = new List<string>();
+    /// <summary>
+    /// called from gui
+    /// </summary>
+    /// <param name="name"></param>
+    
     public void Discard(string name)
-    {
+    {   
         ICard c = hand.Find(x => x.Name == name);
-        Debug.Log("discard " + c.Name + "for Player: " + this.name);
-        hand.Remove(c);
-        GameObject cm = cards.Find(x => x.name == name);
+        GameObject cm = cards.Find(x => x.name == name + "(Clone)");      
+        hand.Remove(c);       
         cards.Remove(cm);
-        UpdatePlayer();
+        onDiscardCard.Invoke(this);
+        DiscardStack.singleton.Shuffle(cm); 
+        
     }
 
     public int MoveCard()
@@ -363,7 +394,7 @@ public class Player : NetworkBehaviour, IPlayer
         //Quinton.FieldHandler.instance.AddBadDude(dealerCards[0]);
         //Quinton.FieldHandler.instance.AddGoodDude(cards[0]);
 
-        Discard(cards[0].name);
+     //   Discard(cards[0].name);
     }
     //public void TestMystery()
     //{

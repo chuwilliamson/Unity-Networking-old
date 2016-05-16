@@ -13,7 +13,8 @@ public class UIRoot : MonoBehaviour
     public void Setup(Player p)
     {        
         m_Player = p;
-        m_Player.onDrawCard.AddListener(UpdateUI);        
+        m_Player.onDrawCard.AddListener(UpdateUI);
+        m_Player.onDiscardCard.AddListener(UpdateUI);     
     }
 
     public void UpdateUI(Player p)
@@ -22,7 +23,7 @@ public class UIRoot : MonoBehaviour
         GoldLabel.text = "Gold: " + m_Player.Gold.ToString();
         LevelLabel.text = "Level: " + m_Player.Level.ToString();
         PowerLabel.text = "Power: " + m_Player.Power.ToString();
-        Debug.Log("populate UI cards");
+        //Debug.Log("populate UI cards");
         if (transform.childCount > 0)
         {
             foreach (Transform t in cardTransform)
@@ -48,46 +49,15 @@ public class UIRoot : MonoBehaviour
         }
     }
 
-    public void Discard(string n, GameObject card)
-    {
-        m_Player.Discard(n);
-        Destroy(card);
-    }
 
     public void PlayCard(string n, GameObject card)
     {
         Player p = m_Player;
         ICard c = p.hand.Find(x => x.Name == n);
-        System.Type cardType = c.GetType();
-        UnityAction a = () =>
-        {
-            //Debug.Log("Playing MysteryCard");
-            //// make a Mystery Card
-            //GameObject generatedCard = Instantiate(Resources.Load("MysteryCardTemplate")) as GameObject;
-            //MysteryCardMono mcm = generatedCard.GetComponent<MysteryCardMono>();
+        Type cardType = c.GetType();
 
-            //// Fill out info
-            //mcm.Name = c.Name;
-            //mcm.Description = c.Description;
-            //mcm.Power = (c as MysteryCard).Power;
-            //// Place in game space
-            //generatedCard.transform.position = new Vector3(0, 0, 0);
-            //Debug.Log("Playing MysteryCard End");
-        };
-
-        UnityAction b = () =>
-        { // make a Treasure Card
-            GameObject generatedCard = Instantiate(Resources.Load("TreasureCardTemplate"), Vector3.zero, Quaternion.identity) as GameObject;
-            TreasureCardMono tcm = generatedCard.GetComponent<TreasureCardMono>();
-
-            // Fill out info
-            tcm.Name = c.Name;
-            tcm.Description = c.Description;
-            tcm.Power = (c as TreasureCard).Power;
-            tcm.Gold = (c as TreasureCard).Gold;
-            // Place in game space
-            
-        };
+        UnityAction a = () => { /*placeholder for mystery play*/};
+        UnityAction b = () => {                                 };
         
         (cardType == typeof(MysteryCard) ? a : b)();
         p.Discard(n);   // Removes for players hand

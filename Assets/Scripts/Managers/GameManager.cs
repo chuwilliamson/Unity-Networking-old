@@ -55,7 +55,8 @@ public class GameManager : NetworkBehaviour
         m_Wait = new WaitForSeconds(1);
         StartCoroutine(GameLoop());
     }
-
+    [SyncVar]
+    public bool hasStarted = false;
     IEnumerator GameLoop()
     {
         yield return StartCoroutine(GameStart());
@@ -63,7 +64,7 @@ public class GameManager : NetworkBehaviour
        
         while(!quit)
         {
-            if (m_players.Count < 2) quit = true;
+            //if (m_players.Count < 2) quit = true;
             //print("loop");
             yield return m_Wait;
         }
@@ -72,7 +73,7 @@ public class GameManager : NetworkBehaviour
 
     IEnumerator GameStart()
     {
-        
+        print("Game Started");
         activePlayer = 0;
         if (m_players.Count > 1)
         {
@@ -82,6 +83,7 @@ public class GameManager : NetworkBehaviour
             m_players[0].m_PlayerUICamera.rect = Left;
             m_players[1].m_PlayerCamera.rect = Right;
             m_players[1].m_PlayerUICamera.rect = Right;
+            hasStarted = true;
         }
         yield return null;
     }
@@ -94,6 +96,11 @@ public class GameManager : NetworkBehaviour
         }
 
         yield return null;
+    }
+
+    void OnApplicationQuit()
+    {
+        NetworkManager.Shutdown();
     }
 }
 
