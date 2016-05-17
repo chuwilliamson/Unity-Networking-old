@@ -3259,7 +3259,7 @@ MonoBehaviour:
   m_LobbyScene: Intro(Network)
   m_PlayScene: Combat(Network)
   lobbySlots: []
-  prematchCountdown: 2
+  prematchCountdown: 0
   topPanel: {fileID: 11424994}
   mainMenuPanel: {fileID: 22442386}
   lobbyPanel: {fileID: 22443498}
@@ -4344,7 +4344,7 @@ Canvas:
   m_GameObject: {fileID: 155310}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

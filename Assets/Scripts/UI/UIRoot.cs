@@ -42,10 +42,8 @@ public class UIRoot : MonoBehaviour
             card.transform.localRotation = Quaternion.identity;
             card.name = c.Name;
             card.GetComponentInChildren<UnityEngine.UI.Text>().text = card.name;
-            card.GetComponentInChildren<UnityEngine.UI.Button>().onClick.AddListener(delegate
-            {
-                PlayCard(card.name, card);
-            });
+            card.GetComponentInChildren<UnityEngine.UI.Button>().onClick.
+                AddListener(delegate{ PlayCard(card.name, card); });
         }
     }
 
@@ -60,8 +58,9 @@ public class UIRoot : MonoBehaviour
         UnityAction b = () => {                                 };
         
         (cardType == typeof(MysteryCard) ? a : b)();
+
         p.Discard(n);   // Removes for players hand
-        Destroy(card);  // Destroys GUI GameObject that represented the card
+        
     }
 
     [SerializeField]

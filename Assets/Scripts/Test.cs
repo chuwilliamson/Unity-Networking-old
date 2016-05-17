@@ -5,7 +5,7 @@ public class Test : MonoBehaviour {
 
     List<ICard> icards = new List<ICard>();
     List<TreasureCard> tCards = new List<TreasureCard>();
-    List<MysteryCard> mCards = new List<MysteryCard>();
+    //List<MysteryCard> mCards = new List<MysteryCard>();
     [ContextMenu("test icard")]
     void Init()
     {

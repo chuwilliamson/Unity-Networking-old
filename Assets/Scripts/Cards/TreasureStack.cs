@@ -11,66 +11,65 @@ using UnityEngine.Networking;
 
 public class TreasureStack : NetworkBehaviour
 {
+    public static TreasureStack singleton = null;
 
-    [SyncVar]
-    [SerializeField]
-    private int m_NumCards;
+    [SyncVar(hook = "SetParent")]
+    public int m_NumCards;
 
     public GameObject TreasureCardPrefab;
-    public static List<GameObject> m_Cards = new List<GameObject>();
-    public static TreasureStack singleton;
+
+    [SerializeField]
+    public List<GameObject> m_Cards = new List<GameObject>();
+
     private void Awake()
     {
         if (singleton == null)
             singleton = this;
+        m_NumCards = singleton.m_Cards.Count;
     }
     public override void OnStartServer()
     {
         base.OnStartServer();
         for (int i = 0; i < 10; i++)
         {
+            GameObject go = Instantiate(TreasureCardPrefab) as GameObject;
+            singleton.m_Cards.Add(go);
+            NetworkServer.Spawn(go);
+            m_NumCards = singleton.m_Cards.Count;
 
-            GameObject go = Instantiate(TreasureCardPrefab);
-
-            NetworkServer.Spawn(go);//this should spawn 10 cards the Awake() 
-                                    //should handle the stat generation
-            Shuffle(go);
         }
-
-        singleton.m_NumCards = m_Cards.Count;
 
     }
 
     public override void OnStartClient()
     {
         base.OnStartClient();
-        foreach (GameObject c in m_Cards)
-            RpcShuffle(c);
+        m_NumCards = singleton.m_Cards.Count;
     }
 
     public GameObject Draw()
     {
-        if (m_Cards.Count > 0)
+        if (singleton.m_Cards.Count > 0)
         {
             GameObject top = m_Cards[0];
-            m_Cards.Remove(top);
-            singleton.m_NumCards = m_Cards.Count;
+            singleton.m_Cards.Remove(top);
+            m_NumCards = singleton.m_Cards.Count;
             return top;
         }
 
         return null;
     }
 
-
     public void Shuffle(GameObject card)
     {
-        card.transform.SetParent(singleton.transform);
-        m_Cards.Add(card);
+        singleton.m_Cards.Add(card);
+        m_NumCards = singleton.m_Cards.Count;
     }
 
-    public void RpcShuffle(GameObject c)
+    public void SetParent(int numCards)
     {
-        c.transform.SetParent(singleton.transform);
+        m_NumCards = singleton.m_Cards.Count;
+        foreach (GameObject card in singleton.m_Cards)
+            card.transform.SetParent(transform);
     }
-
 }

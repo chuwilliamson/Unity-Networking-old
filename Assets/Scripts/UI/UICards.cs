@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class UISwitch : MonoBehaviour
+public class UICards : MonoBehaviour
 {
 
 

@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3358358}
   - 23: {fileID: 2338092}
   - 65: {fileID: 6550390}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: topright
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ GameObject:
   - 4: {fileID: 494566}
   - 114: {fileID: 11462128}
   - 114: {fileID: 11439130}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: DiscardStack
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -46,7 +46,7 @@ GameObject:
   - 33: {fileID: 3391628}
   - 23: {fileID: 2345252}
   - 65: {fileID: 6591288}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: botleft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   - 33: {fileID: 3348176}
   - 23: {fileID: 2383718}
   - 65: {fileID: 6568714}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: botright
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 424042}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - 33: {fileID: 3388030}
   - 23: {fileID: 2393712}
   - 65: {fileID: 6585802}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: topleft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -405,6 +405,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NumCards: 0
+  TreasureCardPrefab: {fileID: 176322, guid: a81250c6826e58d49a88c1e49299d220, type: 2}
+  m_Cards: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

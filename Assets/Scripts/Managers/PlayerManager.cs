@@ -35,4 +35,10 @@ public class PlayerManager
             return m_Player.m_IsTakingTurn;
         }
     }
+
+    public void Start()
+    {
+        if (GameManager.singleton.activePlayerManager == this)
+            m_Player.m_IsTakingTurn = true;
+    }
 }

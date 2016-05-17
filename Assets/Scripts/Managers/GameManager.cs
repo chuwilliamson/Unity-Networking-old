@@ -51,7 +51,7 @@ public class GameManager : NetworkBehaviour
     [ServerCallback]
     private void Start()
     {
-        print("start loop");
+        //print("start loop");
         m_Wait = new WaitForSeconds(1);
         StartCoroutine(GameLoop());
     }
@@ -70,11 +70,12 @@ public class GameManager : NetworkBehaviour
         }
         Prototype.NetworkLobby.LobbyManager.s_Singleton.ServerReturnToLobby();
     }
-
+    public PlayerManager activePlayerManager;
     IEnumerator GameStart()
     {
         print("Game Started");
         activePlayer = 0;
+        activePlayerManager = m_players[activePlayer];        
         if (m_players.Count > 1)
         {
             Rect Left = new Rect(0, 0, .5f, 1);
@@ -89,19 +90,24 @@ public class GameManager : NetworkBehaviour
     }
 
     IEnumerator PlayerTurn()
-    {       
-        while(m_players[activePlayer].IsTakingTurn)
+    {
+        activePlayerManager.Start();
+        while (m_players[activePlayer].IsTakingTurn)
         {
-
+            Debug.Log("Current Player is " + m_players[activePlayer].m_Name);
+            yield return null;            
         }
+        activePlayer += 1;
+        if (activePlayer >= m_players.Count)
+            activePlayer = 0;
+
+        activePlayerManager = m_players[activePlayer];
 
         yield return null;
+        yield return StartCoroutine(PlayerTurn());        
     }
 
-    void OnApplicationQuit()
-    {
-        NetworkManager.Shutdown();
-    }
+   
 }
 
 

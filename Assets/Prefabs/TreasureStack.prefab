@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3317686}
   - 23: {fileID: 2358590}
   - 65: {fileID: 6579940}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: botright
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 483184}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - 4: {fileID: 409030}
   - 114: {fileID: 11488522}
   - 114: {fileID: 11483262}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: TreasureStack
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -61,7 +61,7 @@ GameObject:
   - 33: {fileID: 3331684}
   - 23: {fileID: 2360232}
   - 65: {fileID: 6503156}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: topright
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   - 33: {fileID: 3320496}
   - 23: {fileID: 2326360}
   - 65: {fileID: 6539844}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: topleft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - 33: {fileID: 3384488}
   - 23: {fileID: 2380848}
   - 65: {fileID: 6592116}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: botleft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,8 +110,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 139478}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268346, w: 0.9238795}
-  m_LocalPosition: {x: 3.73, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 483184}
@@ -406,6 +406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NumCards: 0
   TreasureCardPrefab: {fileID: 176322, guid: a81250c6826e58d49a88c1e49299d220, type: 2}
+  m_Cards: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

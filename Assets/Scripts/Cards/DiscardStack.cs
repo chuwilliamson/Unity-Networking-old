@@ -3,24 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
+public delegate void ChangedEventHandler(object sender, EventArgs e);
 public class DiscardStack : NetworkBehaviour
 {
+     
 
-    [SyncVar]
+    public static DiscardStack singleton = null;
+
+    [SyncVar(hook = "SetParent")]
+    public int m_NumCards;
+
+    public GameObject TreasureCardPrefab;
+
     [SerializeField]
-    private int m_NumCards;
-    
-    public static List<GameObject> m_Cards = new List<GameObject>();    
-    public static DiscardStack singleton;
+    public List<GameObject> m_Cards = new List<GameObject>();
+
     private void Awake()
     {
         if (singleton == null)
             singleton = this;
+        m_NumCards = m_Cards.Count;
     }
     public override void OnStartServer()
     {
         base.OnStartServer();
-        
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
     }
 
     public GameObject Draw()
@@ -29,7 +40,7 @@ public class DiscardStack : NetworkBehaviour
         {
             GameObject top = m_Cards[0];
             m_Cards.Remove(top);
-            singleton.m_NumCards = m_Cards.Count;
+            m_NumCards = m_Cards.Count;
             return top;
         }
 
@@ -39,6 +50,13 @@ public class DiscardStack : NetworkBehaviour
     public void Shuffle(GameObject card)
     {
         m_Cards.Add(card);
-        singleton.m_NumCards = m_Cards.Count;
+        m_NumCards = m_Cards.Count;
+    }
+
+    public void SetParent(int numCards)
+    {
+        m_NumCards = m_Cards.Count;
+        foreach (GameObject card in m_Cards)
+            card.transform.SetParent(transform);
     }
 }

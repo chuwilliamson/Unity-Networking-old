@@ -61,7 +61,7 @@ public class Player : NetworkBehaviour, IPlayer
     public void Setup(string name)
     {
         m_Renderers = new List<GameObject> { UI, UICamera, Camera };
-        Debug.Log("Setup:" + m_PlayerName);
+        
         if (onDrawCard == null)
         {
             onDrawCard = new DrawCardEvent();
@@ -74,6 +74,7 @@ public class Player : NetworkBehaviour, IPlayer
         m_gold = Gold;
         m_runAway = RunAway;
         m_PlayerName = name;
+        Debug.Log("Setup:" + m_PlayerName);
         foreach (var i in m_Renderers)
             i.SetActive(false);
             
@@ -105,31 +106,29 @@ public class Player : NetworkBehaviour, IPlayer
         Camera.transform.LookAt(new Vector3(0, 5, 0));
         UI.SetActive(true);
         UICamera.SetActive(true);
-        UpdatePlayer();
-    }
-    
-    public void UpdatePlayer()
-    {
-        if (!isLocalPlayer)
-            return;
         onDrawCard.Invoke(this);
-        handStrings.Clear();
-        foreach (ICard c in hand)
-            handStrings.Add(c.Name);
+        foreach (GameObject go in TreasureStack.singleton.m_Cards)
+            Debug.Log(go.name);
     }
 
     private void Update()
     {   
         if (!isLocalPlayer)
             return;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (m_IsTakingTurn)
         {
-            CmdSetReady();
-            CmdDrawCard();
-
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                CmdSetReady();
+                CmdDrawCard(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                CmdDrawCard(2);
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+                transform.position += Vector3.forward + new Vector3(0, 0, 1);
         }
-        if (Input.GetKeyDown(KeyCode.W))
-            transform.position += Vector3.forward + new Vector3(0, 0, 1);
     }
 
     [Command]
@@ -146,20 +145,24 @@ public class Player : NetworkBehaviour, IPlayer
     }
 
     /// <summary>
-    /// Draw a card on the server, then update the client    
+    /// Draw a card on the server, then update the client        
     /// Command: Commands are sent from player objects on the client to player objects on the server.
     /// </summary>
     [Command]
-    public void CmdDrawCard()
+    public void CmdDrawCard(int stack)
     {
-        GameObject go = TreasureStack.singleton.Draw();
+        GameObject go  = null;
+        if (stack == 1)
+            go = TreasureStack.singleton.Draw();
+        if (stack == 2)
+            go = DiscardStack.singleton.Draw();       
+
         if (go == null)
         {
             print("SERVER: Stack is empty NO DRAW");
             return;
         }
         print("SERVER: DRAW card" + go);
-        //RpcDrawCard(go); //call the draw card function on all clients
         RpcDrawCard(go); //call the draw card function on all clients
         //if we don't then client hands will not get updated
     }
@@ -180,28 +183,11 @@ public class Player : NetworkBehaviour, IPlayer
             c.transform.SetParent(transform);
             c.transform.position = transform.position;
         }
-
-        onDrawCard.Invoke(this);
+       
         m_IsTakingTurn = false;
+        onDrawCard.Invoke(this);
     }
 
-    public void DrawCard(GameObject go)
-    {
-        if (!isLocalPlayer)
-            return;
-        ICard goCard = go.GetComponent<TreasureCardMono>().Card;
-        print("CLIENT: add card " + go);
-        cards.Add(go);
-        hand.Add(goCard);
-        foreach (GameObject c in cards)
-        {
-            c.transform.SetParent(transform);
-            c.transform.position = transform.position;
-        }
-
-        onDrawCard.Invoke(this);
-        m_IsTakingTurn = false;
-    }
 
     public int PlayCard()
     {
@@ -213,15 +199,18 @@ public class Player : NetworkBehaviour, IPlayer
     /// </summary>
     /// <param name="name"></param>
     
-    public void Discard(string name)
-    {   
+    public bool Discard(string name)
+    {
+        if (!m_IsTakingTurn)
+            return false;
         ICard c = hand.Find(x => x.Name == name);
         GameObject cm = cards.Find(x => x.name == name + "(Clone)");      
         hand.Remove(c);       
         cards.Remove(cm);
         onDiscardCard.Invoke(this);
-        DiscardStack.singleton.Shuffle(cm); 
-        
+        DiscardStack.singleton.Shuffle(cm);
+        m_IsTakingTurn = false;
+        return true;
     }
 
     public int MoveCard()
