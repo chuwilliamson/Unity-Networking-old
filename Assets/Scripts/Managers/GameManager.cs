@@ -8,23 +8,45 @@ using UnityEngine.Networking;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine.Events;
+public class ServerEvent : UnityEvent { }
 public class GameManager : NetworkBehaviour
 {
+    public ServerEvent PlayerChange;
     public static GameManager singleton = null;
     public static List<PlayerManager> m_players = new List<PlayerManager>();
     public bool quit = false;
     private WaitForSeconds m_Wait;
-    private int activePlayer;
 
+    [SyncVar]
+    private int activePlayerIndex;
+
+    [SyncVar]
+    public bool hasStarted = false;
+
+    [SerializeField]
+    public Player activePlayer;
+
+    private PlayerManager m_activePlayerManager;
+
+    public PlayerManager activePlayerManager
+    {
+        get { return m_activePlayerManager; }
+        set
+        {
+            m_activePlayerManager = value;
+            activePlayer = m_activePlayerManager.m_Player;
+            PlayerChange.Invoke();
+        }
+    }
 
     public static void AddPlayer(GameObject player, string name)
     {
         PlayerManager pm = new PlayerManager();
         pm.m_Instance = player;
-        pm.m_Name = name;        
+        pm.m_Name = name;
         pm.Setup();
-        m_players.Add(pm);        
+        m_players.Add(pm);
     }
 
     public void RemovePlayer(GameObject p)
@@ -46,40 +68,36 @@ public class GameManager : NetworkBehaviour
     void Awake()
     {
         singleton = this;
+        if (PlayerChange == null)
+            PlayerChange = new ServerEvent();
     }
 
     [ServerCallback]
     private void Start()
     {
-        //print("start loop");
         m_Wait = new WaitForSeconds(1);
         StartCoroutine(GameLoop());
     }
-    [SyncVar]
-    public bool hasStarted = false;
+
     IEnumerator GameLoop()
     {
         yield return StartCoroutine(GameStart());
         yield return StartCoroutine(PlayerTurn());
-       
-        while(!quit)
-        {
-            //if (m_players.Count < 2) quit = true;
-            //print("loop");
-            yield return m_Wait;
-        }
+
+        while (!quit) yield return m_Wait;
         Prototype.NetworkLobby.LobbyManager.s_Singleton.ServerReturnToLobby();
     }
-    public PlayerManager activePlayerManager;
+
     IEnumerator GameStart()
     {
-        print("Game Started");
-        activePlayer = 0;
-        activePlayerManager = m_players[activePlayer];        
+        //print("Game Started");
+        activePlayerIndex = 0;
+        activePlayerManager = m_players[activePlayerIndex];
+        
         if (m_players.Count > 1)
         {
-            Rect Left = new Rect(0, 0, .5f, 1);
-            Rect Right = new Rect(.5f, 0, .5f, 1);
+            Rect Left = new Rect(0, 0, 1, .5f);
+            Rect Right = new Rect(0, 0.5f, 1, .5f);
             m_players[0].m_PlayerCamera.rect = Left;
             m_players[0].m_PlayerUICamera.rect = Left;
             m_players[1].m_PlayerCamera.rect = Right;
@@ -92,22 +110,20 @@ public class GameManager : NetworkBehaviour
     IEnumerator PlayerTurn()
     {
         activePlayerManager.Start();
-        while (m_players[activePlayer].IsTakingTurn)
+        while (activePlayerManager.IsTakingTurn)
         {
-            Debug.Log("Current Player is " + m_players[activePlayer].m_Name);
-            yield return null;            
+          //  Debug.Log("Current Player is " + activePlayer.m_PlayerName);
+            yield return null;
         }
-        activePlayer += 1;
-        if (activePlayer >= m_players.Count)
-            activePlayer = 0;
+        activePlayerIndex += 1;
+        if (activePlayerIndex >= m_players.Count)
+            activePlayerIndex = 0;
 
-        activePlayerManager = m_players[activePlayer];
-
+        activePlayerManager = m_players[activePlayerIndex];
+        
         yield return null;
-        yield return StartCoroutine(PlayerTurn());        
+        yield return StartCoroutine(PlayerTurn());
     }
-
-   
 }
 
 

@@ -59,7 +59,7 @@ MonoBehaviour:
     i13: 11
     i14: 78
     i15: 198
-  m_ServerOnly: 0
+  m_ServerOnly: 1
   m_LocalPlayerAuthority: 0
 --- !u!114 &11424418
 MonoBehaviour:
@@ -74,6 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quit: 0
   hasStarted: 0
+  activePlayer: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

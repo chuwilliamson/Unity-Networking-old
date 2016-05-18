@@ -1,75 +1,48 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using UnityEngine.Networking;
+using UnityEngine;
 using System.Collections.Generic;
-using System;
-using UnityEngine.Networking;
-/// <summary>
-/// Treasure stack.
-/// This is attached to the GameObject in the scene.
-/// </summary>
-
-
-public class TreasureStack : NetworkBehaviour
+using System.Collections;
+public class TreasureStack : Stack
 {
     public static TreasureStack singleton = null;
 
-    [SyncVar(hook = "SetParent")]
-    public int m_NumCards;
-
-    public GameObject TreasureCardPrefab;
-
-    [SerializeField]
-    public List<GameObject> m_Cards = new List<GameObject>();
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (singleton == null)
             singleton = this;
-        m_NumCards = singleton.m_Cards.Count;
+        m_NumCards = m_Cards.Count;
     }
+
     public override void OnStartServer()
     {
         base.OnStartServer();
         for (int i = 0; i < 10; i++)
         {
-            GameObject go = Instantiate(TreasureCardPrefab) as GameObject;
-            singleton.m_Cards.Add(go);
+            GameObject go = Instantiate(TreasureCardPrefab) as GameObject;           
             NetworkServer.Spawn(go);
-            m_NumCards = singleton.m_Cards.Count;
-
+            Shuffle(go);
         }
-
     }
 
     public override void OnStartClient()
     {
         base.OnStartClient();
-        m_NumCards = singleton.m_Cards.Count;
-    }
-
-    public GameObject Draw()
-    {
-        if (singleton.m_Cards.Count > 0)
+        Debug.Log("start client");
+        ArrayList tmp = new ArrayList(FindObjectsOfType(typeof(TreasureCardMono)));
+        foreach (TreasureCardMono go in tmp)
         {
-            GameObject top = m_Cards[0];
-            singleton.m_Cards.Remove(top);
-            m_NumCards = singleton.m_Cards.Count;
-            return top;
+            m_Cards.Add(go.gameObject);
+            print(m_Cards[0]);
         }
+            
+        
+            
+            
+        
+        
 
-        return null;
     }
 
-    public void Shuffle(GameObject card)
-    {
-        singleton.m_Cards.Add(card);
-        m_NumCards = singleton.m_Cards.Count;
-    }
-
-    public void SetParent(int numCards)
-    {
-        m_NumCards = singleton.m_Cards.Count;
-        foreach (GameObject card in singleton.m_Cards)
-            card.transform.SetParent(transform);
-    }
+ 
 }

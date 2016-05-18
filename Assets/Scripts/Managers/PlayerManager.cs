@@ -38,7 +38,9 @@ public class PlayerManager
 
     public void Start()
     {
-        if (GameManager.singleton.activePlayerManager == this)
+        if (GameManager.singleton.activePlayer == m_Player)
             m_Player.m_IsTakingTurn = true;
     }
+
+    
 }

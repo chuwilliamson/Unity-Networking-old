@@ -61,7 +61,7 @@ public class Player : NetworkBehaviour, IPlayer
     public void Setup(string name)
     {
         m_Renderers = new List<GameObject> { UI, UICamera, Camera };
-        
+
         if (onDrawCard == null)
         {
             onDrawCard = new DrawCardEvent();
@@ -74,67 +74,41 @@ public class Player : NetworkBehaviour, IPlayer
         m_gold = Gold;
         m_runAway = RunAway;
         m_PlayerName = name;
-        Debug.Log("Setup:" + m_PlayerName);
+        //Debug.Log("Setup:" + m_PlayerName);
         foreach (var i in m_Renderers)
             i.SetActive(false);
-            
-        
+
+
     }
 
     public override void OnStartClient()
-    {        
+    {
         base.OnStartClient();
 
         if (!isServer)
         {
             GameManager.AddPlayer(gameObject, m_PlayerName);
-            Debug.Log("!isServer: GameManager.AddPlayer:" + m_PlayerName);
+           // Debug.Log("!isServer: GameManager.AddPlayer:" + m_PlayerName);
         }
 
-        Debug.Log("OnStartClient" + m_PlayerName);
+        //Debug.Log("OnStartClient" + m_PlayerName);
 
     }
 
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        Debug.Log("OnStartLocalPlayer:" + m_PlayerName);
+        //Debug.Log("OnStartLocalPlayer:" + m_PlayerName);
         if (!isLocalPlayer)
             return;
-        print("SetCamera: " + m_PlayerName);
+        //print("SetCamera: " + m_PlayerName);
         Camera.SetActive(true);
         Camera.transform.LookAt(new Vector3(0, 5, 0));
         UI.SetActive(true);
         UICamera.SetActive(true);
         onDrawCard.Invoke(this);
-        foreach (GameObject go in TreasureStack.singleton.m_Cards)
+        foreach (GameObject go in TreasureStack.m_Cards)
             Debug.Log(go.name);
-    }
-
-    private void Update()
-    {   
-        if (!isLocalPlayer)
-            return;
-        if (m_IsTakingTurn)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                CmdSetReady();
-                CmdDrawCard(1);
-            }
-            if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                CmdDrawCard(2);
-            }
-            if (Input.GetKeyDown(KeyCode.W))
-                transform.position += Vector3.forward + new Vector3(0, 0, 1);
-        }
-    }
-
-    [Command]
-    public void CmdSetReady()
-    {
-        m_IsReady = true;
     }
 
     // called when disconnected from a server
@@ -144,38 +118,45 @@ public class Player : NetworkBehaviour, IPlayer
         GameManager.singleton.RemovePlayer(gameObject);
     }
 
+    private void Update()
+    {
+        if (!isLocalPlayer)
+            return;
+        if (m_IsTakingTurn)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {                
+                DrawCard(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                DrawCard(2);
+            }
+        }
+    }
+ 
+
     /// <summary>
     /// Draw a card on the server, then update the client        
     /// Command: Commands are sent from player objects on the client to player objects on the server.
     /// </summary>
-    [Command]
-    public void CmdDrawCard(int stack)
+    
+    public void DrawCard(int stack)
     {
-        GameObject go  = null;
+        GameObject go = null;
         if (stack == 1)
             go = TreasureStack.singleton.Draw();
         if (stack == 2)
-            go = DiscardStack.singleton.Draw();       
+            go = DiscardStack.singleton.Draw();
 
         if (go == null)
         {
             print("SERVER: Stack is empty NO DRAW");
             return;
         }
-        print("SERVER: DRAW card" + go);
-        RpcDrawCard(go); //call the draw card function on all clients
-        //if we don't then client hands will not get updated
-    }
-    /// <summary>
-    /// Draw card for all clients
-    /// ClientRpc: ClientRpc calls are sent from objects on the server to objects on clients. 
-    /// </summary>
-    /// <param name="go"></param>
-    [ClientRpc]
-    public void RpcDrawCard(GameObject go)
-    {
+        print("SERVER: DRAW card" + go);     
+     
         ICard goCard = go.GetComponent<TreasureCardMono>().Card;
-        //print("CLIENT: add card " + go);
         cards.Add(go);
         hand.Add(goCard);
         foreach (GameObject c in cards)
@@ -183,35 +164,43 @@ public class Player : NetworkBehaviour, IPlayer
             c.transform.SetParent(transform);
             c.transform.position = transform.position;
         }
-       
+
         m_IsTakingTurn = false;
         onDrawCard.Invoke(this);
     }
-
 
     public int PlayCard()
     {
         return 0;
     }
-    public List<string> handStrings = new List<string>();
+
     /// <summary>
     /// called from gui
     /// </summary>
     /// <param name="name"></param>
-    
-    public bool Discard(string name)
+
+    [Command]
+    public void CmdDiscard(string name)
     {
-        if (!m_IsTakingTurn)
-            return false;
         ICard c = hand.Find(x => x.Name == name);
-        GameObject cm = cards.Find(x => x.name == name + "(Clone)");      
-        hand.Remove(c);       
+        GameObject cm = cards.Find(x => x.name == name + "(Clone)");
+        hand.Remove(c);
         cards.Remove(cm);
         onDiscardCard.Invoke(this);
         DiscardStack.singleton.Shuffle(cm);
         m_IsTakingTurn = false;
-        return true;
     }
+    public bool Discard(string name)
+    {
+        if (m_IsTakingTurn)
+        {
+            CmdDiscard(name);
+            return true;
+        }
+
+        return false;
+    }
+
 
     public int MoveCard()
     {
@@ -285,7 +274,7 @@ public class Player : NetworkBehaviour, IPlayer
             m_playerClass = value;
         }
     }
-    
+
     public int Experience
     {
         get
@@ -374,26 +363,5 @@ public class Player : NetworkBehaviour, IPlayer
     }
 
     #endregion IPlayer interface
-
-    #region Testing
-
-    public void TestPlayCard()
-    {
-        //MysteryStack.Draw(dealerCards);
-        //Quinton.FieldHandler.instance.AddBadDude(dealerCards[0]);
-        //Quinton.FieldHandler.instance.AddGoodDude(cards[0]);
-
-     //   Discard(cards[0].name);
-    }
-    //public void TestMystery()
-    //{
-    //    DrawCard<MysteryCard>();
-    //}
-
-    //public void TestTreasure()
-    //{
-    //    DrawCard<TreasureCard>();
-    //}
-    #endregion Testing
 
 }
