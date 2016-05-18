@@ -3,12 +3,12 @@ using UnityEngine.Networking;
 
 public class PlayerLobbyHook : Prototype.NetworkLobby.LobbyHook
 {
-    public override void OnLobbyServerSceneLoadedForPlayer(NetworkManager manager, GameObject lobbyPlayer, GameObject gamePlayer)
+    public override void OnLobbyServerSceneLoadedForPlayer(NetworkManager a_Manager, GameObject a_LobbyPlayer, GameObject a_GamePlayer)
     {
-        if (lobbyPlayer == null)
+        if (a_LobbyPlayer == null)
             return;
-        Prototype.NetworkLobby.LobbyPlayer lp = lobbyPlayer.GetComponent<Prototype.NetworkLobby.LobbyPlayer>();
+        Prototype.NetworkLobby.LobbyPlayer lp = a_LobbyPlayer.GetComponent<Prototype.NetworkLobby.LobbyPlayer>();
         if (lp != null)
-            GameManager.AddPlayer(gamePlayer, lp.nameInput.text);
+            GameManager.AddPlayer(a_GamePlayer, lp.nameInput.text);
     }
 }

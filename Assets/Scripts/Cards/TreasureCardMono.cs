@@ -24,36 +24,36 @@ public class TreasureCardMono : NetworkBehaviour, ICardMono<TreasureCard>, ITrea
         Gold = randomGold;        
         Power = randPower;
         TreasureCard tc = new TreasureCard(Name, Description, Gold, Power);
-        m_card = tc;
+        m_Card = tc;
         transform.name = Name + "(Clone)";
     }
 
-    private TreasureType m_cardType;
+    private TreasureType m_CardType;
     public TreasureType CardType
     {
-        get { return m_cardType; }
-        set { m_cardType = value; }
+        get { return m_CardType; }
+        set { m_CardType = value; }
     }
     [SerializeField]
-    private int m_gold;
+    private int m_Gold;
 
     public int Gold
     {
-        get { return m_gold; }
-        set { m_gold = value; }
+        get { return m_Gold; }
+        set { m_Gold = value; }
     }
 
     [SerializeField]
-    private int m_power;
+    private int m_Power;
     public int Power
     {
-        get { return m_power; }
-        set { m_power = value; }
+        get { return m_Power; }
+        set { m_Power = value; }
 
     }
 
     [SerializeField]
-    private TreasureCard m_card;
+    private TreasureCard m_Card;
     /// <summary>
     /// The new'd up card
     /// </summary>
@@ -61,13 +61,13 @@ public class TreasureCardMono : NetworkBehaviour, ICardMono<TreasureCard>, ITrea
     {
         get
         {
-            return m_card;
+            return m_Card;
         }
 
         set
         {
-           if(m_card == null)
-                m_card = new TreasureCard(Name, Description, Gold, Power);          
+           if(m_Card == null)
+                m_Card = new TreasureCard(Name, Description, Gold, Power);          
         }
     }
 
@@ -103,17 +103,17 @@ public class TreasureCardMono : NetworkBehaviour, ICardMono<TreasureCard>, ITrea
         }
     }
 
-    public string m_description;
+    public string description;
     public string Description
     {
         get
         {
-            return m_description;
+            return description;
         }
 
         set
         {
-            m_description = value;
+            description = value;
         }
     }
 }

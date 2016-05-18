@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 public class Test : MonoBehaviour {
 
-    List<ICard> icards = new List<ICard>();
-    List<TreasureCard> tCards = new List<TreasureCard>();
+    List<ICard> m_Icards = new List<ICard>();
+    List<TreasureCard> m_TCards = new List<TreasureCard>();
     //List<MysteryCard> mCards = new List<MysteryCard>();
     [ContextMenu("test icard")]
     void Init()
@@ -15,18 +15,18 @@ public class Test : MonoBehaviour {
             m.Name = "MysteryCard_" + i.ToString();
             TreasureCard t = new TreasureCard();
             t.Name = "TreasureCard_" + i.ToString();
-            icards.Add(m);
-            icards.Add(t);
+            m_Icards.Add(m);
+            m_Icards.Add(t);
         }
 
-        foreach(ICard c in icards)
+        foreach(ICard c in m_Icards)
         {
             TreasureCard t = c as TreasureCard;
             if (t != null)
-                tCards.Add(t);
+                m_TCards.Add(t);
         }
 
-        foreach(TreasureCard tc in tCards)
+        foreach(TreasureCard tc in m_TCards)
         {
             GameObject go = new GameObject();
             go.AddComponent<TreasureCardMono>();

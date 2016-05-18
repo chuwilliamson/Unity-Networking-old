@@ -30,15 +30,15 @@ public class UICards : MonoBehaviour
     public void OnDragBegin()
     {
         start = r.transform.localPosition;
-        mouse = Input.mousePosition;
+        m_Mouse = Input.mousePosition;
         go.GetComponent<ScrollRect>().enabled = false;
     }
     public void OnDrag()
     {
         current = r.transform.position;
-        deltaMouse = Input.mousePosition - mouse;
+        m_DeltaMouse = Input.mousePosition - m_Mouse;
         
-        r.localPosition = new Vector3(start.x + deltaMouse.x, start.y + deltaMouse.y, 0.0f);
+        r.localPosition = new Vector3(start.x + m_DeltaMouse.x, start.y + m_DeltaMouse.y, 0.0f);
 
     }
 
@@ -49,21 +49,21 @@ public class UICards : MonoBehaviour
     }
 
     [SerializeField]
-    Vector3 deltaMouse;
+    Vector3 m_DeltaMouse;
     
     [SerializeField]
-    float MouseToBottom;
+    float m_MouseToBottom;
 
     [SerializeField]
-    Vector3 mouse;
+    Vector3 m_Mouse;
 
     [SerializeField]
-    Vector3 pos;
+    Vector3 m_Pos;
 
 
 
     [SerializeField]
-    float newX, newY, zOffset;
+    float m_NewX, m_NewY, m_ZOffset;
 
 
 }
