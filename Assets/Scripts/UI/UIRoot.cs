@@ -6,23 +6,23 @@ using System;
 [Serializable]
 public class UIRoot : MonoBehaviour
 {
-    public Player player;
+    public Player m_Player;
     public GameObject cardButton;
     public Transform cardTransform;
 
-    public void Setup(Player a_P)
+    public void Setup(Player p)
     {        
-        player = a_P;
-        player.onDrawCard.AddListener(UpdateUI);
-        player.onDiscardCard.AddListener(UpdateUI);     
+        m_Player = p;
+        m_Player.onDrawCard.AddListener(UpdateUI);
+        m_Player.onDiscardCard.AddListener(UpdateUI);     
     }
 
-    public void UpdateUI(Player a_P)
+    public void UpdateUI(Player p)
     {
-        m_PlayerLabel.text = "Player: " + player.playerName;
-        m_GoldLabel.text = "Gold: " + player.Gold.ToString();
-        m_LevelLabel.text = "Level: " + player.Level.ToString();
-        m_PowerLabel.text = "Power: " + player.Power.ToString();
+        PlayerLabel.text = "Player: " + m_Player.m_PlayerName;
+        GoldLabel.text = "Gold: " + m_Player.Gold.ToString();
+        LevelLabel.text = "Level: " + m_Player.Level.ToString();
+        PowerLabel.text = "Power: " + m_Player.Power.ToString();
         //Debug.Log("populate UI cards");
         if (transform.childCount > 0)
         {
@@ -31,9 +31,9 @@ public class UIRoot : MonoBehaviour
                 Destroy(t.gameObject);
             }
         }
-        if (player.hand.Count < 1)
+        if (m_Player.hand.Count < 1)
             return;
-        foreach (ICard c in player.hand)
+        foreach (ICard c in m_Player.hand)
         {
             GameObject card = Instantiate(cardButton, cardTransform.position, Quaternion.identity) as GameObject;
             card.transform.SetParent(cardTransform);
@@ -48,10 +48,10 @@ public class UIRoot : MonoBehaviour
     }
 
 
-    public void PlayCard(string a_N, GameObject a_Card)
+    public void PlayCard(string n, GameObject card)
     {
-        Player p = player;
-        ICard c = p.hand.Find(a_X => a_X.Name == a_N);
+        Player p = m_Player;
+        ICard c = p.hand.Find(x => x.Name == n);
         Type cardType = c.GetType();
 
         UnityAction a = () => { /*placeholder for mystery play*/};
@@ -59,20 +59,20 @@ public class UIRoot : MonoBehaviour
         
         (cardType == typeof(MysteryCard) ? a : b)();
 
-        p.Discard(a_N);   // Removes for players hand
+        p.Discard(n);   // Removes for players hand
         
     }
 
     [SerializeField]
-    private Text m_TurnLabel;
+    private Text TurnLabel;
     [SerializeField]
-    private Text m_PowerLabel;
+    private Text PowerLabel;
     [SerializeField]
-    private Text m_LevelLabel;
+    private Text LevelLabel;
     [SerializeField]
-    private Text m_GoldLabel;
+    private Text GoldLabel;
     [SerializeField]
-    private Text m_PlayerLabel;
+    private Text PlayerLabel;
 
 
 }

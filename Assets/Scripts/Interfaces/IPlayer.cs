@@ -21,11 +21,11 @@ public interface IPlayer
 
     int MoveCard();
 
-    int SellCard(TreasureCardMono a_Card);
+    int SellCard(TreasureCardMono a_card);
 
-    int GainGold(int a_Gold);
+    int GainGold(int a_gold);
 
-    int GainExperience(int a_Experience);
+    int GainExperience(int a_experience);
 
-    int LevelUp(int a_Levels);
+    int LevelUp(int a_levels);
 }

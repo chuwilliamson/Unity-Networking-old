@@ -7,12 +7,12 @@ public class Stack : NetworkBehaviour
 {
 
     [SyncVar(hook = "SetParent")]
-    public int numCards = 0;
+    public int m_NumCards = 0;
 
-    public GameObject treasureCardPrefab;
+    public GameObject TreasureCardPrefab;
 
     [SerializeField]
-    public static List<GameObject> cards = new List<GameObject>();
+    public static List<GameObject> m_Cards = new List<GameObject>();
 
     protected virtual void Awake()
     {
@@ -22,13 +22,13 @@ public class Stack : NetworkBehaviour
     public GameObject Draw()
     {
 
-        if (cards.Count > 0)
+        if (m_Cards.Count > 0)
         {
-            GameObject top = cards[0];          
+            GameObject top = m_Cards[0];          
             
             
-            cards.Remove(top);
-            numCards = cards.Count;
+            m_Cards.Remove(top);
+            m_NumCards = m_Cards.Count;
             
             return top;
         }
@@ -37,45 +37,45 @@ public class Stack : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcDraw(GameObject a_Card)
+    public void RpcDraw(GameObject card)
     {
         if (!isServer)
             return;
         
-        cards.Remove(a_Card);
-        numCards = cards.Count;
+        m_Cards.Remove(card);
+        m_NumCards = m_Cards.Count;
         
 
     }
-    public void Shuffle(GameObject a_Card)
+    public void Shuffle(GameObject card)
     {        
-        cards.Add(a_Card);
-        numCards = cards.Count;          
+        m_Cards.Add(card);
+        m_NumCards = m_Cards.Count;          
     }
 
     [Command]
-    public void CmdShuffle(GameObject a_Card)
+    public void CmdShuffle(GameObject card)
     {
         if (!isLocalPlayer)
             return;
         
-        RpcShuffle(a_Card);
+        RpcShuffle(card);
     }
 
     [ClientRpc]
-    public void RpcShuffle(GameObject a_Card)
+    public void RpcShuffle(GameObject card)
     {
         if (!isServer) //if you aren't the server don't run
             return;
-        cards.Add(a_Card);
-        numCards = cards.Count;
+        m_Cards.Add(card);
+        m_NumCards = m_Cards.Count;
     }
 
-    public void SetParent(int a_NumCards)
+    public void SetParent(int numCards)
     {
         Debug.Log("set parent");
-        this.numCards = cards.Count;
-        foreach (GameObject card in cards)
+        m_NumCards = m_Cards.Count;
+        foreach (GameObject card in m_Cards)
             card.transform.SetParent(transform);
     }
 

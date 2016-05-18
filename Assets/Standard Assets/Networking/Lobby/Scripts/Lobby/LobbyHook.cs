@@ -11,7 +11,7 @@ namespace Prototype.NetworkLobby
     // then add it to the lobby prefab
     public abstract class LobbyHook : MonoBehaviour
     {
-        public virtual void OnLobbyServerSceneLoadedForPlayer(NetworkManager a_Manager, GameObject a_LobbyPlayer, GameObject a_GamePlayer)
+        public virtual void OnLobbyServerSceneLoadedForPlayer(NetworkManager manager, GameObject lobbyPlayer, GameObject gamePlayer)
         {
             
         }
