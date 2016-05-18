@@ -42,5 +42,10 @@ public class PlayerManager
             m_Player.m_IsTakingTurn = true;
     }
 
+    public void Update()
+    {
+
+    }
+
     
 }

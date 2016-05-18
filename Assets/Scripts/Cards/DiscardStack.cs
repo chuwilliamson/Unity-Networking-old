@@ -1,20 +1,18 @@
 ﻿
 public class DiscardStack : Stack
 {
-
-
     public static DiscardStack singleton = null;
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
+        
         if (singleton == null)
             singleton = this;
-        m_NumCards = m_Cards.Count;
     }
 
     public override void OnStartServer()
     {
-        base.OnStartServer();        
+        base.OnStartServer();
+        m_NumCards = m_Cards.Count;
     }
 
     public override void OnStartClient()

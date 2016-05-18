@@ -4,6 +4,8 @@ public class UIServer : NetworkBehaviour
 {
     public UnityEngine.UI.Text ActivePlayer;
     public UnityEngine.UI.Text CardCount;
+    [SyncVar]
+    int m_NumCards;
     private void Start()
     {     
         GameManager.singleton.PlayerChange.AddListener(SetActivePlayerText);
@@ -17,6 +19,6 @@ public class UIServer : NetworkBehaviour
 
     public void SetCardCountText()
     {
-        CardCount.text = "TreasureCount: " + TreasureStack.singleton.m_NumCards.ToString();
+        CardCount.text = "TreasureCount: " + m_NumCards.ToString();
     }
 }

@@ -391,7 +391,7 @@ MonoBehaviour:
     i13: 72
     i14: 193
     i15: 41
-  m_ServerOnly: 1
+  m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &11462128
 MonoBehaviour:
@@ -406,7 +406,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NumCards: 0
   TreasureCardPrefab: {fileID: 176322, guid: a81250c6826e58d49a88c1e49299d220, type: 2}
-  m_Cards: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

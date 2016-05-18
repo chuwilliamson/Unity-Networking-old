@@ -43,23 +43,18 @@ public class UIRoot : MonoBehaviour
             card.name = c.Name;
             card.GetComponentInChildren<UnityEngine.UI.Text>().text = card.name;
             card.GetComponentInChildren<UnityEngine.UI.Button>().onClick.
-                AddListener(delegate{ PlayCard(card.name, card); });
+                AddListener(delegate{
+                    PlayCard(card.name);
+                    });
         }
     }
 
 
-    public void PlayCard(string n, GameObject card)
+    public void PlayCard(string n)
     {
         Player p = m_Player;
-        ICard c = p.hand.Find(x => x.Name == n);
-        Type cardType = c.GetType();
-
-        UnityAction a = () => { /*placeholder for mystery play*/};
-        UnityAction b = () => {                                 };
-        
-        (cardType == typeof(MysteryCard) ? a : b)();
-
-        p.Discard(n);   // Removes for players hand
+        GameObject go = p.cards.Find(x => x.GetComponent<TreasureCardMono>().Name == n + "(Clone)");
+        p.CmdDiscard(n, go);   // Removes for players hand
         
     }
 

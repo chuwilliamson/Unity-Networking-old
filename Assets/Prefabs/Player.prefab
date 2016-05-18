@@ -1243,7 +1243,7 @@ MonoBehaviour:
     i14: 146
     i15: 13
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11432696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1355,7 +1355,6 @@ MonoBehaviour:
   UICamera: {fileID: 187538}
   Camera: {fileID: 115396}
   m_Renderers: []
-  handStrings: []
   cards: []
 --- !u!114 &11442888
 MonoBehaviour:

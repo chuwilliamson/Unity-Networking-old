@@ -10,14 +10,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 public class ServerEvent : UnityEvent { }
+public class ClientEvent : UnityEvent { }
 public class GameManager : NetworkBehaviour
 {
+    public ClientEvent ClientAction;
     public ServerEvent PlayerChange;
-    public static GameManager singleton = null;
-    public static List<PlayerManager> m_players = new List<PlayerManager>();
     public bool quit = false;
     private WaitForSeconds m_Wait;
-
+    public static GameManager singleton = null;
+    public static List<PlayerManager> m_players = new List<PlayerManager>();
     [SyncVar]
     private int activePlayerIndex;
 
@@ -84,13 +85,19 @@ public class GameManager : NetworkBehaviour
         yield return StartCoroutine(GameStart());
         yield return StartCoroutine(PlayerTurn());
 
-        while (!quit) yield return m_Wait;
+        while (!quit)
+        {
+            if(m_players.Count <= 1)
+            {
+                Debug.Log("should break and return to menu");
+            }
+            yield return m_Wait;
+        }
         Prototype.NetworkLobby.LobbyManager.s_Singleton.ServerReturnToLobby();
     }
 
     IEnumerator GameStart()
     {
-        //print("Game Started");
         activePlayerIndex = 0;
         activePlayerManager = m_players[activePlayerIndex];
         
