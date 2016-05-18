@@ -6,11 +6,11 @@ using UnityEngine.Networking;
 
 public enum CharacterClass
 {
-    NONE,
-    CLASS1,//+1 to RunAway lvl up from assisting
-    CLASS2,//discard a treasure for + 2 * cardPower till eot
-    CLASS3,//discard any card for + 3 power
-    CLASS4,//double gold on sell discard any card for + RunAway
+    None,
+    Class1,//+1 to RunAway lvl up from assisting
+    Class2,//discard a treasure for + 2 * cardPower till eot
+    Class3,//discard any card for + 3 power
+    Class4,//double gold on sell discard any card for + RunAway
 }
 
 
@@ -20,47 +20,47 @@ public class DrawCardEvent : UnityEvent<Player>
 public class Player : NetworkBehaviour, IPlayer
 {
     [SyncVar]
-    public string m_PlayerName;
+    public string playerName;
     [SyncVar]
-    public int m_PlayerNumber;
+    public int playerNumber;
     [SyncVar]
-    public bool m_IsReady = false;
+    public bool isReady = false;
     [SyncVar]
-    private CharacterClass m_playerClass;
+    private CharacterClass m_PlayerClass;
     [SyncVar]
-    private int m_level;
+    private int m_Level;
     [SyncVar]
-    private int m_runAway;
+    private int m_RunAway;
     [SyncVar]
-    private int m_gold;
+    private int m_Gold;
     [SyncVar]
-    private int m_power;
+    private int m_Power;
     [SyncVar]
-    private int m_modPower;
+    private int m_ModPower;
     [SyncVar]
-    private int m_maxExperience;
+    private int m_MaxExperience;
     [SyncVar]
-    private int m_experience;
+    private int m_Experience;
     [SyncVar]
-    private int m_maxLevel;
+    private int m_MaxLevel;
     [SyncVar]
-    private int m_maxGold;
+    private int m_MaxGold;
     [SyncVar]
-    private int m_PlayerID;
+    private int m_PlayerId;
     [SyncVar]
-    public bool m_IsTakingTurn = false;
+    public bool isTakingTurn = false;
 
-    public GameObject UI;
-    public GameObject UICamera;
+    public GameObject ui;
+    public GameObject uiCamera;
     public GameObject Camera;
     public DrawCardEvent onDrawCard;
     public DrawCardEvent onDiscardCard;
-    public List<GameObject> m_Renderers;
+    public List<GameObject> renderers;
 
 
-    public void Setup(string name)
+    public void Setup(string a_Name)
     {
-        m_Renderers = new List<GameObject> { UI, UICamera, Camera };
+        renderers = new List<GameObject> { ui, uiCamera, Camera };
 
         if (onDrawCard == null)
         {
@@ -68,14 +68,14 @@ public class Player : NetworkBehaviour, IPlayer
             onDiscardCard = new DrawCardEvent();
         }
 
-        m_PlayerNumber = playerControllerId;
-        m_power = Power;
-        m_level = Level;
-        m_gold = Gold;
-        m_runAway = RunAway;
-        m_PlayerName = name;
+        playerNumber = playerControllerId;
+        m_Power = Power;
+        m_Level = Level;
+        m_Gold = Gold;
+        m_RunAway = RunAway;
+        playerName = a_Name;
         //Debug.Log("Setup:" + m_PlayerName);
-        foreach (var i in m_Renderers)
+        foreach (var i in renderers)
             i.SetActive(false);
 
 
@@ -87,7 +87,7 @@ public class Player : NetworkBehaviour, IPlayer
 
         if (!isServer)
         {
-            GameManager.AddPlayer(gameObject, m_PlayerName);
+            GameManager.AddPlayer(gameObject, playerName);
            // Debug.Log("!isServer: GameManager.AddPlayer:" + m_PlayerName);
         }
 
@@ -104,10 +104,10 @@ public class Player : NetworkBehaviour, IPlayer
         //print("SetCamera: " + m_PlayerName);
         Camera.SetActive(true);
         Camera.transform.LookAt(new Vector3(0, 5, 0));
-        UI.SetActive(true);
-        UICamera.SetActive(true);
+        ui.SetActive(true);
+        uiCamera.SetActive(true);
         onDrawCard.Invoke(this);
-        foreach (GameObject go in TreasureStack.m_Cards)
+        foreach (GameObject go in TreasureStack.cards)
             Debug.Log(go.name);
     }
 
@@ -122,7 +122,7 @@ public class Player : NetworkBehaviour, IPlayer
     {
         if (!isLocalPlayer)
             return;
-        if (m_IsTakingTurn)
+        if (isTakingTurn)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {                
@@ -134,19 +134,24 @@ public class Player : NetworkBehaviour, IPlayer
             }
         }
     }
- 
 
+/*
+isServer - true if the object is on a server (or host) and has been spawned.
+isClient - true if the object is on a client, and was created by the server.
+isLocalPlayer - true if the object is a player object for this client.
+hasAuthority - true if the object is owned by the local process
+*/
     /// <summary>
     /// Draw a card on the server, then update the client        
     /// Command: Commands are sent from player objects on the client to player objects on the server.
     /// </summary>
     
-    public void DrawCard(int stack)
+    public void DrawCard(int a_Stack)
     {
         GameObject go = null;
-        if (stack == 1)
+        if (a_Stack == 1)
             go = TreasureStack.singleton.Draw();
-        if (stack == 2)
+        if (a_Stack == 2)
             go = DiscardStack.singleton.Draw();
 
         if (go == null)
@@ -165,7 +170,7 @@ public class Player : NetworkBehaviour, IPlayer
             c.transform.position = transform.position;
         }
 
-        m_IsTakingTurn = false;
+        isTakingTurn = false;
         onDrawCard.Invoke(this);
     }
 
@@ -177,26 +182,26 @@ public class Player : NetworkBehaviour, IPlayer
     /// <summary>
     /// called from gui
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="a_Name"></param>
 
     [Command]
-    public void CmdDiscard(string name)
+    public void CmdDiscard(string a_Name)
     {
-        ICard c = hand.Find(x => x.Name == name);
-        GameObject cm = cards.Find(x => x.name == name + "(Clone)");
+        ICard c = hand.Find(a_X => a_X.Name == a_Name);
+        GameObject cm = cards.Find(a_X => a_X.name == a_Name + "(Clone)");
         hand.Remove(c);
         cards.Remove(cm);
         onDiscardCard.Invoke(this);
         DiscardStack.singleton.Shuffle(cm);
-        m_IsTakingTurn = false;
+        isTakingTurn = false;
     }
-    public bool Discard(string name)
+    public bool Discard(string a_Name)
     {
-        if (m_IsTakingTurn)
+        if (isTakingTurn)
         {
-            CmdDiscard(name);
+            CmdDiscard(a_Name);
             return true;
-        }
+        }        
 
         return false;
     }
@@ -207,46 +212,46 @@ public class Player : NetworkBehaviour, IPlayer
         return 0;
     }
 
-    public int SellCard(TreasureCardMono a_card)
+    public int SellCard(TreasureCardMono a_Card)
     {
-        GainGold(a_card.Card.Gold);
+        GainGold(a_Card.Card.Gold);
         return 0;
     }
 
-    public int GainGold(int a_gold)
+    public int GainGold(int a_Gold)
     {
-        m_gold += a_gold;
+        m_Gold += a_Gold;
 
-        while (m_gold >= m_maxGold)
+        while (m_Gold >= m_MaxGold)
         {
-            m_gold -= m_maxGold;
+            m_Gold -= m_MaxGold;
             LevelUp(1);
         }
 
         return 0;
     }
 
-    public int GainExperience(int a_experience)
+    public int GainExperience(int a_Experience)
     {
-        m_experience += a_experience;
+        m_Experience += a_Experience;
 
-        while (m_experience >= m_maxExperience)
+        while (m_Experience >= m_MaxExperience)
         {
-            m_experience -= m_maxExperience;
+            m_Experience -= m_MaxExperience;
             LevelUp(1);
         }
 
         return 0;
     }
 
-    public int LevelUp(int a_levels)
+    public int LevelUp(int a_Levels)
     {
-        if (m_level < m_maxLevel)
+        if (m_Level < m_MaxLevel)
         {
-            m_level += a_levels;
+            m_Level += a_Levels;
 
-            for (int i = 0; i < a_levels; i++)
-                m_maxExperience += (int)(m_maxExperience * 0.5f);
+            for (int i = 0; i < a_Levels; i++)
+                m_MaxExperience += (int)(m_MaxExperience * 0.5f);
         }
 
         return 0;
@@ -259,19 +264,19 @@ public class Player : NetworkBehaviour, IPlayer
     #region IPlayer interface
     public int RunAway
     {
-        get { return UnityEngine.Random.Range(1, 6) + m_runAway; }
-        set { m_runAway = value; }
+        get { return UnityEngine.Random.Range(1, 6) + m_RunAway; }
+        set { m_RunAway = value; }
     }
 
     public CharacterClass PlayerClass
     {
         get
         {
-            return m_playerClass;
+            return m_PlayerClass;
         }
         set
         {
-            m_playerClass = value;
+            m_PlayerClass = value;
         }
     }
 
@@ -279,7 +284,7 @@ public class Player : NetworkBehaviour, IPlayer
     {
         get
         {
-            return m_experience;
+            return m_Experience;
         }
     }
 
@@ -287,11 +292,11 @@ public class Player : NetworkBehaviour, IPlayer
     {
         get
         {
-            return m_modPower + Power;
+            return m_ModPower + Power;
         }
         set
         {
-            m_modPower = value;
+            m_ModPower = value;
         }
     }
 
@@ -299,9 +304,9 @@ public class Player : NetworkBehaviour, IPlayer
     {
         get
         {
-            if (m_level <= 0)
+            if (m_Level <= 0)
                 return 1;
-            return m_level;
+            return m_Level;
         }
         set { }
 
@@ -312,20 +317,20 @@ public class Player : NetworkBehaviour, IPlayer
     {
         get
         {
-            m_power = 0;
+            m_Power = 0;
 
             foreach (GameObject m in cards)
             {
                 //Debug.Log ("power is " + powerCounter.ToString ());
                 if (m.GetComponent<TreasureCardMono>() != null)
-                    m_power += m.GetComponent<TreasureCardMono>().Power;
+                    m_Power += m.GetComponent<TreasureCardMono>().Power;
 
             }
-            return m_power + m_level;
+            return m_Power + m_Level;
         }
         set
         {
-            m_power = value;
+            m_Power = value;
         }
 
     }
@@ -334,19 +339,19 @@ public class Player : NetworkBehaviour, IPlayer
     {
         get
         {
-            int m_gold = 0;
+            int gold = 0;
             foreach (GameObject m in cards)
             {
 
                 if (m.GetComponent<TreasureCardMono>())
-                    m_gold += m.GetComponent<TreasureCardMono>().Gold;
+                    gold += m.GetComponent<TreasureCardMono>().Gold;
             }
 
-            return m_gold;
+            return gold;
 
 
         }
-        set { m_gold = value; }
+        set { m_Gold = value; }
     }
 
     public GameObject Instance
@@ -365,3 +370,4 @@ public class Player : NetworkBehaviour, IPlayer
     #endregion IPlayer interface
 
 }
+ 
