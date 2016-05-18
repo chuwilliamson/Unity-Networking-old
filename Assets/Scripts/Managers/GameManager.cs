@@ -2,63 +2,59 @@
 #pragma warning disable 0219
 #pragma warning disable 0414
 
+using UnityEngine;
+
+using UnityEngine.Networking;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Prototype.NetworkLobby;
-using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
-
-public class ServerEvent : UnityEvent
-{
-}
-
+public class ServerEvent : UnityEvent { }
 public class GameManager : NetworkBehaviour
 {
-    
-    public ServerEvent playerChange;
-    public static GameManager singleton;
-    public static List<PlayerManager> players = new List<PlayerManager>();
-    public bool quit;
+    public ServerEvent PlayerChange;
+    public static GameManager singleton = null;
+    public static List<PlayerManager> m_players = new List<PlayerManager>();
+    public bool quit = false;
     private WaitForSeconds m_Wait;
 
     [SyncVar]
-    private int m_ActivePlayerIndex;
+    private int activePlayerIndex;
 
     [SyncVar]
-    public bool hasStarted;
+    public bool hasStarted = false;
 
     [SerializeField]
     public Player activePlayer;
 
-    private PlayerManager m_ActivePlayerManager;
+    private PlayerManager m_activePlayerManager;
 
-    private PlayerManager activePlayerManager
+    public PlayerManager activePlayerManager
     {
-        get { return m_ActivePlayerManager; }
+        get { return m_activePlayerManager; }
         set
         {
-            m_ActivePlayerManager = value;
-            activePlayer = m_ActivePlayerManager.player;
-            playerChange.Invoke();
+            m_activePlayerManager = value;
+            activePlayer = m_activePlayerManager.m_Player;
+            PlayerChange.Invoke();
         }
     }
 
-    public static void AddPlayer(GameObject a_Player, string a_Name)
+    public static void AddPlayer(GameObject player, string name)
     {
-        var pm = new PlayerManager();
-        pm.instance = a_Player;
-        pm.name = a_Name;
+        PlayerManager pm = new PlayerManager();
+        pm.m_Instance = player;
+        pm.m_Name = name;
         pm.Setup();
-        players.Add(pm);
+        m_players.Add(pm);
     }
 
-    public void RemovePlayer(GameObject a_P)
+    public void RemovePlayer(GameObject p)
     {
         PlayerManager toRemove = null;
-        foreach (var tmp in players)
+        foreach (var tmp in m_players)
         {
-            if (tmp.instance == a_P)
+            if (tmp.m_Instance == p)
             {
                 toRemove = tmp;
                 break;
@@ -66,14 +62,14 @@ public class GameManager : NetworkBehaviour
         }
 
         if (toRemove != null)
-            players.Remove(toRemove);
+            m_players.Remove(toRemove);
     }
 
-    private void Awake()
+    void Awake()
     {
         singleton = this;
-        if (playerChange == null)
-            playerChange = new ServerEvent();
+        if (PlayerChange == null)
+            PlayerChange = new ServerEvent();
     }
 
     [ServerCallback]
@@ -83,48 +79,48 @@ public class GameManager : NetworkBehaviour
         StartCoroutine(GameLoop());
     }
 
-    private IEnumerator GameLoop()
+    IEnumerator GameLoop()
     {
         yield return StartCoroutine(GameStart());
         yield return StartCoroutine(PlayerTurn());
 
-        while (!quit)
-            yield return m_Wait;
-        LobbyManager.s_Singleton.ServerReturnToLobby();
+        while (!quit) yield return m_Wait;
+        Prototype.NetworkLobby.LobbyManager.s_Singleton.ServerReturnToLobby();
     }
 
-    private IEnumerator GameStart()
+    IEnumerator GameStart()
     {
-        m_ActivePlayerIndex = 0;
-        activePlayerManager = players[m_ActivePlayerIndex];
-
-        if (players.Count > 1)
+        //print("Game Started");
+        activePlayerIndex = 0;
+        activePlayerManager = m_players[activePlayerIndex];
+        
+        if (m_players.Count > 1)
         {
-            var left = new Rect(0, 0, 1, .5f);
-            var right = new Rect(0, 0.5f, 1, .5f);
-            players[0].playerCamera.rect = left;
-            players[0].playerUICamera.rect = left;
-            players[1].playerCamera.rect = right;
-            players[1].playerUICamera.rect = right;
+            Rect Left = new Rect(0, 0, 1, .5f);
+            Rect Right = new Rect(0, 0.5f, 1, .5f);
+            m_players[0].m_PlayerCamera.rect = Left;
+            m_players[0].m_PlayerUICamera.rect = Left;
+            m_players[1].m_PlayerCamera.rect = Right;
+            m_players[1].m_PlayerUICamera.rect = Right;
             hasStarted = true;
         }
         yield return null;
     }
 
-    private IEnumerator PlayerTurn()
+    IEnumerator PlayerTurn()
     {
         activePlayerManager.Start();
         while (activePlayerManager.IsTakingTurn)
         {
-            //  Debug.Log("Current Player is " + activePlayer.m_PlayerName);
+          //  Debug.Log("Current Player is " + activePlayer.m_PlayerName);
             yield return null;
         }
-        m_ActivePlayerIndex += 1;
-        if (m_ActivePlayerIndex >= players.Count)
-            m_ActivePlayerIndex = 0;
+        activePlayerIndex += 1;
+        if (activePlayerIndex >= m_players.Count)
+            activePlayerIndex = 0;
 
-        activePlayerManager = players[m_ActivePlayerIndex];
-
+        activePlayerManager = m_players[activePlayerIndex];
+        
         yield return null;
         yield return StartCoroutine(PlayerTurn());
     }

@@ -6,11 +6,11 @@ using UnityEngine.Networking;
 
 public enum CharacterClass
 {
-    None,
-    Class1,//+1 to RunAway lvl up from assisting
-    Class2,//discard a treasure for + 2 * cardPower till eot
-    Class3,//discard any card for + 3 power
-    Class4,//double gold on sell discard any card for + RunAway
+    NONE,
+    CLASS1,//+1 to RunAway lvl up from assisting
+    CLASS2,//discard a treasure for + 2 * cardPower till eot
+    CLASS3,//discard any card for + 3 power
+    CLASS4,//double gold on sell discard any card for + RunAway
 }
 
 
@@ -20,47 +20,47 @@ public class DrawCardEvent : UnityEvent<Player>
 public class Player : NetworkBehaviour, IPlayer
 {
     [SyncVar]
-    public string playerName;
+    public string m_PlayerName;
     [SyncVar]
-    public int playerNumber;
+    public int m_PlayerNumber;
     [SyncVar]
-    public bool isReady = false;
+    public bool m_IsReady = false;
     [SyncVar]
-    private CharacterClass m_PlayerClass;
+    private CharacterClass m_playerClass;
     [SyncVar]
-    private int m_Level;
+    private int m_level;
     [SyncVar]
-    private int m_RunAway;
+    private int m_runAway;
     [SyncVar]
-    private int m_Gold;
+    private int m_gold;
     [SyncVar]
-    private int m_Power;
+    private int m_power;
     [SyncVar]
-    private int m_ModPower;
+    private int m_modPower;
     [SyncVar]
-    private int m_MaxExperience;
+    private int m_maxExperience;
     [SyncVar]
-    private int m_Experience;
+    private int m_experience;
     [SyncVar]
-    private int m_MaxLevel;
+    private int m_maxLevel;
     [SyncVar]
-    private int m_MaxGold;
+    private int m_maxGold;
     [SyncVar]
-    private int m_PlayerId;
+    private int m_PlayerID;
     [SyncVar]
-    public bool isTakingTurn = false;
+    public bool m_IsTakingTurn = false;
 
-    public GameObject ui;
-    public GameObject uiCamera;
+    public GameObject UI;
+    public GameObject UICamera;
     public GameObject Camera;
     public DrawCardEvent onDrawCard;
     public DrawCardEvent onDiscardCard;
-    public List<GameObject> renderers;
+    public List<GameObject> m_Renderers;
 
 
-    public void Setup(string a_Name)
+    public void Setup(string name)
     {
-        renderers = new List<GameObject> { ui, uiCamera, Camera };
+        m_Renderers = new List<GameObject> { UI, UICamera, Camera };
 
         if (onDrawCard == null)
         {
@@ -68,14 +68,14 @@ public class Player : NetworkBehaviour, IPlayer
             onDiscardCard = new DrawCardEvent();
         }
 
-        playerNumber = playerControllerId;
-        m_Power = Power;
-        m_Level = Level;
-        m_Gold = Gold;
-        m_RunAway = RunAway;
-        playerName = a_Name;
+        m_PlayerNumber = playerControllerId;
+        m_power = Power;
+        m_level = Level;
+        m_gold = Gold;
+        m_runAway = RunAway;
+        m_PlayerName = name;
         //Debug.Log("Setup:" + m_PlayerName);
-        foreach (var i in renderers)
+        foreach (var i in m_Renderers)
             i.SetActive(false);
 
 
@@ -87,7 +87,7 @@ public class Player : NetworkBehaviour, IPlayer
 
         if (!isServer)
         {
-            GameManager.AddPlayer(gameObject, playerName);
+            GameManager.AddPlayer(gameObject, m_PlayerName);
            // Debug.Log("!isServer: GameManager.AddPlayer:" + m_PlayerName);
         }
 
@@ -104,10 +104,10 @@ public class Player : NetworkBehaviour, IPlayer
         //print("SetCamera: " + m_PlayerName);
         Camera.SetActive(true);
         Camera.transform.LookAt(new Vector3(0, 5, 0));
-        ui.SetActive(true);
-        uiCamera.SetActive(true);
+        UI.SetActive(true);
+        UICamera.SetActive(true);
         onDrawCard.Invoke(this);
-        foreach (GameObject go in TreasureStack.cards)
+        foreach (GameObject go in TreasureStack.m_Cards)
             Debug.Log(go.name);
     }
 
@@ -122,7 +122,7 @@ public class Player : NetworkBehaviour, IPlayer
     {
         if (!isLocalPlayer)
             return;
-        if (isTakingTurn)
+        if (m_IsTakingTurn)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {                
@@ -134,24 +134,19 @@ public class Player : NetworkBehaviour, IPlayer
             }
         }
     }
+ 
 
-/*
-isServer - true if the object is on a server (or host) and has been spawned.
-isClient - true if the object is on a client, and was created by the server.
-isLocalPlayer - true if the object is a player object for this client.
-hasAuthority - true if the object is owned by the local process
-*/
     /// <summary>
     /// Draw a card on the server, then update the client        
     /// Command: Commands are sent from player objects on the client to player objects on the server.
     /// </summary>
     
-    public void DrawCard(int a_Stack)
+    public void DrawCard(int stack)
     {
         GameObject go = null;
-        if (a_Stack == 1)
+        if (stack == 1)
             go = TreasureStack.singleton.Draw();
-        if (a_Stack == 2)
+        if (stack == 2)
             go = DiscardStack.singleton.Draw();
 
         if (go == null)
@@ -170,7 +165,7 @@ hasAuthority - true if the object is owned by the local process
             c.transform.position = transform.position;
         }
 
-        isTakingTurn = false;
+        m_IsTakingTurn = false;
         onDrawCard.Invoke(this);
     }
 
@@ -182,26 +177,26 @@ hasAuthority - true if the object is owned by the local process
     /// <summary>
     /// called from gui
     /// </summary>
-    /// <param name="a_Name"></param>
+    /// <param name="name"></param>
 
     [Command]
-    public void CmdDiscard(string a_Name)
+    public void CmdDiscard(string name)
     {
-        ICard c = hand.Find(a_X => a_X.Name == a_Name);
-        GameObject cm = cards.Find(a_X => a_X.name == a_Name + "(Clone)");
+        ICard c = hand.Find(x => x.Name == name);
+        GameObject cm = cards.Find(x => x.name == name + "(Clone)");
         hand.Remove(c);
         cards.Remove(cm);
         onDiscardCard.Invoke(this);
         DiscardStack.singleton.Shuffle(cm);
-        isTakingTurn = false;
+        m_IsTakingTurn = false;
     }
-    public bool Discard(string a_Name)
+    public bool Discard(string name)
     {
-        if (isTakingTurn)
+        if (m_IsTakingTurn)
         {
-            CmdDiscard(a_Name);
+            CmdDiscard(name);
             return true;
-        }        
+        }
 
         return false;
     }
@@ -212,46 +207,46 @@ hasAuthority - true if the object is owned by the local process
         return 0;
     }
 
-    public int SellCard(TreasureCardMono a_Card)
+    public int SellCard(TreasureCardMono a_card)
     {
-        GainGold(a_Card.Card.Gold);
+        GainGold(a_card.Card.Gold);
         return 0;
     }
 
-    public int GainGold(int a_Gold)
+    public int GainGold(int a_gold)
     {
-        m_Gold += a_Gold;
+        m_gold += a_gold;
 
-        while (m_Gold >= m_MaxGold)
+        while (m_gold >= m_maxGold)
         {
-            m_Gold -= m_MaxGold;
+            m_gold -= m_maxGold;
             LevelUp(1);
         }
 
         return 0;
     }
 
-    public int GainExperience(int a_Experience)
+    public int GainExperience(int a_experience)
     {
-        m_Experience += a_Experience;
+        m_experience += a_experience;
 
-        while (m_Experience >= m_MaxExperience)
+        while (m_experience >= m_maxExperience)
         {
-            m_Experience -= m_MaxExperience;
+            m_experience -= m_maxExperience;
             LevelUp(1);
         }
 
         return 0;
     }
 
-    public int LevelUp(int a_Levels)
+    public int LevelUp(int a_levels)
     {
-        if (m_Level < m_MaxLevel)
+        if (m_level < m_maxLevel)
         {
-            m_Level += a_Levels;
+            m_level += a_levels;
 
-            for (int i = 0; i < a_Levels; i++)
-                m_MaxExperience += (int)(m_MaxExperience * 0.5f);
+            for (int i = 0; i < a_levels; i++)
+                m_maxExperience += (int)(m_maxExperience * 0.5f);
         }
 
         return 0;
@@ -264,19 +259,19 @@ hasAuthority - true if the object is owned by the local process
     #region IPlayer interface
     public int RunAway
     {
-        get { return UnityEngine.Random.Range(1, 6) + m_RunAway; }
-        set { m_RunAway = value; }
+        get { return UnityEngine.Random.Range(1, 6) + m_runAway; }
+        set { m_runAway = value; }
     }
 
     public CharacterClass PlayerClass
     {
         get
         {
-            return m_PlayerClass;
+            return m_playerClass;
         }
         set
         {
-            m_PlayerClass = value;
+            m_playerClass = value;
         }
     }
 
@@ -284,7 +279,7 @@ hasAuthority - true if the object is owned by the local process
     {
         get
         {
-            return m_Experience;
+            return m_experience;
         }
     }
 
@@ -292,11 +287,11 @@ hasAuthority - true if the object is owned by the local process
     {
         get
         {
-            return m_ModPower + Power;
+            return m_modPower + Power;
         }
         set
         {
-            m_ModPower = value;
+            m_modPower = value;
         }
     }
 
@@ -304,9 +299,9 @@ hasAuthority - true if the object is owned by the local process
     {
         get
         {
-            if (m_Level <= 0)
+            if (m_level <= 0)
                 return 1;
-            return m_Level;
+            return m_level;
         }
         set { }
 
@@ -317,20 +312,20 @@ hasAuthority - true if the object is owned by the local process
     {
         get
         {
-            m_Power = 0;
+            m_power = 0;
 
             foreach (GameObject m in cards)
             {
                 //Debug.Log ("power is " + powerCounter.ToString ());
                 if (m.GetComponent<TreasureCardMono>() != null)
-                    m_Power += m.GetComponent<TreasureCardMono>().Power;
+                    m_power += m.GetComponent<TreasureCardMono>().Power;
 
             }
-            return m_Power + m_Level;
+            return m_power + m_level;
         }
         set
         {
-            m_Power = value;
+            m_power = value;
         }
 
     }
@@ -339,19 +334,19 @@ hasAuthority - true if the object is owned by the local process
     {
         get
         {
-            int gold = 0;
+            int m_gold = 0;
             foreach (GameObject m in cards)
             {
 
                 if (m.GetComponent<TreasureCardMono>())
-                    gold += m.GetComponent<TreasureCardMono>().Gold;
+                    m_gold += m.GetComponent<TreasureCardMono>().Gold;
             }
 
-            return gold;
+            return m_gold;
 
 
         }
-        set { m_Gold = value; }
+        set { m_gold = value; }
     }
 
     public GameObject Instance
@@ -370,4 +365,3 @@ hasAuthority - true if the object is owned by the local process
     #endregion IPlayer interface
 
 }
- 

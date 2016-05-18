@@ -2,25 +2,21 @@
 using UnityEngine.Networking;
 public class UIServer : NetworkBehaviour
 {
-    public UnityEngine.UI.Text activePlayer;
-    public UnityEngine.UI.Text cardCount;
-	public override void OnStartServer ()
-	{
-		base.OnStartServer ();
-		GameManager.singleton.playerChange.AddListener(SetActivePlayerText);
-		GameManager.singleton.playerChange.AddListener(SetCardCountText);
-	}
-    
+    public UnityEngine.UI.Text ActivePlayer;
+    public UnityEngine.UI.Text CardCount;
+    private void Start()
+    {     
+        GameManager.singleton.PlayerChange.AddListener(SetActivePlayerText);
+        GameManager.singleton.PlayerChange.AddListener(SetCardCountText);
+    }
 
     public void SetActivePlayerText()
     {
-        activePlayer.text = "ActivePlayer: " + GameManager.singleton.activePlayer.playerName;
+        ActivePlayer.text = "ActivePlayer: " + GameManager.singleton.activePlayer.m_PlayerName;
     }
 
     public void SetCardCountText()
     {
-        cardCount.text = "TreasureCount: " + TreasureStack.singleton.numCards.ToString();
+        CardCount.text = "TreasureCount: " + TreasureStack.singleton.m_NumCards.ToString();
     }
-
-
 }

@@ -11,7 +11,7 @@ public class TreasureStack : Stack
         base.Awake();
         if (singleton == null)
             singleton = this;
-        numCards = cards.Count;
+        m_NumCards = m_Cards.Count;
     }
 
     public override void OnStartServer()
@@ -19,7 +19,7 @@ public class TreasureStack : Stack
         base.OnStartServer();
         for (int i = 0; i < 10; i++)
         {
-            GameObject go = Instantiate(treasureCardPrefab) as GameObject;           
+            GameObject go = Instantiate(TreasureCardPrefab) as GameObject;           
             NetworkServer.Spawn(go);
             Shuffle(go);
         }
@@ -28,13 +28,21 @@ public class TreasureStack : Stack
     public override void OnStartClient()
     {
         base.OnStartClient();
-        
         Debug.Log("start client");
         ArrayList tmp = new ArrayList(FindObjectsOfType(typeof(TreasureCardMono)));
         foreach (TreasureCardMono go in tmp)
         {
-            cards.Add(go.gameObject);
-            print(cards[0]);
+            m_Cards.Add(go.gameObject);
+            print(m_Cards[0]);
         }
+            
+        
+            
+            
+        
+        
+
     }
+
+ 
 }
