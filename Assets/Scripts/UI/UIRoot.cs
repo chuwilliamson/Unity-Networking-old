@@ -31,9 +31,9 @@ public class UIRoot : MonoBehaviour
                 Destroy(t.gameObject);
             }
         }
-        if (m_Player.hand.Count < 1)
+        if (m_Player.Hand.Count < 1)
             return;
-        foreach (ICard c in m_Player.hand)
+        foreach (ICard c in m_Player.Hand)
         {
             GameObject card = Instantiate(cardButton, cardTransform.position, Quaternion.identity) as GameObject;
             card.transform.SetParent(cardTransform);
@@ -51,7 +51,7 @@ public class UIRoot : MonoBehaviour
     public void PlayCard(string n, GameObject card)
     {
         Player p = m_Player;
-        ICard c = p.hand.Find(x => x.Name == n);
+        ICard c = p.Hand.Find(x => x.Name == n);
         Type cardType = c.GetType();
 
         UnityAction a = () => { /*placeholder for mystery play*/};

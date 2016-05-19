@@ -7,28 +7,26 @@ public class Stack : NetworkBehaviour
 {
 
     [SyncVar(hook = "SetParent")]
-    public int m_NumCards = 0;
+    public int NumCards = 0;
 
     public GameObject TreasureCardPrefab;
 
     [SerializeField]
-    public static List<GameObject> m_Cards = new List<GameObject>();
+	public List<GameObject> Cards;
 
     protected virtual void Awake()
     {
-
+		Cards  = new List<GameObject>();
     }
 
     public GameObject Draw()
     {
 
-        if (m_Cards.Count > 0)
+        if (Cards.Count > 0)
         {
-            GameObject top = m_Cards[0];          
-            
-            
-            m_Cards.Remove(top);
-            m_NumCards = m_Cards.Count;
+            GameObject top = Cards[0];          
+            Cards.Remove(top);
+            NumCards = Cards.Count;            
             
             return top;
         }
@@ -42,40 +40,24 @@ public class Stack : NetworkBehaviour
         if (!isServer)
             return;
         
-        m_Cards.Remove(card);
-        m_NumCards = m_Cards.Count;
+        Cards.Remove(card);
+        NumCards = Cards.Count;
         
 
     }
+
     public void Shuffle(GameObject card)
     {        
-        m_Cards.Add(card);
-        m_NumCards = m_Cards.Count;          
+        Cards.Add(card);
+        NumCards = Cards.Count;          
     }
 
-    [Command]
-    public void CmdShuffle(GameObject card)
-    {
-        if (!isLocalPlayer)
-            return;
-        
-        RpcShuffle(card);
-    }
-
-    [ClientRpc]
-    public void RpcShuffle(GameObject card)
-    {
-        if (!isServer) //if you aren't the server don't run
-            return;
-        m_Cards.Add(card);
-        m_NumCards = m_Cards.Count;
-    }
 
     public void SetParent(int numCards)
     {
-        Debug.Log("set parent");
-        m_NumCards = m_Cards.Count;
-        foreach (GameObject card in m_Cards)
+        //Debug.Log("set parent");
+        NumCards = Cards.Count;
+        foreach (GameObject card in Cards)
             card.transform.SetParent(transform);
     }
 

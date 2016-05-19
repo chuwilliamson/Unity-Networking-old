@@ -1,17 +1,16 @@
 ﻿using UnityEngine.Networking;
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
 public class TreasureStack : Stack
 {
     public static TreasureStack singleton = null;
-
+    
     protected override void Awake()
     {
         base.Awake();
         if (singleton == null)
             singleton = this;
-        m_NumCards = m_Cards.Count;
+        NumCards = Cards.Count;
     }
 
     public override void OnStartServer()
@@ -28,20 +27,23 @@ public class TreasureStack : Stack
     public override void OnStartClient()
     {
         base.OnStartClient();
-        Debug.Log("start client");
-        ArrayList tmp = new ArrayList(FindObjectsOfType(typeof(TreasureCardMono)));
-        foreach (TreasureCardMono go in tmp)
-        {
-            m_Cards.Add(go.gameObject);
-            print(m_Cards[0]);
-        }
+		if (!isServer) 
+		{
+			ArrayList tmp = new ArrayList (FindObjectsOfType (typeof(TreasureCardMono)));
+			foreach (TreasureCardMono go in tmp) 
+			{
+				Cards.Add (go.gameObject);
+			}
             
-        
-            
-            
-        
-        
-
+           
+		}
+        CmdReady();
+    }
+    [Command]
+    public void CmdReady()
+    {
+        Debug.Log("set stack ready");
+        GameManager.singleton.StackReady = true;
     }
 
  
