@@ -262,7 +262,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -273,7 +273,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -284,7 +284,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!114 &11401386
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPlacement: {fileID: 483452}
-  weaponPrefabWithFPV: {fileID: 107606, guid: bc914668b4fc38646b2359e5afac7129, type: 2}
+  weaponPrefabWithFPV: {fileID: 111488, guid: 6ac3b25dd4a76d14490a6cdf2b10d0d1, type: 2}
   weaponPrefabWithoutFPV: {fileID: 0}
   worldCamera: {fileID: 2040602}
   fpvCamera: {fileID: 11401386}
@@ -346,6 +346,7 @@ MonoBehaviour:
     TimeToIncrease: 1
     TimeToDecrease: 1
     IncreaseCurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: 0
@@ -359,11 +360,13 @@ MonoBehaviour:
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
+      m_RotationOrder: 4
   m_UseHeadBob: 1
   m_HeadBob:
     HorizontalBobRange: 0.1
     VerticalBobRange: 0.1
     Bobcurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: 0
@@ -392,6 +395,7 @@ MonoBehaviour:
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
+      m_RotationOrder: 4
     VerticaltoHorizontalRatio: 2
   m_JumpBob:
     BobDuration: 0.2

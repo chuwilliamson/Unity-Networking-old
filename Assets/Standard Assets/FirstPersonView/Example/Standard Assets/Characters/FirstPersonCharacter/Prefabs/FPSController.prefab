@@ -394,7 +394,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -405,7 +405,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -416,7 +416,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!92 &9218952
 Behaviour:
   m_ObjectHideFlags: 1
@@ -458,6 +458,7 @@ MonoBehaviour:
     TimeToIncrease: 1
     TimeToDecrease: 1
     IncreaseCurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: 0
@@ -471,11 +472,13 @@ MonoBehaviour:
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
+      m_RotationOrder: 4
   m_UseHeadBob: 1
   m_HeadBob:
     HorizontalBobRange: 0.1
     VerticalBobRange: 0.1
     Bobcurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: 0
@@ -504,6 +507,7 @@ MonoBehaviour:
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
+      m_RotationOrder: 4
     VerticaltoHorizontalRatio: 2
   m_JumpBob:
     BobDuration: 0.2
@@ -568,7 +572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPlacement: {fileID: 434772}
-  weaponPrefabWithFPV: {fileID: 107606, guid: bc914668b4fc38646b2359e5afac7129, type: 2}
+  weaponPrefabWithFPV: {fileID: 111488, guid: 6ac3b25dd4a76d14490a6cdf2b10d0d1, type: 2}
   weaponPrefabWithoutFPV: {fileID: 0}
   worldCamera: {fileID: 2073504}
   fpvCamera: {fileID: 11423524}
@@ -586,9 +590,11 @@ MonoBehaviour:
   type: 3
   adaptiveTextureSize: 256
   remapCurve:
+    serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
+    m_RotationOrder: 4
   exposureAdjustment: 1.5
   middleGrey: 0.4
   white: 2
@@ -624,11 +630,7 @@ MonoBehaviour:
   quality: 1
   bloomIntensity: 0.5
   bloomThreshold: 0.5
-  bloomThresholdColor:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
+  bloomThresholdColor: {r: 1, g: 1, b: 1, a: 1}
   bloomBlurIterations: 2
   hollywoodFlareBlurIterations: 2
   flareRotation: 0
@@ -637,26 +639,10 @@ MonoBehaviour:
   lensflareIntensity: 0
   lensflareThreshold: 0.3
   lensFlareSaturation: 0.75
-  flareColorA:
-    r: 0.4
-    g: 0.4
-    b: 0.8
-    a: 0.75
-  flareColorB:
-    r: 0.4
-    g: 0.8
-    b: 0.8
-    a: 0.75
-  flareColorC:
-    r: 0.8
-    g: 0.4
-    b: 0.8
-    a: 0.75
-  flareColorD:
-    r: 0.8
-    g: 0.4
-    b: 0
-    a: 0.75
+  flareColorA: {r: 0.4, g: 0.4, b: 0.8, a: 0.75}
+  flareColorB: {r: 0.4, g: 0.8, b: 0.8, a: 0.75}
+  flareColorC: {r: 0.8, g: 0.4, b: 0.8, a: 0.75}
+  flareColorD: {r: 0.8, g: 0.4, b: 0, a: 0.75}
   lensFlareVignetteMask: {fileID: 2800000, guid: 95ef4804fe0be4c999ddaa383536cde8,
     type: 3}
   lensFlareShader: {fileID: 4800000, guid: 459fe69d2f6d74ddb92f04dbf45a866b, type: 3}
