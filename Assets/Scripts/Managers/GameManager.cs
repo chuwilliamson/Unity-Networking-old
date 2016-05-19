@@ -119,7 +119,7 @@ public class GameManager : NetworkBehaviour
 
         }
         if (NetworkServer.active)
-            Debug.Log("Stack is Ready for " + this.netId);
+            Debug.Log("Stack is Ready for netId: " + this.netId);
         activePlayerIndex = 0;
 		activePlayerManager = m_players [activePlayerIndex];
         

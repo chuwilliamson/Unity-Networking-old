@@ -7,7 +7,6 @@ using UnityEngine.Networking.Match;
 using System.Collections;
 
 
-
 namespace Prototype.NetworkLobby
 {
     public class LobbyManager : NetworkLobbyManager 
@@ -235,7 +234,7 @@ namespace Prototype.NetworkLobby
         public override void OnStartHost()
         {
             base.OnStartHost();
-            StartCoroutine(OnLobbyFullCoroutine());
+        StartCoroutine(OnLobbyFullCoroutine());
             ChangeTo(lobbyPanel);
             backDelegate = StopHostClbk;
             SetServerInfo("Hosting", networkAddress);
@@ -382,7 +381,7 @@ namespace Prototype.NetworkLobby
                     (lobbySlots[i] as LobbyPlayer).RpcUpdateCountdown(0);
                 }
             }
-             
+
             ServerChangeScene(playScene);
         }
 
@@ -404,6 +403,7 @@ namespace Prototype.NetworkLobby
             }
         }
 
+
         public override void OnClientDisconnect(NetworkConnection conn)
         {
             base.OnClientDisconnect(conn);
@@ -414,8 +414,7 @@ namespace Prototype.NetworkLobby
         {
             ChangeTo(mainMenuPanel);
             infoPanel.Display("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
-        }        
-       
+        }     
         private IEnumerator OnLobbyFullCoroutine()
         {            
             while (FindObjectsOfType<LobbyPlayer>().Length < 2)
