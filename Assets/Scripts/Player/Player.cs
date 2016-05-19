@@ -130,22 +130,13 @@ public class Player : NetworkBehaviour, IPlayer
         if (m_IsTakingTurn)
         {
             if (Input.GetKeyDown(KeyCode.Space))
-            {       
-                if(isLocalPlayer)         
-                    CmdDrawCard(1);
+            {                
+                CmdDrawCard(1);
             }
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                if(isLocalPlayer)
-                    CmdDrawCard(2);
+                CmdDrawCard(2);
             }
-            if (Input.GetKeyDown(KeyCode.Mouse2))
-                if (isLocalPlayer)
-                {
-                    string name = Cards[0].name;
-                    CmdDiscard(name);
-                }
-            
         }
     }
  
@@ -167,7 +158,6 @@ public class Player : NetworkBehaviour, IPlayer
         {
             print("SERVER: Stack is empty NO DRAW");
             return;
-
         }
         print("SERVER: DRAW card" + go);     
      
@@ -207,14 +197,9 @@ public class Player : NetworkBehaviour, IPlayer
     }
     public bool Discard(string cardName)
     {
-        
         if (m_IsTakingTurn)
         {
-            if (isLocalPlayer)
-            {
-
-                CmdDiscard(cardName);
-            }
+            CmdDiscard(cardName);
             return true;
         }
 

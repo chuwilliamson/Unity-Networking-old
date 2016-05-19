@@ -26,6 +26,8 @@ namespace Prototype.NetworkLobby
             matchNameInput.onEndEdit.AddListener(onEndEditGameName);
         }
 
+        
+
         public void OnClickHost()
         {
             lobbyManager.StartHost();
