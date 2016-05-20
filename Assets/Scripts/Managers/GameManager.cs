@@ -38,7 +38,8 @@ public class GameManager : NetworkBehaviour
 	public PlayerManager activePlayerManager 
 	{
 		get { return m_activePlayerManager; }
-		set {
+		set
+        {
 			m_activePlayerManager = value;
 			activePlayer = m_activePlayerManager.m_Player;
 			PlayerChange.Invoke ();
@@ -75,7 +76,7 @@ public class GameManager : NetworkBehaviour
 			m_players.Remove (toRemove);
 	}
 
-    [Server]
+    [ServerCallback]
 	private void Awake ()
 	{
         if(singleton == null)
@@ -85,7 +86,7 @@ public class GameManager : NetworkBehaviour
 	}
 
     
-    [Server]
+    [ServerCallback]
 	private void Start ()
 	{			
 		m_Wait = new WaitForSeconds (1);
@@ -93,8 +94,7 @@ public class GameManager : NetworkBehaviour
 	}
 
 	IEnumerator GameLoop ()
-	{
-        
+	{        
         yield return StartCoroutine (GameStart ());
 		yield return StartCoroutine (PlayerTurn ());
         yield return StartCoroutine(GameRunning ());
@@ -115,9 +115,10 @@ public class GameManager : NetworkBehaviour
                 Debug.Log("waiting for stack to ready");
                 dt = 0;
             }
-            yield return null;
 
+            yield return null;
         }
+
         if (NetworkServer.active)
             Debug.Log("Stack is Ready for " + this.netId);
         activePlayerIndex = 0;

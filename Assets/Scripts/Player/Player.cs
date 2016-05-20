@@ -46,7 +46,7 @@ public class Player : NetworkBehaviour, IPlayer
     [SyncVar]
     private int m_maxGold;
     [SyncVar]
-    private int m_playerID;
+    private int m_PlayerId;
     [SyncVar]
     public bool m_IsTakingTurn = false;
 
@@ -75,7 +75,7 @@ public class Player : NetworkBehaviour, IPlayer
         m_PlayerName = name;
         
 
-        m_playerID = playerControllerId;
+        m_PlayerId = playerControllerId;
         //Debug.Log("Setup:" + m_PlayerName);
         foreach (var i in m_Renderers)
             i.SetActive(false);
@@ -92,7 +92,7 @@ public class Player : NetworkBehaviour, IPlayer
             GameManager.AddPlayer(gameObject, m_PlayerName);
             uint n = netId.Value;
 
-            m_playerID = playerControllerId;
+            m_PlayerId = playerControllerId;
             // Debug.Log("!isServer: GameManager.AddPlayer:" + m_PlayerName);
         }
 
@@ -112,15 +112,20 @@ public class Player : NetworkBehaviour, IPlayer
         UI.SetActive(true);
         UICamera.SetActive(true);
         onDrawCard.Invoke(this);
-        m_playerID = playerControllerId;
+        m_PlayerId = playerControllerId;
+        foreach(var i in m_Renderers)
+            i.SetActive(true);
 
     }
 
+    
     // called when disconnected from a server
     public override void OnNetworkDestroy()
     {
-        base.OnNetworkDestroy();
+        Debug.Log("player disconnected " + netId);
         GameManager.singleton.RemovePlayer(gameObject);
+        base.OnNetworkDestroy();
+        
     }
 
     private void Update()
