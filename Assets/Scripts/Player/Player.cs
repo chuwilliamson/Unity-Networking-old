@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Events;
 using UnityEngine.Networking;
-
+using UnityStandardAssets.Characters.ThirdPerson;
 public enum CharacterClass
 {
     NONE,
@@ -49,10 +49,15 @@ public class Player : NetworkBehaviour
     [SyncVar]
     private int m_maxGold;
     [SyncVar]
-    private CharacterClass m_playerClass;   
+    private CharacterClass m_playerClass;
+
+    public GameObject ThirdPersonUserControl;
+
+    public UIRoot UIRoot;
     public Camera PlayerCamera;
     public DrawCardEvent onDrawCard;
     public DrawCardEvent onDiscardCard;
+
     public List<GameObject> Cards;
     public List<ICard> Hand;
 
@@ -97,10 +102,20 @@ public class Player : NetworkBehaviour
         base.OnStartLocalPlayer();
 
         if (!isLocalPlayer)
+        {
+            ThirdPersonUserControl.GetComponent<ThirdPersonUserControl>().enabled = false;
             return;
-
+        }
+        
+        
+        if (onDrawCard == null)
+        {
+            onDrawCard = new DrawCardEvent();
+            onDiscardCard = new DrawCardEvent();
+        }
         onDrawCard.Invoke(this);
         PlayerId = playerControllerId;
+        
 
     }
 

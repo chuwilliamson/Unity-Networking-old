@@ -92,8 +92,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2ec2b96de5640e42a622fc3064f1c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Target: {fileID: 0}
-  m_AutoTargetPlayer: 1
+  m_Target: {fileID: 407452, guid: a81250c6826e58d49a88c1e49299d220, type: 2}
+  m_AutoTargetPlayer: 0
   m_UpdateType: 0
   m_RotationRange: {x: 90, y: 360}
   m_FollowSpeed: 0.1
@@ -103,13 +103,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 180158}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a62942d9af3f36d448094c6ed1f214dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Target: {fileID: 0}
-  m_AutoTargetPlayer: 1
+  m_Target: {fileID: 407452, guid: a81250c6826e58d49a88c1e49299d220, type: 2}
+  m_AutoTargetPlayer: 0
   m_UpdateType: 0
   m_FovAdjustTime: 1
   m_ZoomAmountMultiplier: 2

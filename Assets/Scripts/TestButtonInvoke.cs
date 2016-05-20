@@ -21,6 +21,10 @@ class TestButtonInvoke : MonoBehaviour
 
     void Awake()
     {
+        var p = FindObjectOfType<Player>();
+        if (p)
+            Destroy(p);
+
         if(ListServersButton == null)
         {
             ListServersButton = GameObject.Find("ListServerButton").GetComponent<Button>();
