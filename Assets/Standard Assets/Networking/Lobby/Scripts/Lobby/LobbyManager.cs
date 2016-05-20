@@ -53,7 +53,7 @@ namespace Prototype.NetworkLobby
         protected ulong _currentMatchID;
 
         protected LobbyHook _lobbyHooks;
-
+        public bool MultiClient = false;
         void Start()
         {
             s_Singleton = this;
@@ -64,7 +64,7 @@ namespace Prototype.NetworkLobby
             GetComponent<Canvas>().enabled = true;
 
             DontDestroyOnLoad(gameObject);
-
+            Utility.useRandomSourceID = MultiClient;
             SetServerInfo("Offline", "None");
         }
 
