@@ -479,6 +479,6 @@ PlayerSettings:
   WebGL::template: APPLICATION:Default
   additionalIl2CppArgs::additionalIl2CppArgs: 
   cloudProjectId: 223854a7-7608-4316-b5f3-262622707e9b
-  projectName: Card_Game_Demo
+  projectName: Unity-Networking
   organizationId: lfsmwilliamson
   cloudEnabled: 0

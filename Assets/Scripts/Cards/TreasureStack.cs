@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections;
 public class TreasureStack : Stack
 {
+    [SerializeField]
+    private GameObject TreasureCardPrefab;
     public static TreasureStack singleton = null;
     
     protected override void Awake()
@@ -34,8 +36,6 @@ public class TreasureStack : Stack
 			{
 				Cards.Add (go.gameObject);
 			}
-            
-           
 		}
         CmdReady();
     }
