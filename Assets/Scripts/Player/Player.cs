@@ -20,11 +20,13 @@ public class DrawCardEvent : UnityEvent<Player>
 public class Player : NetworkBehaviour, IPlayer
 {
     [SyncVar]
-    public string m_PlayerName;
+    public string PlayerName;
     [SyncVar]
-    public int m_PlayerNumber;
+    public int PlayerNumber;
+    [SyncVar]    
+    public bool IsReady = false;
     [SyncVar]
-    public bool m_IsReady = false;
+    public int PlayerId;
     [SyncVar]
     private CharacterClass m_playerClass;
     [SyncVar]
@@ -45,10 +47,14 @@ public class Player : NetworkBehaviour, IPlayer
     private int m_maxLevel;
     [SyncVar]
     private int m_maxGold;
-    [SyncVar]
-    private int m_playerID;
+    
     [SyncVar]
     public bool m_IsTakingTurn = false;
+
+
+    public List<GameObject> Cards = new List<GameObject>();
+
+    public List<ICard> Hand = new List<ICard>();
 
     public GameObject UI;
     public GameObject UICamera;
@@ -60,8 +66,6 @@ public class Player : NetworkBehaviour, IPlayer
 
     public void Setup(string name)
     {
-        m_Renderers = new List<GameObject> { UI, UICamera, Camera };
-
         if (onDrawCard == null)
         {
             onDrawCard = new DrawCardEvent();
@@ -72,15 +76,8 @@ public class Player : NetworkBehaviour, IPlayer
         m_level = Level;
         m_gold = Gold;
         m_runAway = RunAway;
-        m_PlayerName = name;
-        
-
-        m_playerID = playerControllerId;
-        //Debug.Log("Setup:" + m_PlayerName);
-        foreach (var i in m_Renderers)
-            i.SetActive(false);
-
-
+        PlayerName = name;
+        PlayerId = playerControllerId;
     }
 
     public override void OnStartClient()
@@ -89,30 +86,22 @@ public class Player : NetworkBehaviour, IPlayer
 
         if (!isServer)
         {
-            GameManager.AddPlayer(gameObject, m_PlayerName);
+            GameManager.AddPlayer(gameObject, PlayerName);
             uint n = netId.Value;
 
-            m_playerID = playerControllerId;
-            // Debug.Log("!isServer: GameManager.AddPlayer:" + m_PlayerName);
+            PlayerId = playerControllerId;            
         }
-
-        //Debug.Log("OnStartClient" + m_PlayerName);
-
     }
 
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        //Debug.Log("OnStartLocalPlayer:" + m_PlayerName);
+        
         if (!isLocalPlayer)
             return;
-        //print("SetCamera: " + m_PlayerName);
-        Camera.SetActive(true);
-        Camera.transform.LookAt(new Vector3(0, 5, 0));
-        UI.SetActive(true);
-        UICamera.SetActive(true);
+
         onDrawCard.Invoke(this);
-        m_playerID = playerControllerId;
+        PlayerId = playerControllerId;
 
     }
 
@@ -195,6 +184,7 @@ public class Player : NetworkBehaviour, IPlayer
         DiscardStack.singleton.Shuffle(cm);
         m_IsTakingTurn = false;
     }
+
     public bool Discard(string cardName)
     {
         if (m_IsTakingTurn)
@@ -257,9 +247,6 @@ public class Player : NetworkBehaviour, IPlayer
         return 0;
     }
 
-    public List<GameObject> Cards = new List<GameObject>();
-
-    public List<ICard> Hand = new List<ICard>();
 
     #region IPlayer interface
     public int RunAway
