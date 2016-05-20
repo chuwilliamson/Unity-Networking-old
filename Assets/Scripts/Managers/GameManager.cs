@@ -40,7 +40,7 @@ public class GameManager : NetworkBehaviour
 		get { return m_activePlayerManager; }
 		set {
 			m_activePlayerManager = value;
-			activePlayer = m_activePlayerManager.m_Player;
+			activePlayer = m_activePlayerManager.Player;
 			PlayerChange.Invoke ();
         }
 	}
@@ -55,9 +55,8 @@ public class GameManager : NetworkBehaviour
 	public static void AddPlayer (GameObject player, string name)
 	{
 		PlayerManager pm = new PlayerManager ();
-		pm.m_Instance = player;
-		pm.m_Name = name;
-		pm.Setup ();
+		
+		pm.Setup (player, name);
 		m_players.Add (pm);
 	}
 
@@ -65,7 +64,7 @@ public class GameManager : NetworkBehaviour
 	{
 		PlayerManager toRemove = null;
 		foreach (var tmp in m_players) {
-			if (tmp.m_Instance == p) {
+			if (tmp.Instance == p) {
 				toRemove = tmp;
 				break;
 			}
@@ -85,7 +84,7 @@ public class GameManager : NetworkBehaviour
 	}
 
     
-    [Server]
+    
 	private void Start ()
 	{			
 		m_Wait = new WaitForSeconds (1);
@@ -127,10 +126,8 @@ public class GameManager : NetworkBehaviour
 		{
 			Rect Left = new Rect (0, 0, 1, .5f);
 			Rect Right = new Rect (0, 0.5f, 1, .5f);
-			m_players [0].m_PlayerCamera.rect = Left;
-			m_players [0].m_PlayerUICamera.rect = Left;
-			m_players [1].m_PlayerCamera.rect = Right;
-			m_players [1].m_PlayerUICamera.rect = Right;
+			m_players [0].PlayerCamera.rect = Left;
+			m_players [1].PlayerCamera.rect = Right;
 			hasStarted = true;
 		}
 		yield return null;
