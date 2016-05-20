@@ -17,18 +17,19 @@ public enum CharacterClass
 
 public class DrawCardEvent : UnityEvent<Player>
 { }
-public class Player : NetworkBehaviour, IPlayer
+
+public class Player : NetworkBehaviour
 {
+    [SyncVar]
+    public bool IsTakingTurn = false;
     [SyncVar]
     public string PlayerName;
     [SyncVar]
     public int PlayerNumber;
-    [SyncVar]    
+    [SyncVar]
     public bool IsReady = false;
     [SyncVar]
     public int PlayerId;
-    [SyncVar]
-    private CharacterClass m_playerClass;
     [SyncVar]
     private int m_level;
     [SyncVar]
@@ -47,22 +48,20 @@ public class Player : NetworkBehaviour, IPlayer
     private int m_maxLevel;
     [SyncVar]
     private int m_maxGold;
-    
     [SyncVar]
-    public bool m_IsTakingTurn = false;
-
-
-    public List<GameObject> Cards = new List<GameObject>();
-
-    public List<ICard> Hand = new List<ICard>();
-
-    public GameObject UI;
-    public GameObject UICamera;
-    public GameObject Camera;
+    private CharacterClass m_playerClass;   
+    public Camera PlayerCamera;
     public DrawCardEvent onDrawCard;
     public DrawCardEvent onDiscardCard;
-    public List<GameObject> m_Renderers;
+    public List<GameObject> Cards;
+    public List<ICard> Hand;
 
+
+    private void Awake()
+    {
+        Hand = new List<ICard>();
+        Cards = new List<GameObject>();
+    }
 
     public void Setup(string name)
     {
@@ -71,7 +70,7 @@ public class Player : NetworkBehaviour, IPlayer
             onDrawCard = new DrawCardEvent();
             onDiscardCard = new DrawCardEvent();
         }
-        
+
         m_power = Power;
         m_level = Level;
         m_gold = Gold;
@@ -87,16 +86,16 @@ public class Player : NetworkBehaviour, IPlayer
         if (!isServer)
         {
             GameManager.AddPlayer(gameObject, PlayerName);
-            uint n = netId.Value;
-
-            PlayerId = playerControllerId;            
+            PlayerId = playerControllerId;
         }
     }
+
+    
 
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        
+
         if (!isLocalPlayer)
             return;
 
@@ -116,10 +115,10 @@ public class Player : NetworkBehaviour, IPlayer
     {
         if (!isLocalPlayer)
             return;
-        if (m_IsTakingTurn)
+        if (IsTakingTurn)
         {
             if (Input.GetKeyDown(KeyCode.Space))
-            {                
+            {
                 CmdDrawCard(1);
             }
             if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -128,13 +127,13 @@ public class Player : NetworkBehaviour, IPlayer
             }
         }
     }
- 
+
 
     /// <summary>
     /// Draw a card on the server, then update the client        
     /// Command: Commands are sent from player objects on the client to player objects on the server.
     /// </summary>
-	[Command]
+    [Command]
     public void CmdDrawCard(int stack)
     {
         GameObject go = null;
@@ -148,25 +147,23 @@ public class Player : NetworkBehaviour, IPlayer
             print("SERVER: Stack is empty NO DRAW");
             return;
         }
-        print("SERVER: DRAW card" + go);     
-     
+        print("SERVER: DRAW CARD" + go);
+
         ICard goCard = go.GetComponent<TreasureCardMono>().Card;
+
         Cards.Add(go);
         Hand.Add(goCard);
+
         foreach (GameObject c in Cards)
         {
             c.transform.SetParent(transform);
             c.transform.position = transform.position;
         }
 
-        m_IsTakingTurn = false;
+        
         onDrawCard.Invoke(this);
     }
 
-    public int PlayCard()
-    {
-        return 0;
-    }
 
     /// <summary>
     /// called from gui
@@ -181,13 +178,18 @@ public class Player : NetworkBehaviour, IPlayer
         Hand.Remove(c);
         Cards.Remove(cm);
         onDiscardCard.Invoke(this);
-        DiscardStack.singleton.Shuffle(cm);
-        m_IsTakingTurn = false;
+        DiscardStack.singleton.Shuffle(cm);        
+    }
+
+    [Command]
+    public void CmdSetTurnState(bool state)
+    {
+        IsTakingTurn = state;
     }
 
     public bool Discard(string cardName)
     {
-        if (m_IsTakingTurn)
+        if (IsTakingTurn)
         {
             CmdDiscard(cardName);
             return true;
@@ -195,13 +197,8 @@ public class Player : NetworkBehaviour, IPlayer
 
         return false;
     }
-
-
-    public int MoveCard()
-    {
-        return 0;
-    }
-
+ 
+    #region Not Used
     public int SellCard(TreasureCardMono treasureCardMono)
     {
         GainGold(treasureCardMono.Card.Gold);
@@ -246,7 +243,7 @@ public class Player : NetworkBehaviour, IPlayer
 
         return 0;
     }
-
+    #endregion Not Used
 
     #region IPlayer interface
     public int RunAway

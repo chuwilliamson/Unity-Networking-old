@@ -19,7 +19,7 @@ public class UIRoot : MonoBehaviour
 
     public void UpdateUI(Player p)
     {
-        PlayerLabel.text = "Player: " + m_Player.m_PlayerName;
+        PlayerLabel.text = "Player: " + m_Player.PlayerName;
         GoldLabel.text = "Gold: " + m_Player.Gold.ToString();
         LevelLabel.text = "Level: " + m_Player.Level.ToString();
         PowerLabel.text = "Power: " + m_Player.Power.ToString();
