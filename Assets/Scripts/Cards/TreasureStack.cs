@@ -34,12 +34,12 @@ public class TreasureStack : Stack
 			{
 				Cards.Add (go.gameObject);
 			}
-
-            
             CmdReady();
+            return;
         }
-
+        GameManager.singleton.StackReady = true;
         
+
     }
     [Command]
     public void CmdReady()

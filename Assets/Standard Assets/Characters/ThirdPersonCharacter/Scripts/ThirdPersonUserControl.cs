@@ -7,6 +7,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
     [RequireComponent(typeof(ThirdPersonCharacter))]
     public class ThirdPersonUserControl : NetworkBehaviour
     {
+        [SerializeField]
         private ThirdPersonCharacter m_Character; // A reference to the ThirdPersonCharacter on the object
         private Transform m_Cam;                  // A reference to the main camera in the scenes transform
         private Vector3 m_CamForward;             // The current forward direction of the camera
@@ -23,8 +24,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         private void Start()
         {
-            if (!isLocalPlayer)
-                return;
+
             // get the transform of the main camera
             if (Camera.main != null)
             {
@@ -39,7 +39,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             // get the third person character ( this should never be null due to require component )
             m_Character = GetComponent<ThirdPersonCharacter>();
-            
+
         }
 
 
@@ -65,7 +65,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         private void Update()
         {
-     
+
             if (!m_Jump)
             {
                 m_Jump = CrossPlatformInputManager.GetButton(Jump);
@@ -76,8 +76,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
-            if (!isLocalPlayer)
-                return;
+
             // read inputs
             float h = CrossPlatformInputManager.GetAxis(Horizontal);
             float v = CrossPlatformInputManager.GetAxis(Vertical);
@@ -108,8 +107,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 #endif
 
             // pass all parameters to the character control script
-            m_Character.Move(m_Move, crouch, m_Jump);
-            m_Jump = false;
+     
+                m_Character.Move(m_Move, crouch, m_Jump);
+
+                m_Jump = false;     
+
         }
     }
 }

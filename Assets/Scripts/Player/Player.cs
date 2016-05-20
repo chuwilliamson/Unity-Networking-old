@@ -50,9 +50,9 @@ public class Player : NetworkBehaviour, IPlayer
     [SyncVar]
     public bool m_IsTakingTurn = false;
 
-    public GameObject UI;
-    public GameObject UICamera;
+    public GameObject UI;   
     public GameObject Camera;
+    //public GameObject CameraRig;
     public DrawCardEvent onDrawCard;
     public DrawCardEvent onDiscardCard;
     public List<GameObject> m_Renderers;
@@ -60,7 +60,7 @@ public class Player : NetworkBehaviour, IPlayer
 
     public void Setup(string name)
     {
-        m_Renderers = new List<GameObject> { UI, UICamera, Camera };
+        m_Renderers = new List<GameObject> { UI, Camera };
 
         if (onDrawCard == null)
         {
@@ -76,9 +76,10 @@ public class Player : NetworkBehaviour, IPlayer
         
 
         m_PlayerId = playerControllerId;
-        //Debug.Log("Setup:" + m_PlayerName);
-        foreach (var i in m_Renderers)
-            i.SetActive(false);
+        
+       // foreach (var i in m_Renderers)
+         //   i.SetActive(false);
+
 
 
     }
@@ -91,30 +92,21 @@ public class Player : NetworkBehaviour, IPlayer
         {
             GameManager.AddPlayer(gameObject, m_PlayerName);
             uint n = netId.Value;
-
             m_PlayerId = playerControllerId;
-            // Debug.Log("!isServer: GameManager.AddPlayer:" + m_PlayerName);
         }
-
-        //Debug.Log("OnStartClient" + m_PlayerName);
-
     }
 
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        //Debug.Log("OnStartLocalPlayer:" + m_PlayerName);
+        
         if (!isLocalPlayer)
             return;
-        //print("SetCamera: " + m_PlayerName);
-        Camera.SetActive(true);
-        Camera.transform.LookAt(new Vector3(0, 5, 0));
-        UI.SetActive(true);
-        UICamera.SetActive(true);
+        
+        //UI.SetActive(true);
         onDrawCard.Invoke(this);
         m_PlayerId = playerControllerId;
-        foreach(var i in m_Renderers)
-            i.SetActive(true);
+
 
     }
 
@@ -130,6 +122,7 @@ public class Player : NetworkBehaviour, IPlayer
 
     private void Update()
     {
+        
         if (!isLocalPlayer)
             return;
         if (m_IsTakingTurn)

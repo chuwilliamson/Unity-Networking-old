@@ -17,8 +17,7 @@ public class PlayerManager
         m_Instance.name = m_Name;
         m_Player = m_Instance.GetComponent<Player>();
         m_UI = m_Player.UI.GetComponent<UIRoot>();
-        m_PlayerCamera = m_Player.Camera.GetComponent<Camera>();
-        m_PlayerUICamera = m_Player.UICamera.GetComponent<Camera>();
+        m_PlayerCamera = m_Player.Camera.GetComponent<Camera>();        
         m_Player.Setup(m_Name);
         m_UI.Setup(m_Player);
     }

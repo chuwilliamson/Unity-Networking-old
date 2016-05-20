@@ -128,10 +128,9 @@ public class GameManager : NetworkBehaviour
 		{
 			Rect Left = new Rect (0, 0, 1, .5f);
 			Rect Right = new Rect (0, 0.5f, 1, .5f);
-			m_players [0].m_PlayerCamera.rect = Left;
-			m_players [0].m_PlayerUICamera.rect = Left;
+			m_players [0].m_PlayerCamera.rect = Left;			
 			m_players [1].m_PlayerCamera.rect = Right;
-			m_players [1].m_PlayerUICamera.rect = Right;
+			
 			hasStarted = true;
 		}
 		yield return null;
