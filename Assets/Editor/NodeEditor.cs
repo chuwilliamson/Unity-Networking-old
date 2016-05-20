@@ -10,6 +10,7 @@ public class NodeEditor : EditorWindow
     [MenuItem("Window/Node editor")]
     static void ShowEditor()
     {
+        
         NodeEditor editor = EditorWindow.GetWindow<NodeEditor>();
         editor.Init();
     }

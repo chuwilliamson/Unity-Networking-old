@@ -624,6 +624,7 @@ GameObject:
   - 114: {fileID: 11430622}
   - 114: {fileID: 11489212}
   - 114: {fileID: 11432516}
+  - 114: {fileID: 11431390}
   m_Layer: 0
   m_Name: ThirdPersonController
   m_TagString: Untagged
@@ -3724,6 +3725,25 @@ MonoBehaviour:
     i15: 13
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &11431390
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 9516986}
+  m_ParameterSendBits: 63
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
 --- !u!114 &11432516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3853,9 +3873,7 @@ MonoBehaviour:
   m_IsTakingTurn: 0
   UI: {fileID: 128044}
   Camera: {fileID: 189374}
-  m_Renderers:
-  - {fileID: 125286}
-  - {fileID: 136210}
+  ThirdPersonController: {fileID: 136210}
   Cards: []
 --- !u!114 &11442888
 MonoBehaviour:

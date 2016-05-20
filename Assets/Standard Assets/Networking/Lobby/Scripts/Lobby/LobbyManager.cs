@@ -8,6 +8,7 @@ using System.Collections;
 
 
 
+
 namespace Prototype.NetworkLobby
 {
     public class LobbyManager : NetworkLobbyManager 
@@ -53,9 +54,16 @@ namespace Prototype.NetworkLobby
         protected ulong _currentMatchID;
 
         protected LobbyHook _lobbyHooks;
-
+        [ExecuteInEditMode]
+        void Awake()
+        {
+            
+            Utility.useRandomSourceID = true;
+           
+        }
         void Start()
         {
+            
             s_Singleton = this;
             _lobbyHooks = GetComponent<Prototype.NetworkLobby.LobbyHook>();
             currentPanel = mainMenuPanel;

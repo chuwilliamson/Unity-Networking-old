@@ -43,44 +43,49 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         }
 
 
-        void MoveHorizontal(string a)
-        {
-            h = CrossPlatformInputManager.GetAxis(a);
-        }
+        //void MoveHorizontal(string a)
+        //{
+        //    h = CrossPlatformInputManager.GetAxis(a);
+        //}
 
-        void MoveVertical(string a)
-        {
-            v = CrossPlatformInputManager.GetAxis(a);
-        }
+        //void MoveVertical(string a)
+        //{
+        //    v = CrossPlatformInputManager.GetAxis(a);
+        //}
 
-        void PlayerJump(string a)
-        {
-            m_Jump = CrossPlatformInputManager.GetButton(a);
-        }
+        //void PlayerJump(string a)
+        //{
+        //    m_Jump = CrossPlatformInputManager.GetButton(a);
+        //}
 
-        void PlayerCrouch(string a)
-        {
-            bool crouch = CrossPlatformInputManager.GetButton(Crouch);
-        }
+        //void PlayerCrouch(string a)
+        //{
+        //    bool crouch = CrossPlatformInputManager.GetButton(Crouch);
+        //}
 
-        private void Update()
-        {
+        //private void Update()
+        //{
 
-            if (!m_Jump)
-            {
-                m_Jump = CrossPlatformInputManager.GetButton(Jump);
-            }
-        }
+        //    if (!m_Jump)
+        //    {
+        //        m_Jump = CrossPlatformInputManager.GetButton(Jump);
+        //    }
+        //}
 
 
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
 
+
+
             // read inputs
+
             float h = CrossPlatformInputManager.GetAxis(Horizontal);
             float v = CrossPlatformInputManager.GetAxis(Vertical);
+
             bool crouch = CrossPlatformInputManager.GetButton(Crouch);
+
 
 
 
@@ -107,10 +112,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 #endif
 
             // pass all parameters to the character control script
-     
-                m_Character.Move(m_Move, crouch, m_Jump);
 
-                m_Jump = false;     
+            m_Character.Move(m_Move, crouch, m_Jump);
+
+            m_Jump = false;
 
         }
     }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Events;
 using UnityEngine.Networking;
-
+using UnityStandardAssets.Characters;
+using UnityStandardAssets.Cameras;
 public enum CharacterClass
 {
     NONE,
@@ -52,16 +53,14 @@ public class Player : NetworkBehaviour, IPlayer
 
     public GameObject UI;   
     public GameObject Camera;
-    //public GameObject CameraRig;
+    public GameObject ThirdPersonController;
+    
     public DrawCardEvent onDrawCard;
     public DrawCardEvent onDiscardCard;
-    public List<GameObject> m_Renderers;
 
 
     public void Setup(string name)
     {
-        m_Renderers = new List<GameObject> { UI, Camera };
-
         if (onDrawCard == null)
         {
             onDrawCard = new DrawCardEvent();
@@ -76,12 +75,6 @@ public class Player : NetworkBehaviour, IPlayer
         
 
         m_PlayerId = playerControllerId;
-        
-       // foreach (var i in m_Renderers)
-         //   i.SetActive(false);
-
-
-
     }
 
     public override void OnStartClient()
@@ -99,11 +92,12 @@ public class Player : NetworkBehaviour, IPlayer
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
+
         
         if (!isLocalPlayer)
+        {
             return;
-        
-        //UI.SetActive(true);
+        }
         onDrawCard.Invoke(this);
         m_PlayerId = playerControllerId;
 
@@ -122,9 +116,12 @@ public class Player : NetworkBehaviour, IPlayer
 
     private void Update()
     {
-        
+
         if (!isLocalPlayer)
+        {
+          
             return;
+        }
         if (m_IsTakingTurn)
         {
             if (Input.GetKeyDown(KeyCode.Space))
