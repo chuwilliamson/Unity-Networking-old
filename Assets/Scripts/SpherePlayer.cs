@@ -2,24 +2,22 @@
 using UnityEngine.Networking;
 
 public class SpherePlayer : NetworkBehaviour
-{
-    GameObject cam;
+{  
+    public GameObject cam;
+
     void Start()
     {
         cam = GetComponentInChildren<Camera>().gameObject;
         if (!isLocalPlayer)
-            cam.SetActive(false);
-        
+            cam.SetActive(false);        
     }
     // Update is called once per frame
+    [ClientCallback]
     void Update()
-    {
-        
+    {        
         if (!isLocalPlayer)
-        {
-            
             return;
-        }
+     
         var h = Input.GetAxis("Horizontal");
         var v = Input.GetAxis("Vertical");
         var f = Input.GetAxis("Mouse ScrollWheel") * 15.0f;

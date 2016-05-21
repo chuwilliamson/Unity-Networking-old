@@ -59,15 +59,13 @@ public class GameManager : NetworkBehaviour
                 EventPlayerChange(activePlayer.PlayerName, GetComponent<TreasureStack>().NumCards.ToString());
         }
     }
-
-    public void AddPlayer(GameObject player, string name)
+    public static void AddPlayer(GameObject player, int playerNum, Color c, string name, int localID)
     {
         PlayerManager pm = new PlayerManager();
-        pm.Setup(player, name);
+        pm.Setup(player, playerNum, c, name, localID);
         m_Players.Add(pm);
-        
-        Debug.Log("add player " + pm.PlayerName);
     }
+    
 
     public void RemovePlayer(GameObject p)
     {
@@ -94,12 +92,9 @@ public class GameManager : NetworkBehaviour
     private void Awake()
     {
         singleton = this;
-    }
+    } 
 
-
-
-
-    
+    [ServerCallback]
     private void Start()
     {
         m_Wait = new WaitForSeconds(1);
@@ -127,8 +122,7 @@ public class GameManager : NetworkBehaviour
                 Debug.Log(pm.IsReady());
                 allready &= pm.IsReady();
             }
-            ggAllIn = allready;
-            Debug.Log(ggAllIn);
+            
             yield return null;
         }
 
@@ -139,25 +133,35 @@ public class GameManager : NetworkBehaviour
         yield return StartCoroutine(GameRunning());
     }
 
+    private void RpcGameStarting()
+    {
+        Debug.LogError("stop");
+        EnableControls();
+    }
+
+    private void EnableControls()
+    {
+        for (int i = 0; i < m_Players.Count; ++i)
+        {
+            m_Players[i].EnableControl();
+        }
+    }
+
+    private void DisableControls()
+    {
+        for (int i = 0; i < m_Players.Count; ++i)
+        {
+            m_Players[i].DisableControl();
+        }
+    }
     public bool StackReady = false;
     IEnumerator GameStart()
     {
-        print("GameStart()");
-        float t = Time.time;
-        float dt = 0;
+        print("GameStart()");        
+        
         activePlayerIndex = 0;
         activePlayerManager = m_Players[activePlayerIndex];
-        //while (!StackReady)
-        //{
-        //    dt += Time.deltaTime;
-
-        //    if (dt > 1) dt = 0;
-
-        //    Debug.Log("waiting for stack to ready");
-        //    yield return null;
-
-        //}
-
+        RpcGameStarting();
         hasStarted = true;
         yield return null;
     }
@@ -165,15 +169,15 @@ public class GameManager : NetworkBehaviour
     void SetCouchCams()
     {
 
-        //    Rect Left = new Rect(0, 0, 1, .5f);
-        //    Rect Right = new Rect(0, 0.5f, 1, .5f);
-        //    m_Players[0].PlayerCamera.rect = Left;
-        //    m_Players[1].PlayerCamera.rect = Right;
+        Rect Left = new Rect(0, 0, 1, .5f);
+        Rect Right = new Rect(0, 0.5f, 1, .5f);
+        m_Players[0].PlayerCamera.rect = Left;
+        m_Players[1].PlayerCamera.rect = Right;
     }
 
     IEnumerator PlayerTurn()
     {
-        print("begin PlayerTurn");
+        print("Begin PlayerTurn");
         activePlayerManager.SetReady();
         while (activePlayerManager.IsTakingTurn)
         {

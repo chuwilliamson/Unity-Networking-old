@@ -27,9 +27,24 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public int PlayerNumber;
     [SyncVar]
-    public bool IsReady = false;
+    public int PlayerID;
     [SyncVar]
-    public int PlayerId;
+    public bool IsReady = false;
+
+    public Color PlayerColor;
+
+   // public GameObject ThirdPersonControl;
+
+    public GameObject UI;
+    public GameObject Camera;
+    public DrawCardEvent onDrawCard;
+    public DrawCardEvent onDiscardCard;
+
+    public List<GameObject> Cards;
+    public List<ICard> Hand;
+
+#region private
+
     [SyncVar]
     private int m_level;
     [SyncVar]
@@ -50,17 +65,7 @@ public class Player : NetworkBehaviour
     private int m_maxGold;
     [SyncVar]
     private CharacterClass m_playerClass;
-
-    public GameObject ThirdPersonControl;
-
-    public UIRoot UIRoot;
-    public Camera PlayerCamera;
-    public DrawCardEvent onDrawCard;
-    public DrawCardEvent onDiscardCard;
-
-    public List<GameObject> Cards;
-    public List<ICard> Hand;
-
+#endregion private
 
     private void Awake()
     {
@@ -68,6 +73,36 @@ public class Player : NetworkBehaviour
         Cards = new List<GameObject>();
     }
 
+    /// <summary>
+    /// new setup for the sphere player
+    /// </summary>
+    /// <param name="pNum"></param>
+    /// <param name="pColor"></param>
+    /// <param name="pName"></param>
+    /// <param name="pID"></param>
+    public void Setup(int pNum, Color pColor, string pName, int pID)
+    {
+        if (onDrawCard == null)
+        {
+            onDrawCard = new DrawCardEvent();
+            onDiscardCard = new DrawCardEvent();
+        }
+
+        m_power = Power;
+        m_level = Level;
+        m_gold = Gold;
+        m_runAway = RunAway;
+
+        PlayerNumber = pNum;
+        PlayerColor = pColor;
+        PlayerName = pName;
+        PlayerID = pID;
+        
+    }
+    /// <summary>
+    /// Setup for the default player
+    /// </summary>
+    /// <param name="name"></param>
     public void Setup(string name)
     {
         if (onDrawCard == null)
@@ -81,44 +116,41 @@ public class Player : NetworkBehaviour
         m_gold = Gold;
         m_runAway = RunAway;
         PlayerName = name;
-        PlayerId = playerControllerId;
-        ThirdPersonControl.GetComponent<ThirdPersonUserControl>().enabled = true;
+        PlayerID = playerControllerId; 
     }
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-        if(isServer)
-            GameManager.singleton.AddPlayer(gameObject, "Player: " + PlayerId.ToString());
-    }
+ 
+
     public override void OnStartClient()
     {
         base.OnStartClient();
 
         if (!isServer)
-        {
-            PlayerId = playerControllerId;
-            GameManager.singleton.AddPlayer(gameObject, PlayerId.ToString());
-            
-
+        {            
+            GameManager.AddPlayer(gameObject, PlayerNumber, PlayerColor, PlayerName, PlayerID); 
         }
+
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in renderers)
+            r.material.color = PlayerColor;
+        name = PlayerName;
     }
 
     
 
-    public override void OnStartLocalPlayer()
-    {
-        base.OnStartLocalPlayer();
+    //public override void OnStartLocalPlayer()
+    //{
+    //    base.OnStartLocalPlayer();
 
-        if (onDrawCard == null)
-        {
-            onDrawCard = new DrawCardEvent();
-            onDiscardCard = new DrawCardEvent();
-        }
+    //    if (onDrawCard == null)
+    //    {
+    //        onDrawCard = new DrawCardEvent();
+    //        onDiscardCard = new DrawCardEvent();
+    //    }
         
-        onDrawCard.Invoke(this);
-        PlayerId = playerControllerId;
-        SetReady();
-    }
+    //    onDrawCard.Invoke(this);
+    //    PlayerID = playerControllerId;
+    //    SetReady();
+    //}
 
     
     void SetReady()

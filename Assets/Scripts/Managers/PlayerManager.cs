@@ -3,24 +3,56 @@ using System;
 [Serializable]
 public class PlayerManager
 {
-
-    private string m_Name;
-    private UIRoot m_UI;
+    
+    
+    
     private Player m_Player;
-    private Camera m_PlayerCamera;
-    private Camera m_PlayerUICamera;
-    private GameObject m_Instance; //assigned from GameManager
-    // Use this for initialization
-    public void Setup(GameObject player, string playerName)
+    private int m_Number;
+    private string m_Name;
+    private Camera m_Camera;
+    private Color m_Color;
+    private int m_ID;
+    private Camera m_UICamera;
+    private GameObject m_Instance;
+    private SpherePlayer m_Movement;
+    private UIRoot m_UI;
+    public void Setup(GameObject player, int playerNum, Color lobbyColor, string playerName, int localID)
     {
         m_Instance = player;
-        m_Name = playerName;
-        m_Instance.name = m_Name;
         m_Player = m_Instance.GetComponent<Player>();
-        m_PlayerCamera = m_Player.PlayerCamera.GetComponent<Camera>();
-        m_UI = m_Player.UIRoot;
-        m_Player.Setup(m_Name);
+        m_Camera = m_Player.Camera.GetComponent<Camera>();
+        m_Movement = m_Player.GetComponent<SpherePlayer>();
+        m_UI = m_Player.UI.GetComponent<UIRoot>();
+
+        m_Instance.transform.name = m_Name;
+
+        m_Name = playerName;
+        m_Number = playerNum;
+        m_Color = lobbyColor;
+        m_ID = localID;
+        
+
+        
+
+        m_Player.Setup(m_Number, m_Color, m_Name, m_ID);
+
+       
         m_UI.Setup(m_Player);
+    }
+
+    public void DisableControl()
+    {
+
+        m_Camera.enabled = false;
+        m_UI.enabled = false;
+        m_Movement.enabled = false;
+    }
+    public void EnableControl()
+    {
+        m_Camera.enabled = true;
+        m_UI.enabled = true;
+        m_Movement.enabled = true;
+         
     }
 
     public Player Player
@@ -34,7 +66,7 @@ public class PlayerManager
     }
     public Camera PlayerCamera
     {
-        get { return m_PlayerCamera; }
+        get { return m_Camera; }
     }
     public bool IsReady()
     {
