@@ -8,7 +8,6 @@ using System.Collections;
 
 
 
-
 namespace Prototype.NetworkLobby
 {
     public class LobbyManager : NetworkLobbyManager 
@@ -54,16 +53,9 @@ namespace Prototype.NetworkLobby
         protected ulong _currentMatchID;
 
         protected LobbyHook _lobbyHooks;
-        [ExecuteInEditMode]
-        void Awake()
-        {
-            
-            Utility.useRandomSourceID = true;
-           
-        }
+        public bool MultiClient = false;
         void Start()
         {
-            
             s_Singleton = this;
             _lobbyHooks = GetComponent<Prototype.NetworkLobby.LobbyHook>();
             currentPanel = mainMenuPanel;
@@ -72,7 +64,7 @@ namespace Prototype.NetworkLobby
             GetComponent<Canvas>().enabled = true;
 
             DontDestroyOnLoad(gameObject);
-
+            Utility.useRandomSourceID = MultiClient;
             SetServerInfo("Offline", "None");
         }
 

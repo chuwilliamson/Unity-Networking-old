@@ -7,10 +7,9 @@ public class NodeEditor : EditorWindow
     Rect window1, window2, window3;
 
 
-    [MenuItem("Window/Node editor")]
+    [MenuItem("Tools/Node editor")]
     static void ShowEditor()
     {
-        
         NodeEditor editor = EditorWindow.GetWindow<NodeEditor>();
         editor.Init();
     }

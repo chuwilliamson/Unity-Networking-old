@@ -7,9 +7,7 @@ public class Stack : NetworkBehaviour
 {
 
     [SyncVar(hook = "SetParent")]
-    public int NumCards = 0;
-
-    public GameObject TreasureCardPrefab;
+    public int NumCards = 0;  
 
     [SerializeField]
 	public List<GameObject> Cards;

@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.Networking;
- 
+
+namespace UnityStandardAssets.Characters.ThirdPerson
+{
 	[RequireComponent(typeof(Rigidbody))]
 	[RequireComponent(typeof(CapsuleCollider))]
 	[RequireComponent(typeof(Animator))]
-	public class ThirdPersonCharacter : NetworkBehaviour
+	public class ThirdPersonCharacter : MonoBehaviour
 	{
 		[SerializeField] float m_MovingTurnSpeed = 360;
 		[SerializeField] float m_StationaryTurnSpeed = 180;
@@ -45,7 +46,6 @@ using UnityEngine.Networking;
 		public void Move(Vector3 move, bool crouch, bool jump)
 		{
 
-  
 			// convert the world relative moveInput vector into a local-relative
 			// turn amount and forward amount required to head in the desired
 			// direction.
@@ -89,7 +89,7 @@ using UnityEngine.Networking;
 			{
 				Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * k_Half, Vector3.up);
 				float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * k_Half;
-				if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength))
+				if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, ~0, QueryTriggerInteraction.Ignore))
 				{
 					m_Crouching = true;
 					return;
@@ -107,7 +107,7 @@ using UnityEngine.Networking;
 			{
 				Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * k_Half, Vector3.up);
 				float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * k_Half;
-				if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength))
+				if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, ~0, QueryTriggerInteraction.Ignore))
 				{
 					m_Crouching = true;
 				}
@@ -222,4 +222,4 @@ using UnityEngine.Networking;
 			}
 		}
 	}
-
+}

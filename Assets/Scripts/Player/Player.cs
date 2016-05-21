@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Events;
 using UnityEngine.Networking;
-using UnityStandardAssets.Characters;
-using UnityStandardAssets.Cameras;
+using UnityStandardAssets.Characters.ThirdPerson;
 public enum CharacterClass
 {
     NONE,
@@ -18,16 +17,19 @@ public enum CharacterClass
 
 public class DrawCardEvent : UnityEvent<Player>
 { }
-public class Player : NetworkBehaviour, IPlayer
+
+public class Player : NetworkBehaviour
 {
     [SyncVar]
-    public string m_PlayerName;
+    public bool IsTakingTurn = false;
     [SyncVar]
-    public int m_PlayerNumber;
+    public string PlayerName;
     [SyncVar]
-    public bool m_IsReady = false;
+    public int PlayerNumber;
     [SyncVar]
-    private CharacterClass m_playerClass;
+    public bool IsReady = false;
+    [SyncVar]
+    public int PlayerId;
     [SyncVar]
     private int m_level;
     [SyncVar]
@@ -47,17 +49,24 @@ public class Player : NetworkBehaviour, IPlayer
     [SyncVar]
     private int m_maxGold;
     [SyncVar]
-    private int m_PlayerId;
-    [SyncVar]
-    public bool m_IsTakingTurn = false;
+    private CharacterClass m_playerClass;
 
-    public GameObject UI;   
-    public GameObject Camera;
-    public GameObject ThirdPersonController;
-    
+    public GameObject ThirdPersonControl;
+
+    public UIRoot UIRoot;
+    public Camera PlayerCamera;
     public DrawCardEvent onDrawCard;
     public DrawCardEvent onDiscardCard;
 
+    public List<GameObject> Cards;
+    public List<ICard> Hand;
+
+
+    private void Awake()
+    {
+        Hand = new List<ICard>();
+        Cards = new List<GameObject>();
+    }
 
     public void Setup(string name)
     {
@@ -66,15 +75,14 @@ public class Player : NetworkBehaviour, IPlayer
             onDrawCard = new DrawCardEvent();
             onDiscardCard = new DrawCardEvent();
         }
-        
+
         m_power = Power;
         m_level = Level;
         m_gold = Gold;
         m_runAway = RunAway;
-        m_PlayerName = name;
-        
-
-        m_PlayerId = playerControllerId;
+        PlayerName = name;
+        PlayerId = playerControllerId;
+        ThirdPersonControl.GetComponent<ThirdPersonUserControl>().enabled = true;
     }
 
     public override void OnStartClient()
@@ -83,64 +91,66 @@ public class Player : NetworkBehaviour, IPlayer
 
         if (!isServer)
         {
-            GameManager.AddPlayer(gameObject, m_PlayerName);
-            uint n = netId.Value;
-            m_PlayerId = playerControllerId;
+            GameManager.AddPlayer(gameObject, PlayerName);
+            PlayerId = playerControllerId;
+
         }
     }
+
+    
 
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-
         
-        if (!isLocalPlayer)
-        {
-            return;
-        }
-        onDrawCard.Invoke(this);
-        m_PlayerId = playerControllerId;
+        
 
+        if (onDrawCard == null)
+        {
+            onDrawCard = new DrawCardEvent();
+            onDiscardCard = new DrawCardEvent();
+        }
+
+        onDrawCard.Invoke(this);
+        PlayerId = playerControllerId;
+        
 
     }
 
-    
     // called when disconnected from a server
     public override void OnNetworkDestroy()
     {
-        Debug.Log("player disconnected " + netId);
-        GameManager.singleton.RemovePlayer(gameObject);
         base.OnNetworkDestroy();
-        
+        GameManager.singleton.RemovePlayer(gameObject);
     }
+
+    
 
     private void Update()
     {
-
         if (!isLocalPlayer)
-        {
-          
             return;
-        }
-        if (m_IsTakingTurn)
+        if (IsTakingTurn)
         {
             if (Input.GetKeyDown(KeyCode.Space))
-            {                
+            {
                 CmdDrawCard(1);
+                CmdSetTurnState(false);
             }
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 CmdDrawCard(2);
+                CmdSetTurnState(false);
             }
         }
     }
- 
+
 
     /// <summary>
     /// Draw a card on the server, then update the client        
     /// Command: Commands are sent from player objects on the client to player objects on the server.
     /// </summary>
-	[Command]
+    [Command]
     public void CmdDrawCard(int stack)
     {
         GameObject go = null;
@@ -154,25 +164,23 @@ public class Player : NetworkBehaviour, IPlayer
             print("SERVER: Stack is empty NO DRAW");
             return;
         }
-        print("SERVER: DRAW card" + go);     
-     
+        print("SERVER: DRAW CARD" + go);
+
         ICard goCard = go.GetComponent<TreasureCardMono>().Card;
+
         Cards.Add(go);
         Hand.Add(goCard);
+
         foreach (GameObject c in Cards)
         {
             c.transform.SetParent(transform);
             c.transform.position = transform.position;
         }
 
-        m_IsTakingTurn = false;
+        
         onDrawCard.Invoke(this);
     }
 
-    public int PlayCard()
-    {
-        return 0;
-    }
 
     /// <summary>
     /// called from gui
@@ -187,12 +195,18 @@ public class Player : NetworkBehaviour, IPlayer
         Hand.Remove(c);
         Cards.Remove(cm);
         onDiscardCard.Invoke(this);
-        DiscardStack.singleton.Shuffle(cm);
-        m_IsTakingTurn = false;
+        DiscardStack.singleton.Shuffle(cm);        
     }
+
+    [Command]
+    public void CmdSetTurnState(bool state)
+    {
+        IsTakingTurn = state;
+    }
+
     public bool Discard(string cardName)
     {
-        if (m_IsTakingTurn)
+        if (IsTakingTurn)
         {
             CmdDiscard(cardName);
             return true;
@@ -200,13 +214,8 @@ public class Player : NetworkBehaviour, IPlayer
 
         return false;
     }
-
-
-    public int MoveCard()
-    {
-        return 0;
-    }
-
+ 
+    #region Not Used
     public int SellCard(TreasureCardMono treasureCardMono)
     {
         GainGold(treasureCardMono.Card.Gold);
@@ -251,10 +260,7 @@ public class Player : NetworkBehaviour, IPlayer
 
         return 0;
     }
-
-    public List<GameObject> Cards = new List<GameObject>();
-
-    public List<ICard> Hand = new List<ICard>();
+    #endregion Not Used
 
     #region IPlayer interface
     public int RunAway
