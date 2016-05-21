@@ -10,26 +10,22 @@ public class UIServer : NetworkBehaviour
         if(singleton == null)
             singleton = this;
     }
+
     private void Start()
-    {     
-      //  GameManager.singleton.PlayerChange.AddListener(SetActivePlayerText);
-       // GameManager.singleton.PlayerChange.AddListener(SetCardCountText);
+    {       
+           GameManager.singleton.EventPlayerChange += UpdateUIServer;
     }
 
     public void SetActivePlayerText(string n = "")
 	{
-
         string name = n;
         ActivePlayer.text = "ActivePlayer: " + name;
     }
 
     public void SetCardCountText(string c = "")
-    {        
-        
+    {                
         string cardCount = TreasureStack.singleton.NumCards.ToString();
         CardCount.text = "TreasureCount: " + cardCount;
-        
-            
     }
 
 

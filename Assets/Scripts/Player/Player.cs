@@ -51,7 +51,7 @@ public class Player : NetworkBehaviour
     [SyncVar]
     private CharacterClass m_playerClass;
 
-    public GameObject ThirdPersonUserControl;
+    public GameObject ThirdPersonControl;
 
     public UIRoot UIRoot;
     public Camera PlayerCamera;
@@ -82,6 +82,7 @@ public class Player : NetworkBehaviour
         m_runAway = RunAway;
         PlayerName = name;
         PlayerId = playerControllerId;
+        ThirdPersonControl.GetComponent<ThirdPersonUserControl>().enabled = true;
     }
 
     public override void OnStartClient()
@@ -92,6 +93,7 @@ public class Player : NetworkBehaviour
         {
             GameManager.AddPlayer(gameObject, PlayerName);
             PlayerId = playerControllerId;
+
         }
     }
 
@@ -100,19 +102,15 @@ public class Player : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
+        
+        
 
-        if (!isLocalPlayer)
-        {
-            ThirdPersonUserControl.GetComponent<ThirdPersonUserControl>().enabled = false;
-            return;
-        }
-        
-        
         if (onDrawCard == null)
         {
             onDrawCard = new DrawCardEvent();
             onDiscardCard = new DrawCardEvent();
         }
+
         onDrawCard.Invoke(this);
         PlayerId = playerControllerId;
         
@@ -126,6 +124,8 @@ public class Player : NetworkBehaviour
         GameManager.singleton.RemovePlayer(gameObject);
     }
 
+    
+
     private void Update()
     {
         if (!isLocalPlayer)
@@ -135,10 +135,12 @@ public class Player : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 CmdDrawCard(1);
+                CmdSetTurnState(false);
             }
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 CmdDrawCard(2);
+                CmdSetTurnState(false);
             }
         }
     }
