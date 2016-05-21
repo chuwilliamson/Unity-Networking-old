@@ -24,25 +24,33 @@ public class TreasureStack : Stack
             NetworkServer.Spawn(go);
             Shuffle(go);
         }
+
+        Ready();
     }
 
-    public override void OnStartClient()
+    public override void OnStartLocalPlayer()
     {
         base.OnStartClient();
 		if (!isServer) 
 		{
 			ArrayList tmp = new ArrayList (FindObjectsOfType (typeof(TreasureCardMono)));
-			foreach (TreasureCardMono go in tmp) 
-			{
-				Cards.Add (go.gameObject);
-			}
-		}
+			foreach (TreasureCardMono go in tmp) 			
+				Cards.Add (go.gameObject);			
+            
+        }
+
         CmdReady();
+
     }
     [Command]
     public void CmdReady()
     {
         Debug.Log("set stack ready");
+        GameManager.singleton.StackReady = true;
+    }
+
+    public void Ready()
+    {
         GameManager.singleton.StackReady = true;
     }
 

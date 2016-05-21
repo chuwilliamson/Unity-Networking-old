@@ -24,12 +24,23 @@ public class Stack : NetworkBehaviour
         {
             GameObject top = Cards[0];          
             Cards.Remove(top);
-            NumCards = Cards.Count;            
-            
+            NumCards = Cards.Count;
+            CmdDraw(top);
             return top;
         }
 
+
+        
         return null;
+    }
+    public void CmdDraw(GameObject card)
+    {
+        if (!isLocalPlayer)
+            return;
+
+        Cards.Remove(card);
+        NumCards = Cards.Count;
+        
     }
 
     [ClientRpc]
@@ -40,8 +51,6 @@ public class Stack : NetworkBehaviour
         
         Cards.Remove(card);
         NumCards = Cards.Count;
-        
-
     }
 
     public void Shuffle(GameObject card)

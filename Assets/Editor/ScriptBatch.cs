@@ -10,18 +10,18 @@ public class ScriptBatch
     [MenuItem("Tools/Build and Run")]
     public static void BuildGame()
     {
-        
+        if (BuildPipeline.isBuildingPlayer)
+            return;
         string path = Application.dataPath + "/../";
-        print(path);
         Process[] running = Process.GetProcesses();
-        Action<Process> killit = (p) => { p.Kill(); };
+                
         foreach (Process process in running)
         {
 
             if (process.ProcessName == "Munchkin")
             {
                 print("Terminating process..." + process.ProcessName);
-                killit(process);
+                process.Kill();
                 break;
             }
         }
@@ -32,7 +32,10 @@ public class ScriptBatch
         string[] levels = new string[] { "Assets/Scenes/Intro(Network).unity", "Assets/Scenes/Combat(Network).unity" };
 
         // Build player.
-        BuildPipeline.BuildPlayer(levels, path + "/Munchkin.exe", BuildTarget.StandaloneWindows, BuildOptions.AutoRunPlayer);
+        BuildPipeline.BuildPlayer(levels, path + "/Munchkin.exe", 
+            BuildTarget.StandaloneWindows, 
+            BuildOptions.AutoRunPlayer | BuildOptions.InstallInBuildFolder |
+            BuildOptions.AllowDebugging | BuildOptions.Development );
 
         // Copy a file from the project folder to the build folder, alongside the built game.
         //FileUtil.CopyFileOrDirectory("Assets/WebPlayerTemplates/Readme.txt", path + "Readme.txt");

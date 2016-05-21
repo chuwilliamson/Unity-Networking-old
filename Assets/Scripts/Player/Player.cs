@@ -84,15 +84,21 @@ public class Player : NetworkBehaviour
         PlayerId = playerControllerId;
         ThirdPersonControl.GetComponent<ThirdPersonUserControl>().enabled = true;
     }
-
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        if(isServer)
+            GameManager.singleton.AddPlayer(gameObject, "Player: " + PlayerId.ToString());
+    }
     public override void OnStartClient()
     {
         base.OnStartClient();
 
         if (!isServer)
         {
-            GameManager.AddPlayer(gameObject, PlayerName);
             PlayerId = playerControllerId;
+            GameManager.singleton.AddPlayer(gameObject, PlayerId.ToString());
+            
 
         }
     }
@@ -102,30 +108,32 @@ public class Player : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        
-        
 
         if (onDrawCard == null)
         {
             onDrawCard = new DrawCardEvent();
             onDiscardCard = new DrawCardEvent();
         }
-
+        
         onDrawCard.Invoke(this);
         PlayerId = playerControllerId;
-        
+        SetReady();
+    }
 
+    
+    void SetReady()
+    {
+        IsReady = true;
     }
 
     // called when disconnected from a server
     public override void OnNetworkDestroy()
-    {
-        base.OnNetworkDestroy();
+    {        
         GameManager.singleton.RemovePlayer(gameObject);
     }
 
     
-
+    [ClientCallback]
     private void Update()
     {
         if (!isLocalPlayer)

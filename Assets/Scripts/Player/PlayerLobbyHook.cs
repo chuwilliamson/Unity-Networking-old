@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerLobbyHook : Prototype.NetworkLobby.LobbyHook
+public class PlayerLobbyHook : NetworkManager
 {
-    public override void OnLobbyServerSceneLoadedForPlayer(NetworkManager manager, GameObject lobbyPlayer, GameObject gamePlayer)
+    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
-        if (lobbyPlayer == null)
-            return;
-        Prototype.NetworkLobby.LobbyPlayer lp = lobbyPlayer.GetComponent<Prototype.NetworkLobby.LobbyPlayer>();
-        if (lp != null)
-            GameManager.AddPlayer(gamePlayer, lp.nameInput.text);
+        base.OnServerAddPlayer(conn, playerControllerId);
+        
     }
+
 }
+
+
+
+
+
+

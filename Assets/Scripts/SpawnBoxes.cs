@@ -17,6 +17,7 @@ public class SpawnBoxes : MonoBehaviour {
             float rz = UnityEngine.Random.Range(-range, range);
             Vector3 rv = new Vector3(rx, ry, rz);
             GameObject go = Instantiate(box, rv, Quaternion.identity) as GameObject;
+            go.name = "ball";
         }
 	}
 	

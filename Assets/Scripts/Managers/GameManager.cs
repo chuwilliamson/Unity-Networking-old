@@ -26,67 +26,64 @@ public class GameManager : NetworkBehaviour
     {
         EventPlayerChange(n, c);
     }
-    
-	public static GameManager singleton = null;
-	public static List<PlayerManager> m_players = new List<PlayerManager> ();
-	public bool quit = false;
-	private WaitForSeconds m_Wait;
 
-	[SyncVar]
-	private int activePlayerIndex;
+    public static GameManager singleton = null;
+    public static List<PlayerManager> m_Players = new List<PlayerManager>();
+    public List<Player> Players = new List<Player>();
+    public bool quit = false;
+    private WaitForSeconds m_Wait;
+    public GameObject m_PlayerPrefab;
+    [SyncVar]
+    private int activePlayerIndex;
 
-	[SyncVar]
-	public bool hasStarted = false;
+    [SyncVar]
+    public bool hasStarted = false;
 
-	[SerializeField]
-	public Player activePlayer;
+    [SerializeField]
+    public Player activePlayer;
 
-	private PlayerManager m_activePlayerManager;
-	 
-	public PlayerManager activePlayerManager 
-	{
-		get
+    private PlayerManager m_activePlayerManager;
+
+    public PlayerManager activePlayerManager
+    {
+        get
         {
             return m_activePlayerManager;
         }
-		set
+        set
         {
-			m_activePlayerManager = value;
-			activePlayer = m_activePlayerManager.Player;
-           
-            EventPlayerChange(activePlayer.PlayerName, GetComponent<TreasureStack>().NumCards.ToString());
+            m_activePlayerManager = value;
+            activePlayer = m_activePlayerManager.Player;
+            m_activePlayerManager.SetReady();
+            if(!isClient)
+                EventPlayerChange(activePlayer.PlayerName, GetComponent<TreasureStack>().NumCards.ToString());
         }
-	}
- 
-	public static void AddPlayer (GameObject player, string name)
-	{
-		PlayerManager pm = new PlayerManager ();
-		
-		pm.Setup (player, name);
-		m_players.Add (pm);
-	}
+    }
 
-	public void RemovePlayer (GameObject p)
-	{
-		PlayerManager toRemove = null;
-		foreach (var tmp in m_players) {
-			if (tmp.Instance == p) {
-				toRemove = tmp;
-				break;
-			}
-		}
+    public void AddPlayer(GameObject player, string name)
+    {
+        PlayerManager pm = new PlayerManager();
+        pm.Setup(player, name);
+        m_Players.Add(pm);
+        
+        Debug.Log("add player " + pm.PlayerName);
+    }
 
-		if (toRemove != null)
-			m_players.Remove (toRemove);
-	}
+    public void RemovePlayer(GameObject p)
+    {
+        PlayerManager toRemove = null;
+        foreach (var tmp in m_Players)
+        {
+            if (tmp.Instance == p)
+            {
+                toRemove = tmp;
+                break;
+            }
+        }
 
-    
-	private void Awake ()
-	{
-        if(singleton == null)
-		    singleton = this;        
-	}
-
+        if (toRemove != null)
+            m_Players.Remove(toRemove);
+    }
 
     private void UpdateUI(string n, string c)
     {
@@ -94,88 +91,108 @@ public class GameManager : NetworkBehaviour
         UIServer.singleton.UpdateUIServer(n, c);
     }
 
-    private void Start ()
-	{			
-		m_Wait = new WaitForSeconds (1);       
-		StartCoroutine (GameLoop ());
-        
-	}
-
-    public override void OnStartClient()
+    private void Awake()
     {
-        base.OnStartClient();
-        if (singleton == null)
-            singleton = this;
-        StartCoroutine(GameLoop());
+        singleton = this;
     }
 
-    IEnumerator GameLoop ()
-	{
-        
-        yield return StartCoroutine (GameStart ());
-		yield return StartCoroutine (PlayerTurn ());
-        yield return StartCoroutine(GameRunning ());
-	}
 
-    public bool StackReady= false;
-	IEnumerator GameStart ()
-	{
-        float t = Time.time;
-        float dt = 0;
-        while (!StackReady)
+
+
+    
+    private void Start()
+    {
+        m_Wait = new WaitForSeconds(1);
+        foreach (PlayerManager pm in m_Players)
+            Players.Add(pm.Player);
+        StartCoroutine(GameLoop());
+
+    }
+
+    [SerializeField]
+    private bool ggAllIn;
+    IEnumerator GameLoop()
+    {
+        while (m_Players.Count < 2)
+        {
+            Debug.Log("Player Count: " + m_Players.Count);     
+            yield return null;
+        }
+        bool allready = true;
+        while (!allready)
         {
             
-            dt += Time.deltaTime;
-
-            if (dt > 1)
+            foreach (PlayerManager pm in m_Players)
             {
-                Debug.Log("waiting for stack to ready");
-                dt = 0;
+                Debug.Log(pm.IsReady());
+                allready &= pm.IsReady();
             }
+            ggAllIn = allready;
+            Debug.Log(ggAllIn);
             yield return null;
-
         }
-        if (NetworkServer.active)
-            Debug.Log("Stack is Ready for " + this.netId);
+
+        //wait to be sure that all are ready to start
+        yield return new WaitForSeconds(2.0f);
+        yield return StartCoroutine(GameStart());
+        yield return StartCoroutine(PlayerTurn());
+        yield return StartCoroutine(GameRunning());
+    }
+
+    public bool StackReady = false;
+    IEnumerator GameStart()
+    {
+        print("GameStart()");
+        float t = Time.time;
+        float dt = 0;
         activePlayerIndex = 0;
-		activePlayerManager = m_players [activePlayerIndex];
-        
-        if (m_players.Count > 1) 
-		{
-			Rect Left = new Rect (0, 0, 1, .5f);
-			Rect Right = new Rect (0, 0.5f, 1, .5f);
-			m_players [0].PlayerCamera.rect = Left;
-			m_players [1].PlayerCamera.rect = Right;
-			hasStarted = true;
-		}
-       // RpcUpdateUI(activePlayer.name, GetComponent<TreasureStack>().NumCards.ToString());
+        activePlayerManager = m_Players[activePlayerIndex];
+        //while (!StackReady)
+        //{
+        //    dt += Time.deltaTime;
+
+        //    if (dt > 1) dt = 0;
+
+        //    Debug.Log("waiting for stack to ready");
+        //    yield return null;
+
+        //}
+
+        hasStarted = true;
         yield return null;
-	}
+    }
 
+    void SetCouchCams()
+    {
 
-	IEnumerator PlayerTurn ()
-	{
-		activePlayerManager.Start ();
-		while (activePlayerManager.IsTakingTurn) 
-		{
-			yield return null;
-		}
+        //    Rect Left = new Rect(0, 0, 1, .5f);
+        //    Rect Right = new Rect(0, 0.5f, 1, .5f);
+        //    m_Players[0].PlayerCamera.rect = Left;
+        //    m_Players[1].PlayerCamera.rect = Right;
+    }
 
-		activePlayerIndex += 1;
-		if (activePlayerIndex >= m_players.Count)
-			activePlayerIndex = 0;
+    IEnumerator PlayerTurn()
+    {
+        print("begin PlayerTurn");
+        activePlayerManager.SetReady();
+        while (activePlayerManager.IsTakingTurn)
+        {
+            yield return null;
+        }
 
-		activePlayerManager = m_players [activePlayerIndex];
-       // RpcUpdateUI(activePlayer.name, GetComponent<TreasureStack>().NumCards.ToString());
+        activePlayerIndex += 1;
+        if (activePlayerIndex >= m_Players.Count)
+            activePlayerIndex = 0;
+
+        activePlayerManager = m_Players[activePlayerIndex];
         yield return null;
-		yield return StartCoroutine (PlayerTurn ());
-	}
+        yield return StartCoroutine(PlayerTurn());
+    }
 
     IEnumerator GameRunning()
     {
-        while (m_players.Count > 1)
-        {
-            //RpcUpdateUI(activePlayer.name, GetComponent<TreasureStack>().NumCards.ToString());
+        while (m_Players.Count > 1)
+        {            
             yield return null;
         }
         print("Shutting down server");

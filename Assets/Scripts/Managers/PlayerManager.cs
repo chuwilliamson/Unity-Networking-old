@@ -3,7 +3,7 @@ using System;
 [Serializable]
 public class PlayerManager
 {
- 
+
     private string m_Name;
     private UIRoot m_UI;
     private Player m_Player;
@@ -49,13 +49,18 @@ public class PlayerManager
         }
     }
 
-    public void Start()
+    public string PlayerName
     {
-        if (GameManager.singleton.activePlayer == m_Player)
-            m_Player.IsTakingTurn = true;
+        get { return m_Name; }
+    }
+
+    public void SetReady()
+    {
+        m_Player.IsTakingTurn = true;
     }
 
 
 
-    
+
+
 }

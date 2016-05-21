@@ -11,9 +11,9 @@ GameObject:
   - 114: {fileID: 11424418}
   - 114: {fileID: 11415008}
   - 114: {fileID: 11472538}
-  - 114: {fileID: 11481230}
+  - 114: {fileID: 11425404}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: ServerGameManager
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -74,10 +74,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f87b8dd84203c4381dca262f928ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Players: []
   quit: 0
+  m_PlayerPrefab: {fileID: 161304, guid: 74ab0593513548a4fbf2124b4b18920d, type: 2}
   hasStarted: 0
   activePlayer: {fileID: 0}
+  ggAllIn: 0
   StackReady: 0
+--- !u!114 &11425404
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26694e9a66a37e4458cc74984c70a391, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumCards: 0
+  Cards: []
 --- !u!114 &11472538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -90,22 +106,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NumCards: 0
+  Cards: []
   TreasureCardPrefab: {fileID: 176322, guid: a81250c6826e58d49a88c1e49299d220, type: 2}
-  Cards: []
---- !u!114 &11481230
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 180238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26694e9a66a37e4458cc74984c70a391, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NumCards: 0
-  TreasureCardPrefab: {fileID: 0}
-  Cards: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
