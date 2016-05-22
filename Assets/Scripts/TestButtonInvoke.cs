@@ -21,41 +21,43 @@ class TestButtonInvoke : MonoBehaviour
 
     void Awake()
     {
-        var p = GameObject.Find("Player");
+        var p = GameObject.FindGameObjectWithTag("Player");
         if (p)
             DestroyImmediate(p);
-
-        if(ListServersButton == null)
-        {
-            ListServersButton = GameObject.Find("ListServerButton").GetComponent<Button>();
+        try {
+            if (ListServersButton == null)
+            {
+                ListServersButton = GameObject.Find("ListServerButton").GetComponent<Button>();
+            }
+            if (BackButton == null)
+            {
+                BackButton = GameObject.Find("BackButton").GetComponent<Button>();
+            }
+            if (CreateServerButton == null)
+            {
+                CreateServerButton = GameObject.Find("CreateButton").GetComponent<Button>();
+            }
         }
-        if (BackButton == null)
-        {
-            BackButton = GameObject.Find("BackButton").GetComponent<Button>();
-        }
-        if(CreateServerButton == null)
-        {
-            CreateServerButton = GameObject.Find("CreateButton").GetComponent<Button>();
-        }
+        catch { }
 
     }
 
     void Update()
     {
-        if (Create == true)
+        if (Create)
         {
             CreateServerButton.onClick.Invoke();
             Destroy(this.gameObject);
         }
-        if (Search == true)
+        if (Search)
         {
             ListServersButton.onClick.Invoke();
-            Search = false;
+            Search = !Search;
             Join = true;
         }
-        if (Join == true)
+        if (Join)
         {
-            Join = false;
+            Join = !Join;
             StartCoroutine(FindServers());
         }
     }

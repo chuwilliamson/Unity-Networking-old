@@ -120,6 +120,14 @@ public class Player : NetworkBehaviour
         
     }
 
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in renderers)
+            r.material.color = PlayerColor;
+    }
+
 
     void SetReady()
     {
