@@ -45,8 +45,8 @@ GameObject:
   - 223: {fileID: 22319280}
   - 114: {fileID: 11433380}
   - 114: {fileID: 11409830}
-  - 114: {fileID: 11420490}
-  - 114: {fileID: 11499794}
+  - 114: {fileID: 11409358}
+  - 114: {fileID: 11408256}
   m_Layer: 5
   m_Name: UIServer
   m_TagString: Untagged
@@ -54,6 +54,51 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &11408256
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 118b2e97b6898434abc986e8ee2d4684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActivePlayer: {fileID: 11422612}
+  CardCount: {fileID: 11428816}
+--- !u!114 &11409358
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11409830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,38 +115,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &11420490
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 181132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 252
-    i1: 226
-    i2: 21
-    i3: 217
-    i4: 163
-    i5: 191
-    i6: 52
-    i7: 100
-    i8: 43
-    i9: 20
-    i10: 20
-    i11: 120
-    i12: 242
-    i13: 68
-    i14: 159
-    i15: 153
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &11422612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,19 +202,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &11499794
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 181132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 118b2e97b6898434abc986e8ee2d4684, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActivePlayer: {fileID: 11422612}
-  CardCount: {fileID: 11428816}
 --- !u!222 &22220570
 CanvasRenderer:
   m_ObjectHideFlags: 1

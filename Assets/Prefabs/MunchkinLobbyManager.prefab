@@ -857,7 +857,7 @@ GameObject:
   - 114: {fileID: 11427764}
   - 114: {fileID: 11425736}
   - 114: {fileID: 11461830}
-  - 114: {fileID: 11478338}
+  - 114: {fileID: 11496686}
   m_Layer: 5
   m_Name: MunchkinLobbyManager
   m_TagString: Untagged
@@ -1717,14 +1717,13 @@ MonoBehaviour:
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
-  m_LogLevel: 4
-  m_PlayerPrefab: {fileID: 161304, guid: 74ab0593513548a4fbf2124b4b18920d, type: 2}
+  m_LogLevel: 0
+  m_PlayerPrefab: {fileID: 118110, guid: 6ff0b930b527b6740b350e10fb52be4f, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
   m_OfflineScene: Intro(Network)
   m_OnlineScene: 
   m_SpawnPrefabs:
-  - {fileID: 161304, guid: 74ab0593513548a4fbf2124b4b18920d, type: 2}
   - {fileID: 176322, guid: a81250c6826e58d49a88c1e49299d220, type: 2}
   m_CustomConfig: 1
   m_MaxConnections: 4
@@ -1766,16 +1765,16 @@ MonoBehaviour:
   matchName: default
   matchSize: 4
   m_ShowLobbyGUI: 0
-  m_MaxPlayers: 2
+  m_MaxPlayers: 3
   m_MaxPlayersPerConnection: 2
   m_MinPlayers: 1
   m_LobbyPlayerPrefab: {fileID: 11487034, guid: ad727d7e1462ecc4f83c898ecc501997,
     type: 2}
-  m_GamePlayerPrefab: {fileID: 161304, guid: 74ab0593513548a4fbf2124b4b18920d, type: 2}
+  m_GamePlayerPrefab: {fileID: 118110, guid: 6ff0b930b527b6740b350e10fb52be4f, type: 2}
   m_LobbyScene: Intro(Network)
-  m_PlayScene: Combat(Network)
+  m_PlayScene: Cube(Network)
   lobbySlots: []
-  prematchCountdown: 0
+  prematchCountdown: 1
   topPanel: {fileID: 11461820}
   mainMenuPanel: {fileID: 22474586}
   lobbyPanel: {fileID: 22417438}
@@ -1787,7 +1786,7 @@ MonoBehaviour:
   hostInfo: {fileID: 11482358}
   _playerNumber: 0
   _isMatchmaking: 0
-  MultiClient: 1
+  MultiClient: 0
 --- !u!114 &11425956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3462,71 +3461,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &11478338
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 169842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3323ec3577473774480e9ac29c4e1db1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_NetworkPort: 7777
-  m_ServerBindToIP: 0
-  m_ServerBindAddress: 
-  m_NetworkAddress: localhost
-  m_DontDestroyOnLoad: 1
-  m_RunInBackground: 1
-  m_ScriptCRCCheck: 1
-  m_MaxDelay: 0.01
-  m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 0}
-  m_AutoCreatePlayer: 1
-  m_PlayerSpawnMethod: 0
-  m_OfflineScene: 
-  m_OnlineScene: 
-  m_SpawnPrefabs: []
-  m_CustomConfig: 0
-  m_MaxConnections: 4
-  m_ConnectionConfig:
-    m_PacketSize: 1500
-    m_FragmentSize: 500
-    m_ResendTimeout: 1200
-    m_DisconnectTimeout: 2000
-    m_ConnectTimeout: 2000
-    m_MinUpdateTimeout: 10
-    m_PingTimeout: 500
-    m_ReducedPingTimeout: 100
-    m_AllCostTimeout: 20
-    m_NetworkDropThreshold: 5
-    m_OverflowDropThreshold: 5
-    m_MaxConnectionAttempt: 10
-    m_AckDelay: 33
-    m_MaxCombinedReliableMessageSize: 100
-    m_MaxCombinedReliableMessageCount: 10
-    m_MaxSentMessageQueueSize: 128
-    m_IsAcksLong: 0
-    m_UsePlatformSpecificProtocols: 0
-    m_Channels: []
-  m_GlobalConfig:
-    m_ThreadAwakeTimeout: 1
-    m_ReactorModel: 0
-    m_ReactorMaximumReceivedMessages: 1024
-    m_ReactorMaximumSentMessages: 1024
-    m_MaxPacketSize: 2000
-  m_Channels: 
-  m_UseWebSockets: 0
-  m_UseSimulator: 0
-  m_SimulatedLatency: 1
-  m_PacketLossPercentage: 0
-  m_MatchHost: mm.unet.unity3d.com
-  m_MatchPort: 443
-  isNetworkActive: 0
-  matchMaker: {fileID: 0}
-  matchName: default
-  matchSize: 4
 --- !u!114 &11480330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4028,6 +3962,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11496686
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 169842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6e29299b93d6f54296844c84406a015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11497184
 MonoBehaviour:
   m_ObjectHideFlags: 1

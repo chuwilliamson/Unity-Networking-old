@@ -33,17 +33,18 @@ public class Player : NetworkBehaviour
 
     public Color PlayerColor;
 
-   // public GameObject ThirdPersonControl;
+    // public GameObject ThirdPersonControl;
 
     public GameObject UI;
     public GameObject Camera;
+    public GameObject UICamera;
     public DrawCardEvent onDrawCard;
     public DrawCardEvent onDiscardCard;
 
     public List<GameObject> Cards;
     public List<ICard> Hand;
 
-#region private
+    #region private
 
     [SyncVar]
     private int m_level;
@@ -65,7 +66,7 @@ public class Player : NetworkBehaviour
     private int m_maxGold;
     [SyncVar]
     private CharacterClass m_playerClass;
-#endregion private
+    #endregion private
 
     private void Awake()
     {
@@ -97,62 +98,29 @@ public class Player : NetworkBehaviour
         PlayerColor = pColor;
         PlayerName = pName;
         PlayerID = pID;
-        
-    }
-    /// <summary>
-    /// Setup for the default player
-    /// </summary>
-    /// <param name="name"></param>
-    public void Setup(string name)
-    {
-        if (onDrawCard == null)
-        {
-            onDrawCard = new DrawCardEvent();
-            onDiscardCard = new DrawCardEvent();
-        }
 
-        m_power = Power;
-        m_level = Level;
-        m_gold = Gold;
-        m_runAway = RunAway;
-        PlayerName = name;
-        PlayerID = playerControllerId; 
     }
- 
 
     public override void OnStartClient()
     {
         base.OnStartClient();
 
         if (!isServer)
-        {            
-            GameManager.AddPlayer(gameObject, PlayerNumber, PlayerColor, PlayerName, PlayerID); 
+        {
+            GameManager.AddPlayer(gameObject, PlayerNumber, PlayerColor, PlayerName, PlayerID);            
         }
+
+        
 
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer r in renderers)
             r.material.color = PlayerColor;
+
         name = PlayerName;
+        
     }
 
-    
 
-    //public override void OnStartLocalPlayer()
-    //{
-    //    base.OnStartLocalPlayer();
-
-    //    if (onDrawCard == null)
-    //    {
-    //        onDrawCard = new DrawCardEvent();
-    //        onDiscardCard = new DrawCardEvent();
-    //    }
-        
-    //    onDrawCard.Invoke(this);
-    //    PlayerID = playerControllerId;
-    //    SetReady();
-    //}
-
-    
     void SetReady()
     {
         IsReady = true;
@@ -160,11 +128,11 @@ public class Player : NetworkBehaviour
 
     // called when disconnected from a server
     public override void OnNetworkDestroy()
-    {        
+    {
         GameManager.singleton.RemovePlayer(gameObject);
     }
 
-    
+
     [ClientCallback]
     private void Update()
     {
@@ -173,69 +141,62 @@ public class Player : NetworkBehaviour
         if (IsTakingTurn)
         {
             if (Input.GetKeyDown(KeyCode.Space))
-            {
-                CmdDrawCard(1);
+            {                
+                DrawCard();                
                 CmdSetTurnState(false);
             }
             if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                CmdDrawCard(2);
+            {                
+                DrawCard();
+                
                 CmdSetTurnState(false);
             }
         }
     }
+    TreasureStack ts;
+    void DrawCard()
+    {
+        
+        if (!isLocalPlayer)
+            throw new InvalidOperationException("This can only be called for the local player!");
 
-
+        CmdAddToList();
+    }
     /// <summary>
     /// Draw a card on the server, then update the client        
     /// Command: Commands are sent from player objects on the client to player objects on the server.
     /// </summary>
     [Command]
-    public void CmdDrawCard(int stack)
+    public void CmdAddToList()
     {
-        GameObject go = null;
-        if (stack == 1)
-            go = TreasureStack.singleton.Draw();
-        if (stack == 2)
-            go = DiscardStack.singleton.Draw();
-
-        if (go == null)
+        GameObject obj = TreasureStack.singleton.Draw();
+        if (obj == null)
         {
             print("SERVER: Stack is empty NO DRAW");
             return;
         }
-        print("SERVER: DRAW CARD" + go);
 
-        ICard goCard = go.GetComponent<TreasureCardMono>().Card;
+        RpcAddToList(obj);
+    }
 
-        Cards.Add(go);
+    [ClientRpc]
+    void RpcAddToList(GameObject obj)
+    {
+        ICard goCard = obj.GetComponent<TreasureCardMono>().Card;
+        Cards.Add(obj);
         Hand.Add(goCard);
-
-        foreach (GameObject c in Cards)
-        {
-            c.transform.SetParent(transform);
-            c.transform.position = transform.position;
-        }
-
-        
         onDrawCard.Invoke(this);
     }
 
-
-    /// <summary>
-    /// called from gui
-    /// </summary>
-    /// <param cardName="cardName"></param>
-
     [Command]
-    public void CmdDiscard(string cardName)
+    public void CmdRemoveFromList(string cardName)
     {
         ICard c = Hand.Find(x => x.Name == cardName);
         GameObject cm = Cards.Find(x => x.name == cardName + "(Clone)");
         Hand.Remove(c);
         Cards.Remove(cm);
         onDiscardCard.Invoke(this);
-        DiscardStack.singleton.Shuffle(cm);        
+        DiscardStack.singleton.Shuffle(cm);
     }
 
     [Command]
@@ -248,13 +209,13 @@ public class Player : NetworkBehaviour
     {
         if (IsTakingTurn)
         {
-            CmdDiscard(cardName);
+            CmdRemoveFromList(cardName);
             return true;
         }
 
         return false;
     }
- 
+
     #region Not Used
     public int SellCard(TreasureCardMono treasureCardMono)
     {

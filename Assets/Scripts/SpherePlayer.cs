@@ -6,8 +6,7 @@ public class SpherePlayer : NetworkBehaviour
     public GameObject cam;
 
     void Start()
-    {
-        cam = GetComponentInChildren<Camera>().gameObject;
+    {   
         if (!isLocalPlayer)
             cam.SetActive(false);        
     }
@@ -24,6 +23,8 @@ public class SpherePlayer : NetworkBehaviour
         Vector3 move = new Vector3(h, 0, v);
         cam.transform.Translate(new Vector3(0, 0, f));
         transform.Translate(move);
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
     }
 }
 

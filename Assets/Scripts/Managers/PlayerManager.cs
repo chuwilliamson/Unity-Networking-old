@@ -3,9 +3,9 @@ using System;
 [Serializable]
 public class PlayerManager
 {
-    
-    
-    
+
+
+
     private Player m_Player;
     private int m_Number;
     private string m_Name;
@@ -22,6 +22,7 @@ public class PlayerManager
         m_Player = m_Instance.GetComponent<Player>();
         m_Camera = m_Player.Camera.GetComponent<Camera>();
         m_Movement = m_Player.GetComponent<SpherePlayer>();
+        m_UICamera = m_Player.UICamera.GetComponent<Camera>();
         m_UI = m_Player.UI.GetComponent<UIRoot>();
 
         m_Instance.transform.name = m_Name;
@@ -30,29 +31,26 @@ public class PlayerManager
         m_Number = playerNum;
         m_Color = lobbyColor;
         m_ID = localID;
-        
-
-        
-
-        m_Player.Setup(m_Number, m_Color, m_Name, m_ID);
-
-       
+        m_Player.Setup(m_Number, m_Color, m_Name, m_ID);        
         m_UI.Setup(m_Player);
+
     }
 
     public void DisableControl()
     {
-
         m_Camera.enabled = false;
         m_UI.enabled = false;
+        m_UICamera.enabled = false;
         m_Movement.enabled = false;
+        
+
     }
     public void EnableControl()
     {
         m_Camera.enabled = true;
         m_UI.enabled = true;
+        m_UICamera.enabled = true;
         m_Movement.enabled = true;
-         
     }
 
     public Player Player
@@ -68,6 +66,11 @@ public class PlayerManager
     {
         get { return m_Camera; }
     }
+
+    public Camera UIPlayerCamera
+    {
+        get { return m_UICamera; }
+    }
     public bool IsReady()
     {
         return m_Player.IsReady;
@@ -75,10 +78,7 @@ public class PlayerManager
 
     public bool IsTakingTurn
     {
-        get
-        {
-            return m_Player.IsTakingTurn;
-        }
+        get { return m_Player.IsTakingTurn; }
     }
 
     public string PlayerName

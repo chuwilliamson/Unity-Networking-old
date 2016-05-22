@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class UICamera : MonoBehaviour {
+public class UICamera : NetworkBehaviour {
 
+    public GameObject cam;
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+    {
+        if (!isLocalPlayer)
+            cam.SetActive(false);
 	}
 	
-	// Update is called once per frame
-	void Update () {
 	
-	}
 }

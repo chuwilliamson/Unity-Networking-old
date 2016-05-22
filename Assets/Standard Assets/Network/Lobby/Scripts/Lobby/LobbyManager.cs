@@ -63,7 +63,7 @@ namespace Prototype.NetworkLobby
             backButton.gameObject.SetActive(false);
             GetComponent<Canvas>().enabled = true;
 
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
             Utility.useRandomSourceID = MultiClient;
             SetServerInfo("Offline", "None");
         }

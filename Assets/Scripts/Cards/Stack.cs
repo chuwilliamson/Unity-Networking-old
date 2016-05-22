@@ -42,7 +42,7 @@ public class Stack : NetworkBehaviour
         NumCards = Cards.Count;
         
     }
-
+    
     [ClientRpc]
     public void RpcDraw(GameObject card)
     {

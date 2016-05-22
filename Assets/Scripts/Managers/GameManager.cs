@@ -18,29 +18,45 @@ SyncEvents allow networked actions to be propagated to other scripts attached to
 
 public class GameManager : NetworkBehaviour
 {
-    public delegate void PlayerChangeDelegate(string name, string count);
+    public delegate void EventPlayerChange();
+
     [SyncEvent]
-    public event PlayerChangeDelegate EventPlayerChange;
-    [Command]
-    public void CmdDoMe(string n, string c)
+    public static event EventPlayerChange EventOnPlayerChange;
+
+    [ClientRpc]
+    public void RpcPlayerChange()
     {
-        EventPlayerChange(n, c);
+        Debug.Log("PlayerChange Event!");
+        if (EventOnPlayerChange != null)
+            EventOnPlayerChange();
     }
 
-    public static GameManager singleton = null;
-    public static List<PlayerManager> m_Players = new List<PlayerManager>();
+    [SyncVar]
+    public int numCards;
+
+    static public GameManager singleton;
+    static public List<PlayerManager> m_Players = new List<PlayerManager>();
+
     public List<Player> Players = new List<Player>();
     public bool quit = false;
     private WaitForSeconds m_Wait;
     public GameObject m_PlayerPrefab;
+
+    [SerializeField]
+    private GameObject m_UI;
+    private UIServer m_UIServer;
+
     [SyncVar]
-    private int activePlayerIndex;
+    private int m_activePlayerIndex;
 
     [SyncVar]
     public bool hasStarted = false;
 
     [SerializeField]
     public Player activePlayer;
+
+    [SerializeField]
+    private TreasureStack m_TreasureStack;
 
     private PlayerManager m_activePlayerManager;
 
@@ -55,17 +71,19 @@ public class GameManager : NetworkBehaviour
             m_activePlayerManager = value;
             activePlayer = m_activePlayerManager.Player;
             m_activePlayerManager.SetReady();
-            if(!isClient)
-                EventPlayerChange(activePlayer.PlayerName, GetComponent<TreasureStack>().NumCards.ToString());
+            RpcUpdateUI(activePlayer.name, m_TreasureStack.NumCards);
+
         }
     }
+
+    #region Setup
     public static void AddPlayer(GameObject player, int playerNum, Color c, string name, int localID)
     {
         PlayerManager pm = new PlayerManager();
         pm.Setup(player, playerNum, c, name, localID);
         m_Players.Add(pm);
     }
-    
+
 
     public void RemovePlayer(GameObject p)
     {
@@ -82,62 +100,105 @@ public class GameManager : NetworkBehaviour
         if (toRemove != null)
             m_Players.Remove(toRemove);
     }
+    #endregion Setup
 
-    private void UpdateUI(string n, string c)
-    {
-        Debug.Log("update client with " + n + ":" + c);
-        UIServer.singleton.UpdateUIServer(n, c);
-    }
 
-    private void Awake()
+    void Awake()
     {
         singleton = this;
-    } 
 
-    [ServerCallback]
-    private void Start()
-    {
+        m_UIServer = m_UI.GetComponent<UIServer>();
+        m_TreasureStack = GetComponent<TreasureStack>();
         m_Wait = new WaitForSeconds(1);
-        foreach (PlayerManager pm in m_Players)
-            Players.Add(pm.Player);
-        StartCoroutine(GameLoop());
-
     }
 
-    [SerializeField]
-    private bool ggAllIn;
+    [ServerCallback]
+    void Start()
+    {
+        foreach (PlayerManager pm in m_Players)
+            Players.Add(pm.Player);
+
+        m_TreasureStack.Setup();
+        m_activePlayerIndex = 0;
+        activePlayerManager = m_Players[m_activePlayerIndex];
+        RpcUpdateUI(activePlayer.name, m_TreasureStack.NumCards);
+        StartCoroutine(GameLoop());
+    }
+
     IEnumerator GameLoop()
     {
-        while (m_Players.Count < 2)
-        {
-            Debug.Log("Player Count: " + m_Players.Count);     
-            yield return null;
-        }
-        bool allready = true;
-        while (!allready)
-        {
-            
-            foreach (PlayerManager pm in m_Players)
-            {
-                Debug.Log(pm.IsReady());
-                allready &= pm.IsReady();
-            }
-            
-            yield return null;
-        }
-
+        RpcUpdateUI(activePlayer.name, m_TreasureStack.NumCards);
+        RpcMessage("Player Count: " + m_Players.Count);
         //wait to be sure that all are ready to start
         yield return new WaitForSeconds(2.0f);
         yield return StartCoroutine(GameStart());
         yield return StartCoroutine(PlayerTurn());
         yield return StartCoroutine(GameRunning());
+    }    
+        
+    [ClientRpc]
+    void RpcUpdateUI(string n, int c)
+    {
+        FindObjectOfType<UIServer>().ActivePlayer.text = "PlayerName: " + n;
+        FindObjectOfType<UIServer>().CardCount.text = "TreasureStack: " + c.ToString();
     }
 
-    private void RpcGameStarting()
+    [ClientRpc]
+    void RpcMessage(string message)
     {
-        Debug.LogError("stop");
-        EnableControls();
+        Debug.Log(message);
     }
+
+
+
+    IEnumerator GameStart()
+    {
+        print("GameStart()");
+
+        RpcGameStart();
+        hasStarted = true;
+        yield return null;
+    }
+
+    [ClientRpc]
+    private void RpcGameStart()
+    {
+        EnableControls();
+        m_TreasureStack.SpawnCards();
+    }
+
+    IEnumerator PlayerTurn()
+    {
+
+        RpcMessage("Begin Player Turn");
+        activePlayerManager.SetReady();
+        while (activePlayerManager.IsTakingTurn)
+        {
+            yield return null;
+        }
+
+        m_activePlayerIndex += 1;
+        if (m_activePlayerIndex >= m_Players.Count)
+            m_activePlayerIndex = 0;
+
+        activePlayerManager = m_Players[m_activePlayerIndex];
+
+
+        yield return null;
+        yield return StartCoroutine(PlayerTurn());
+    }
+    IEnumerator GameRunning()
+    {
+        Debug.Log("Game Running...");
+        while (m_Players.Count > 1)
+        {
+            yield return new WaitForSeconds(1);
+            yield return null;
+        }
+        print("Shutting down server");
+        Application.Quit();
+    }
+
 
     private void EnableControls()
     {
@@ -154,17 +215,6 @@ public class GameManager : NetworkBehaviour
             m_Players[i].DisableControl();
         }
     }
-    public bool StackReady = false;
-    IEnumerator GameStart()
-    {
-        print("GameStart()");        
-        
-        activePlayerIndex = 0;
-        activePlayerManager = m_Players[activePlayerIndex];
-        RpcGameStarting();
-        hasStarted = true;
-        yield return null;
-    }
 
     void SetCouchCams()
     {
@@ -175,34 +225,6 @@ public class GameManager : NetworkBehaviour
         m_Players[1].PlayerCamera.rect = Right;
     }
 
-    IEnumerator PlayerTurn()
-    {
-        print("Begin PlayerTurn");
-        activePlayerManager.SetReady();
-        while (activePlayerManager.IsTakingTurn)
-        {
-            yield return null;
-        }
-
-        activePlayerIndex += 1;
-        if (activePlayerIndex >= m_Players.Count)
-            activePlayerIndex = 0;
-
-        activePlayerManager = m_Players[activePlayerIndex];
-        yield return null;
-        yield return StartCoroutine(PlayerTurn());
-    }
-
-    IEnumerator GameRunning()
-    {
-        while (m_Players.Count > 1)
-        {            
-            yield return null;
-        }
-        print("Shutting down server");
-        yield return new WaitForSeconds(2);
-        Prototype.NetworkLobby.LobbyManager.s_Singleton.ServerReturnToLobby();
-    }
 }
 
 
