@@ -3,23 +3,13 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Events;
 using UnityEngine.Networking;
-using UnityStandardAssets.Characters.ThirdPerson;
-public enum CharacterClass
-{
-    NONE,
-    CLASS1,//+1 to RunAway lvl up from assisting
-    CLASS2,//discard a treasure for + 2 * cardPower till eot
-    CLASS3,//discard any card for + 3 power
-    CLASS4,//double gold on sell discard any card for + RunAway
-}
-
-
 
 public class DrawCardEvent : UnityEvent<Player>
 { }
 
 public class Player : NetworkBehaviour
 {
+    [Header("Network")]
     [SyncVar]
     public bool IsTakingTurn = false;
     [SyncVar]
@@ -30,14 +20,16 @@ public class Player : NetworkBehaviour
     public int PlayerID;
     [SyncVar]
     public bool IsReady = false;
-
     public Color PlayerColor;
 
     // public GameObject ThirdPersonControl;
 
-    public GameObject UI;
+
     public GameObject Camera;
+    [Header("UI")]
+    public GameObject UIPlayer;
     public GameObject UICamera;
+
     public DrawCardEvent onDrawCard;
     public DrawCardEvent onDiscardCard;
 
@@ -64,8 +56,7 @@ public class Player : NetworkBehaviour
     private int m_maxLevel;
     [SyncVar]
     private int m_maxGold;
-    [SyncVar]
-    private CharacterClass m_playerClass;
+
     #endregion private
 
     private void Awake()
@@ -107,38 +98,25 @@ public class Player : NetworkBehaviour
 
         if (!isServer)
         {
-            GameManager.AddPlayer(gameObject, PlayerNumber, PlayerColor, PlayerName, PlayerID);            
+            GameManager.AddPlayer(gameObject, PlayerNumber, PlayerColor, PlayerName, PlayerID);
         }
 
-        
-
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
-        foreach (Renderer r in renderers)
-            r.material.color = PlayerColor;
-
         name = PlayerName;
-        
-    }
+        SetReady();
 
-    public override void OnStartLocalPlayer()
-    {
-        base.OnStartLocalPlayer();
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
-        foreach (Renderer r in renderers)
-            r.material.color = PlayerColor;
     }
-
 
     void SetReady()
     {
         IsReady = true;
+        Camera.transform.SetParent(null);
     }
 
-    // called when disconnected from a server
-    public override void OnNetworkDestroy()
-    {
-        GameManager.singleton.RemovePlayer(gameObject);
-    }
+    //// called when disconnected from a server
+    //public override void OnNetworkDestroy()
+    //{
+    //    GameManager.singleton.RemovePlayer(gameObject);
+    //}
 
 
     [ClientCallback]
@@ -148,27 +126,29 @@ public class Player : NetworkBehaviour
             return;
         if (IsTakingTurn)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {                
-                DrawCard();                
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                DrawCard();
                 CmdSetTurnState(false);
             }
             if (Input.GetKeyDown(KeyCode.Mouse1))
-            {                
-                DrawCard();
-                
+            {
+                Discard("*");
+            }
+            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
                 CmdSetTurnState(false);
             }
         }
     }
-    TreasureStack ts;
+
     void DrawCard()
     {
-        
         if (!isLocalPlayer)
             throw new InvalidOperationException("This can only be called for the local player!");
 
         CmdAddToList();
+       
     }
     /// <summary>
     /// Draw a card on the server, then update the client        
@@ -194,17 +174,28 @@ public class Player : NetworkBehaviour
         Cards.Add(obj);
         Hand.Add(goCard);
         onDrawCard.Invoke(this);
+
     }
 
     [Command]
     public void CmdRemoveFromList(string cardName)
     {
+        RpcRemoveFromList(cardName);
+    }
+
+    [ClientRpc]
+    void RpcRemoveFromList(string cardName)
+    {
+        if (cardName == "*")
+            cardName = Hand[0].Name;
         ICard c = Hand.Find(x => x.Name == cardName);
         GameObject cm = Cards.Find(x => x.name == cardName + "(Clone)");
         Hand.Remove(c);
         Cards.Remove(cm);
-        onDiscardCard.Invoke(this);
         DiscardStack.singleton.Shuffle(cm);
+        onDiscardCard.Invoke(this);
+        Debug.Log(DiscardStack.singleton.NumCards);
+
     }
 
     [Command]
@@ -215,9 +206,12 @@ public class Player : NetworkBehaviour
 
     public bool Discard(string cardName)
     {
+        if (Hand.Count <= 0)
+            return false;
         if (IsTakingTurn)
         {
             CmdRemoveFromList(cardName);
+            
             return true;
         }
 
@@ -278,17 +272,6 @@ public class Player : NetworkBehaviour
         set { m_runAway = value; }
     }
 
-    public CharacterClass PlayerClass
-    {
-        get
-        {
-            return m_playerClass;
-        }
-        set
-        {
-            m_playerClass = value;
-        }
-    }
 
     public int Experience
     {

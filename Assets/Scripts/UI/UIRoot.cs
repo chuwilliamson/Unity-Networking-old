@@ -62,9 +62,7 @@ public class UIRoot : MonoBehaviour
         p.Discard(n);   // Removes for players hand
         
     }
-
-    [SerializeField]
-    private Text TurnLabel;
+     
     [SerializeField]
     private Text PowerLabel;
     [SerializeField]

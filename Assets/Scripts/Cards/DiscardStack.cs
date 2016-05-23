@@ -1,23 +1,22 @@
 ﻿
+using System.Collections.Generic;
+using UnityEngine;
+
 public class DiscardStack : Stack
 {
-    public static DiscardStack singleton = null;
-    protected override void Awake()
+    public static DiscardStack singleton;
+
+    public GameObject CardPrefab;
+    public void Setup()
     {
-        base.Awake();
         if (singleton == null)
             singleton = this;
-        NumCards = Cards.Count;
+        Cards = new List<GameObject>();
     }
 
-    public override void OnStartServer()
+    public override void Shuffle(GameObject go)
     {
-        base.OnStartServer();        
+        base.Shuffle(go);
     }
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        NumCards = Cards.Count;
-    }
 }

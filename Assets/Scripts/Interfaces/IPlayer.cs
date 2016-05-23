@@ -2,8 +2,7 @@
 
 public interface IPlayer
 {
-    int RunAway { get; set; }
-    CharacterClass PlayerClass { get; set; }
+    int RunAway { get; set; } 
     int Gold { get; set; }
     int Level { get; set; }
     int Power { get; set; }

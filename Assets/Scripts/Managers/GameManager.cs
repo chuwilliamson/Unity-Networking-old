@@ -23,13 +23,7 @@ public class GameManager : NetworkBehaviour
     [SyncEvent]
     public static event EventPlayerChange EventOnPlayerChange;
 
-    [ClientRpc]
-    public void RpcPlayerChange()
-    {
-        Debug.Log("PlayerChange Event!");
-        if (EventOnPlayerChange != null)
-            EventOnPlayerChange();
-    }
+  
 
     [SyncVar]
     public int numCards;
@@ -58,6 +52,9 @@ public class GameManager : NetworkBehaviour
     [SerializeField]
     private TreasureStack m_TreasureStack;
 
+    [SerializeField]
+    private DiscardStack m_DiscardStack;
+
     private PlayerManager m_activePlayerManager;
 
     public PlayerManager activePlayerManager
@@ -70,9 +67,7 @@ public class GameManager : NetworkBehaviour
         {
             m_activePlayerManager = value;
             activePlayer = m_activePlayerManager.Player;
-            m_activePlayerManager.SetReady();
-            RpcUpdateUI(activePlayer.name, m_TreasureStack.NumCards);
-
+            m_activePlayerManager.SetReady();            
         }
     }
 
@@ -102,14 +97,15 @@ public class GameManager : NetworkBehaviour
     }
     #endregion Setup
 
-
+    
     void Awake()
     {
         singleton = this;
 
         m_UIServer = m_UI.GetComponent<UIServer>();
         m_TreasureStack = GetComponent<TreasureStack>();
-        m_Wait = new WaitForSeconds(1);
+        m_DiscardStack = GetComponent<DiscardStack>();
+        m_Wait = new WaitForSeconds(1); 
     }
 
     [ServerCallback]
@@ -119,25 +115,34 @@ public class GameManager : NetworkBehaviour
             Players.Add(pm.Player);
 
         m_TreasureStack.Setup();
+        m_DiscardStack.Setup();
+       
         m_activePlayerIndex = 0;
         activePlayerManager = m_Players[m_activePlayerIndex];
-        RpcUpdateUI(activePlayer.name, m_TreasureStack.NumCards);
+        EventOnPlayerChange += RpcPlayerChange;
         StartCoroutine(GameLoop());
     }
 
     IEnumerator GameLoop()
-    {
-        RpcUpdateUI(activePlayer.name, m_TreasureStack.NumCards);
+    {        
         RpcMessage("Player Count: " + m_Players.Count);
         //wait to be sure that all are ready to start
         yield return new WaitForSeconds(2.0f);
         yield return StartCoroutine(GameStart());
         yield return StartCoroutine(PlayerTurn());
         yield return StartCoroutine(GameRunning());
-    }    
-        
+    }
+
     [ClientRpc]
-    void RpcUpdateUI(string n, int c)
+    public void RpcPlayerChange()
+    {
+        Debug.Log("PlayerChange Event!");
+        if (EventOnPlayerChange != null)
+            EventOnPlayerChange();
+    }
+
+    [ClientRpc]
+    void RpcUpdateUIs(string n, int c)
     {
         FindObjectOfType<UIServer>().ActivePlayer.text = "PlayerName: " + n;
         FindObjectOfType<UIServer>().CardCount.text = "TreasureStack: " + c.ToString();
@@ -147,9 +152,8 @@ public class GameManager : NetworkBehaviour
     void RpcMessage(string message)
     {
         Debug.Log(message);
+        Debug.Log(m_DiscardStack.NumCards);
     }
-
-
 
     IEnumerator GameStart()
     {
@@ -172,6 +176,7 @@ public class GameManager : NetworkBehaviour
 
         RpcMessage("Begin Player Turn");
         activePlayerManager.SetReady();
+        
         while (activePlayerManager.IsTakingTurn)
         {
             yield return null;

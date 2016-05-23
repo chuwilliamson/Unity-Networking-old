@@ -604,7 +604,6 @@ GameObject:
   - 114: {fileID: 11466428}
   - 114: {fileID: 11475086}
   - 114: {fileID: 11415508}
-  - 114: {fileID: 11450008}
   m_Layer: 5
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -2496,17 +2495,6 @@ MonoBehaviour:
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
---- !u!114 &11450008
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6e29299b93d6f54296844c84406a015, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11450428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3201,15 +3189,13 @@ MonoBehaviour:
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
-  m_LogLevel: 1
-  m_PlayerPrefab: {fileID: 118110, guid: 6ff0b930b527b6740b350e10fb52be4f, type: 2}
+  m_LogLevel: 2
+  m_PlayerPrefab: {fileID: 0}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
-  m_OfflineScene: Intro(Network)
+  m_OfflineScene: NetworkLobby
   m_OnlineScene: 
-  m_SpawnPrefabs:
-  - {fileID: 176322, guid: a81250c6826e58d49a88c1e49299d220, type: 2}
-  - {fileID: 180238, guid: 24969d2925ee304409ca1a42f40b4ec6, type: 2}
+  m_SpawnPrefabs: []
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -3255,11 +3241,11 @@ MonoBehaviour:
   m_MinPlayers: 2
   m_LobbyPlayerPrefab: {fileID: 11487034, guid: ad727d7e1462ecc4f83c898ecc501997,
     type: 2}
-  m_GamePlayerPrefab: {fileID: 118110, guid: 6ff0b930b527b6740b350e10fb52be4f, type: 2}
-  m_LobbyScene: Intro(Network)
-  m_PlayScene: Cube(Network)
+  m_GamePlayerPrefab: {fileID: 0}
+  m_LobbyScene: 
+  m_PlayScene: 
   lobbySlots: []
-  prematchCountdown: 1
+  prematchCountdown: 3
   topPanel: {fileID: 11424994}
   mainMenuPanel: {fileID: 22442386}
   lobbyPanel: {fileID: 22443498}
@@ -3271,7 +3257,6 @@ MonoBehaviour:
   hostInfo: {fileID: 11415712}
   _playerNumber: 0
   _isMatchmaking: 0
-  MultiClient: 0
 --- !u!114 &11476426
 MonoBehaviour:
   m_ObjectHideFlags: 1

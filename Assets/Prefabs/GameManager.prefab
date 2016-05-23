@@ -11,13 +11,14 @@ GameObject:
   - 114: {fileID: 11424418}
   - 114: {fileID: 11415008}
   - 114: {fileID: 11472538}
+  - 114: {fileID: 11495298}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &447512
 Transform:
   m_ObjectHideFlags: 1
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 180238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -163.7, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -80,9 +81,8 @@ MonoBehaviour:
   m_UI: {fileID: 181132, guid: fce215d9a3bf34642b141478f2449f99, type: 2}
   hasStarted: 0
   activePlayer: {fileID: 0}
-  activePlayerText: {fileID: 11422612, guid: fce215d9a3bf34642b141478f2449f99, type: 2}
-  treasureCountText: {fileID: 11428816, guid: fce215d9a3bf34642b141478f2449f99, type: 2}
   m_TreasureStack: {fileID: 11472538}
+  m_DiscardStack: {fileID: 11495298}
 --- !u!114 &11472538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,10 +94,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47be0b8ad1258364b8a920324753e271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TreasureCardPrefab: {fileID: 176322, guid: a81250c6826e58d49a88c1e49299d220, type: 2}
   NumCards: 0
   Cards: []
+  m_TreasureCardPrefab: {fileID: 176322, guid: a81250c6826e58d49a88c1e49299d220, type: 2}
   IsReady: 0
+--- !u!114 &11495298
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26694e9a66a37e4458cc74984c70a391, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumCards: 0
+  Cards: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

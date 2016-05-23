@@ -7,60 +7,63 @@ public class Stack : NetworkBehaviour
 {
 
     [SyncVar(hook = "SetParent")]
-    public int NumCards = 0;  
+    public int NumCards;
 
     [SerializeField]
-	public List<GameObject> Cards;
-
-    protected virtual void Awake()
-    {
-		Cards  = new List<GameObject>();
-    }
+    public List<GameObject> Cards;
 
     public GameObject Draw()
     {
-
         if (Cards.Count > 0)
         {
-            GameObject top = Cards[0];          
-            Cards.Remove(top);
-            NumCards = Cards.Count;
-            CmdDraw(top);
+            GameObject top = Cards[0];
+            
+            if (!Network.isServer)
+                CmdDraw(top);
+            else
+                RpcDraw(top);
+
             return top;
         }
-
-
-        
         return null;
     }
-    public void CmdDraw(GameObject card)
-    {
-        if (!isLocalPlayer)
-            return;
 
-        Cards.Remove(card);
-        NumCards = Cards.Count;
-        
+    [Command]
+    void CmdDraw(GameObject card)
+    {
+        RpcDraw(card);
     }
-    
+
     [ClientRpc]
-    public void RpcDraw(GameObject card)
+    void RpcDraw(GameObject card)
     {
-        if (!isServer)
-            return;
-        
         Cards.Remove(card);
         NumCards = Cards.Count;
     }
 
-    public void Shuffle(GameObject card)
-    {        
+    public virtual void Shuffle(GameObject card)
+    {
+        if (!Network.isServer)
+            CmdShuffle(card);
+        else
+            RpcShuffle(card);
+    }
+
+    [Command]
+    protected virtual void CmdShuffle(GameObject card)
+    {
+        RpcShuffle(card);
+    }
+
+    [ClientRpc]
+    protected virtual void RpcShuffle(GameObject card)
+    {
         Cards.Add(card);
-        NumCards = Cards.Count;          
+        NumCards = Cards.Count;
     }
 
 
-    public void SetParent(int numCards)
+    void SetParent(int numCards)
     {
         //Debug.Log("set parent");
         NumCards = Cards.Count;
