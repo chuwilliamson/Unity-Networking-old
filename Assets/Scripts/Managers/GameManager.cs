@@ -21,39 +21,43 @@ public class GameManager : NetworkBehaviour
     public delegate void EventPlayerChange();
 
     [SyncEvent]
-    public static event EventPlayerChange EventOnPlayerChange;
-
-  
-
-    [SyncVar]
-    public int numCards;
+    public static event EventPlayerChange EventOnPlayerChange;  
 
     static public GameManager singleton;
     static public List<PlayerManager> m_Players = new List<PlayerManager>();
 
-    public List<Player> Players = new List<Player>();
-    public bool quit = false;
     private WaitForSeconds m_Wait;
-    public GameObject m_PlayerPrefab;
 
+	[Header("UI")]
     [SerializeField]
     private GameObject m_UI;
     private UIServer m_UIServer;
 
-    [SyncVar]
-    private int m_activePlayerIndex;
-
+	[Header("GameState")]
     [SyncVar]
     public bool hasStarted = false;
 
-    [SerializeField]
+	[SyncVar]
+	public bool quit = false;
+    
+	[Header("Player")]
+	[SerializeField]
     public Player activePlayer;
 
-    [SerializeField]
-    private TreasureStack m_TreasureStack;
+	[SerializeField]
+	private List<Player> Players = new List<Player>();    
 
-    [SerializeField]
-    private DiscardStack m_DiscardStack;
+	[SyncVar]
+	private int m_activePlayerIndex;
+
+	[Header("Cards")]
+	//assign in inspector
+//	public GameObject TreasureStack;
+//	public GameObject DiscardStack;
+
+//    private TreasureStack m_TreasureStack;
+//    
+//    private DiscardStack m_DiscardStack;
 
     private PlayerManager m_activePlayerManager;
 
@@ -74,6 +78,7 @@ public class GameManager : NetworkBehaviour
     #region Setup
     public static void AddPlayer(GameObject player, int playerNum, Color c, string name, int localID)
     {
+		
         PlayerManager pm = new PlayerManager();
         pm.Setup(player, playerNum, c, name, localID);
         m_Players.Add(pm);
@@ -103,8 +108,8 @@ public class GameManager : NetworkBehaviour
         singleton = this;
 
         m_UIServer = m_UI.GetComponent<UIServer>();
-        m_TreasureStack = GetComponent<TreasureStack>();
-        m_DiscardStack = GetComponent<DiscardStack>();
+		GetComponent<TreasureStack>().Setup();
+		GetComponent<DiscardStack>().Setup();
         m_Wait = new WaitForSeconds(1); 
     }
 
@@ -114,8 +119,7 @@ public class GameManager : NetworkBehaviour
         foreach (PlayerManager pm in m_Players)
             Players.Add(pm.Player);
 
-        m_TreasureStack.Setup();
-        m_DiscardStack.Setup();
+        
        
         m_activePlayerIndex = 0;
         activePlayerManager = m_Players[m_activePlayerIndex];
@@ -125,9 +129,9 @@ public class GameManager : NetworkBehaviour
 
     IEnumerator GameLoop()
     {        
-        RpcMessage("Player Count: " + m_Players.Count);
+       
         //wait to be sure that all are ready to start
-        yield return new WaitForSeconds(2.0f);
+		yield return m_Wait;
         yield return StartCoroutine(GameStart());
         yield return StartCoroutine(PlayerTurn());
         yield return StartCoroutine(GameRunning());
@@ -139,21 +143,9 @@ public class GameManager : NetworkBehaviour
         Debug.Log("PlayerChange Event!");
         if (EventOnPlayerChange != null)
             EventOnPlayerChange();
-    }
+    }   
 
-    [ClientRpc]
-    void RpcUpdateUIs(string n, int c)
-    {
-        FindObjectOfType<UIServer>().ActivePlayer.text = "PlayerName: " + n;
-        FindObjectOfType<UIServer>().CardCount.text = "TreasureStack: " + c.ToString();
-    }
-
-    [ClientRpc]
-    void RpcMessage(string message)
-    {
-        Debug.Log(message);
-        Debug.Log(m_DiscardStack.NumCards);
-    }
+ 
 
     IEnumerator GameStart()
     {
@@ -168,13 +160,13 @@ public class GameManager : NetworkBehaviour
     private void RpcGameStart()
     {
         EnableControls();
-        m_TreasureStack.SpawnCards();
+		GetComponent<TreasureStack>().SpawnCards();
     }
 
     IEnumerator PlayerTurn()
     {
 
-        RpcMessage("Begin Player Turn");
+    
         activePlayerManager.SetReady();
         
         while (activePlayerManager.IsTakingTurn)

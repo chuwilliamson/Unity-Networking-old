@@ -51,10 +51,11 @@ public class PlayerShooting : NetworkBehaviour
     
     public void DisableEffects()
     {
-        if (!Network.isServer)
-            CmdDisableEffects();
+        if (isServer)
+			RpcDisableEffects();
         else
-            RpcDisableEffects();
+			CmdDisableEffects();
+            
     }
 
     [Command]
@@ -74,15 +75,17 @@ public class PlayerShooting : NetworkBehaviour
     void Shoot()
     {
         timer = 0;
-        if(!Network.isServer)
-            CmdShoot();
+        if(isServer)
+			RpcShoot();
         else
-            RpcShoot();
+			CmdShoot();
+            
     }
 
     [Command]
     void CmdShoot()
     {
+		// Play the gun shot audioclip.
         gunAudio.Play();
         RpcShoot();
     }
@@ -91,10 +94,6 @@ public class PlayerShooting : NetworkBehaviour
     void RpcShoot()
     {
         timer = 0f;
-
-        // Play the gun shot audioclip.
-        
-        
 
         // Enable the lights.
         gunLight.enabled = true;
@@ -114,6 +113,7 @@ public class PlayerShooting : NetworkBehaviour
 
         if (Physics.Raycast(shootRay, out shootHit, range, shootableMask))
             gunLine.SetPosition(1, shootHit.point);
+		
         gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
     }
  
