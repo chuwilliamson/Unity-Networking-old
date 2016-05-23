@@ -8,6 +8,7 @@ using System.Collections;
 class TestButtonInvoke : MonoBehaviour
 {
     public bool Join = false;
+	public bool yudodis = true;
     public bool Search = true;
     public bool Create = false;
 
