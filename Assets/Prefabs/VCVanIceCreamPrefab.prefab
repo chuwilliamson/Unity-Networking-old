@@ -42,7 +42,7 @@ GameObject:
   - 4: {fileID: 482912}
   - 95: {fileID: 9598446}
   m_Layer: 0
-  m_Name: van_iceCream_prefab
+  m_Name: VCVanIceCreamPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
