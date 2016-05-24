@@ -1,0 +1,6 @@
+class Doit{
+
+void doit()
+{
+}
+}
