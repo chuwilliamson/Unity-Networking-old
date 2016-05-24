@@ -12,7 +12,7 @@ GameObject:
   - 23: {fileID: 2357782}
   - 65: {fileID: 6531102}
   m_Layer: 0
-  m_Name: modularWall_castle_mesh
+  m_Name: TDModularWallCastleMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

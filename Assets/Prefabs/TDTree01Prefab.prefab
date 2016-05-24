@@ -30,7 +30,7 @@ GameObject:
   - 136: {fileID: 13627496}
   - 136: {fileID: 13674648}
   m_Layer: 0
-  m_Name: TDTree01Mesh
+  m_Name: TDTree01Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

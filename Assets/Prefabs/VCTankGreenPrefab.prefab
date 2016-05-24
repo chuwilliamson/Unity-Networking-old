@@ -539,7 +539,7 @@ GameObject:
   - 4: {fileID: 492418}
   - 95: {fileID: 9554220}
   m_Layer: 0
-  m_Name: tank_green_prefab
+  m_Name: VCTankGreenPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
