@@ -4234,7 +4234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4975a6e437fc3b149a8cd508ce5bdd69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshhold: 0.132
+  threshold: 0.25
   intensity: 0.675
   blurSize: 2.2
   blurIterations: 1
@@ -5224,6 +5224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   smoothing: 5
+  rot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!124 &12461558
 Behaviour:
   m_ObjectHideFlags: 1

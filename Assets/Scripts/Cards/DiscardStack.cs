@@ -19,12 +19,12 @@ public class DiscardStack : Stack
 		SetReady ();
 	}
 
-	static public void Shuffle (GameObject obj)
+	public void Shuffle (GameObject obj)
 	{		 
-		if(Network.isServer) singleton.RpcShuffle (obj);
-			
-		else singleton.CmdShuffle (obj);
-			
+		if(Network.isServer) 
+			RpcShuffle (obj);			
+		else			
+			CmdShuffle (obj);		
 		
 	}
 
@@ -37,10 +37,10 @@ public class DiscardStack : Stack
 	[ClientRpc]
 	void RpcShuffle (GameObject obj)
 	{
-		Debug.Log ("RpcShuffle: " + StackName);
+//		Debug.Log ("RpcShuffle: " + StackName);
 		this.Cards.Add (obj);
 		NumCards = Cards.Count;
-		Debug.Log ("RpcShuffle: " + StackName + " " + NumCards);
+//		Debug.Log ("RpcShuffle: " + StackName + " " + NumCards);
 	}
 
 	void SetReady ()

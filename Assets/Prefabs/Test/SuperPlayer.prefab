@@ -831,7 +831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4975a6e437fc3b149a8cd508ce5bdd69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshhold: 0.132
+  threshold: 0.25
   intensity: 0.675
   blurSize: 2.2
   blurIterations: 1
@@ -1097,8 +1097,8 @@ MonoBehaviour:
   PlayerID: 0
   IsReady: 0
   PlayerColor: {r: 1, g: 1, b: 1, a: 1}
-  UI: {fileID: 169142}
   Camera: {fileID: 162734}
+  UIPlayer: {fileID: 0}
   UICamera: {fileID: 176816, guid: 6ff0b930b527b6740b350e10fb52be4f, type: 2}
   Cards: []
 --- !u!114 &11448200
@@ -1309,6 +1309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   smoothing: 5
+  rot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11497966
 MonoBehaviour:
   m_ObjectHideFlags: 1
