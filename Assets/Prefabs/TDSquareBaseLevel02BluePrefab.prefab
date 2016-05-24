@@ -13,7 +13,7 @@ GameObject:
   - 95: {fileID: 9569724}
   - 65: {fileID: 6566968}
   m_Layer: 0
-  m_Name: TDSquareBaseLevel02BluePrefab
+  m_Name: squareBase_level02_blue_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

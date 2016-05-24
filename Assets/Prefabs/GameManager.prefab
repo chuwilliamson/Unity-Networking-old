@@ -10,8 +10,8 @@ GameObject:
   - 4: {fileID: 447512}
   - 114: {fileID: 11424418}
   - 114: {fileID: 11415008}
-  - 114: {fileID: 11472538}
-  - 114: {fileID: 11495298}
+  - 114: {fileID: 11492958}
+  - 114: {fileID: 11452746}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -74,16 +74,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f87b8dd84203c4381dca262f928ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numCards: 0
-  Players: []
-  quit: 0
-  m_PlayerPrefab: {fileID: 161304, guid: 74ab0593513548a4fbf2124b4b18920d, type: 2}
   m_UI: {fileID: 181132, guid: fce215d9a3bf34642b141478f2449f99, type: 2}
   hasStarted: 0
+  quit: 0
   activePlayer: {fileID: 0}
-  m_TreasureStack: {fileID: 11472538}
-  m_DiscardStack: {fileID: 11495298}
---- !u!114 &11472538
+  Players: []
+--- !u!114 &11452746
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26694e9a66a37e4458cc74984c70a391, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumCards: 0
+  Cards: []
+  IsReady: 0
+--- !u!114 &11492958
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -98,19 +108,6 @@ MonoBehaviour:
   Cards: []
   m_TreasureCardPrefab: {fileID: 176322, guid: a81250c6826e58d49a88c1e49299d220, type: 2}
   IsReady: 0
---- !u!114 &11495298
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 180238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26694e9a66a37e4458cc74984c70a391, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NumCards: 0
-  Cards: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

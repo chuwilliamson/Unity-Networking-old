@@ -167,7 +167,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 162718, guid: 021019d8e35f9614c9f6c95fed76d7e9, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8145550, guid: 021019d8e35f9614c9f6c95fed76d7e9, type: 2}
       propertyPath: m_Enabled
@@ -212,6 +212,14 @@ Prefab:
     - target: {fileID: 11473876, guid: 021019d8e35f9614c9f6c95fed76d7e9, type: 2}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401206, guid: 021019d8e35f9614c9f6c95fed76d7e9, type: 2}
+      propertyPath: chromaticAberration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401206, guid: 021019d8e35f9614c9f6c95fed76d7e9, type: 2}
+      propertyPath: intensity
+      value: 0.036
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11432132, guid: 021019d8e35f9614c9f6c95fed76d7e9, type: 2}

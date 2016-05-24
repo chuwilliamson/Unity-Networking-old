@@ -6,25 +6,28 @@ using UnityEngine.Networking;
 public class Stack : NetworkBehaviour
 {
 
-    [SyncVar(hook = "SetParent")]
+   	[SyncVar]
     public int NumCards;
 
-    [SerializeField]
+	protected string StackName = "Null";
+    
+	[SerializeField]
     public List<GameObject> Cards;
 
     public GameObject Draw()
     {
         if (Cards.Count > 0)
         {
-            GameObject top = Cards[0];
+			GameObject top = this.Cards[0];
             
-            if (!Network.isServer)
-                CmdDraw(top);
+            if (isServer)
+				RpcDraw(top);
             else
-                RpcDraw(top);
+				CmdDraw(top);               
 
             return top;
         }
+
         return null;
     }
 
@@ -39,36 +42,5 @@ public class Stack : NetworkBehaviour
     {
         Cards.Remove(card);
         NumCards = Cards.Count;
-    }
-
-    public virtual void Shuffle(GameObject card)
-    {
-        if (!Network.isServer)
-            CmdShuffle(card);
-        else
-            RpcShuffle(card);
-    }
-
-    [Command]
-    protected virtual void CmdShuffle(GameObject card)
-    {
-        RpcShuffle(card);
-    }
-
-    [ClientRpc]
-    protected virtual void RpcShuffle(GameObject card)
-    {
-        Cards.Add(card);
-        NumCards = Cards.Count;
-    }
-
-
-    void SetParent(int numCards)
-    {
-        //Debug.Log("set parent");
-        NumCards = Cards.Count;
-        foreach (GameObject card in Cards)
-            card.transform.SetParent(transform);
-    }
-
+    } 
 }
