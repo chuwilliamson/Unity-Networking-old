@@ -13,7 +13,7 @@ GameObject:
   - 95: {fileID: 9514800}
   - 65: {fileID: 6535946}
   m_Layer: 0
-  m_Name: squareBase_Level01_mesh 1
+  m_Name: squareBase_Level01_red_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3829,6 +3829,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 2023876510}
   smoothing: 5
+  rot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &1851598984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3992,8 +3993,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  intensity: 0.75
-  chromaticAberration: 1.5
+  intensity: 0.036
+  chromaticAberration: 0.2
   axialAberration: 0.5
   blur: 0
   blurSpread: 0.75
@@ -4031,7 +4032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4975a6e437fc3b149a8cd508ce5bdd69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshhold: 0.132
+  threshold: 0.25
   intensity: 0.675
   blurSize: 2.2
   blurIterations: 1
