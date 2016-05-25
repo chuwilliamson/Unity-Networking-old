@@ -51,6 +51,7 @@ public class PlayerManager
         m_Movement.enabled = true;
     }
 
+	#region properties
     public Player Player
     {
         get { return m_Player; }
@@ -88,7 +89,7 @@ public class PlayerManager
     {
         m_Player.IsTakingTurn = true;
     }
-
+#endregion
 
 
 

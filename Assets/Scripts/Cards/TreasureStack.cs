@@ -31,18 +31,17 @@ public class TreasureStack : Stack
         {
             for (int i = 0; i < 10; i++)
             {
-                GameObject go = Instantiate(CardPrefab) as GameObject;
-                NetworkServer.Spawn(go);
-                this.Shuffle(go);
+                GameObject obj = Instantiate(CardPrefab) as GameObject;
+				NetworkServer.Spawn(obj);
+				this.Shuffle (obj);
             }
         }
 
         SetReady();
     }
 
-	static public void Shuffle(GameObject card)
+	public void Shuffle(GameObject card)
     {
-
 		if (!Network.isServer)
 			singleton.CmdShuffle (card);
 		else

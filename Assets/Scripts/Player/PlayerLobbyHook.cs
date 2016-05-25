@@ -14,6 +14,6 @@ public class PlayerLobbyHook : LobbyHook
         LobbyPlayer lp = lobbyPlayer.GetComponent<LobbyPlayer>();
 
         if (lp != null)
-            GameManager.AddPlayer(gamePlayer, lp.slot, lp.playerColor, lp.nameInput.text, lp.playerControllerId);
+            GameStateManager.AddPlayer(gamePlayer, lp.slot, lp.playerColor, lp.nameInput.text, lp.playerControllerId);
     }
 }

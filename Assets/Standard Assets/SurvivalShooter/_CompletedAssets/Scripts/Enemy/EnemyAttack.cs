@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace CompleteProject
+namespace SurvivalShooter
 {
     public class EnemyAttack : MonoBehaviour
     {

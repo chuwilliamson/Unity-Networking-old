@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-namespace CompleteProject
+namespace SurvivalShooter
 {
     public class ScoreManager : MonoBehaviour
     {

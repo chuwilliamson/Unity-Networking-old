@@ -1,6 +1,0 @@
-class Doit{
-
-void doit()
-{
-}
-}

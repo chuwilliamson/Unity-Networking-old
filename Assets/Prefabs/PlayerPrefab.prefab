@@ -970,7 +970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4975a6e437fc3b149a8cd508ce5bdd69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshhold: 0.132
+  threshold: 0.25
   intensity: 0.675
   blurSize: 2.2
   blurIterations: 1
@@ -1372,12 +1372,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5dca15e3536e6a449a9471c2c3fd4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  runAway: 0
+  power: 0
+  level: 0
+  gold: 0
+  experience: 0
   IsTakingTurn: 0
   PlayerName: Player1
   PlayerNumber: 0
   PlayerID: 0
-  IsReady: 0
   PlayerColor: {r: 1, g: 1, b: 1, a: 1}
+  IsReady: 0
   Camera: {fileID: 192970}
   UIPlayer: {fileID: 194084}
   UICamera: {fileID: 130490}
@@ -1777,7 +1782,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
   m_SendInterval: 0.033333335
-  m_SyncRotationAxis: 0
+  m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 1
   m_MovementTheshold: 0.001
@@ -1894,8 +1899,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  intensity: 0.75
-  chromaticAberration: 1.5
+  intensity: 0.036
+  chromaticAberration: 0.2
   axialAberration: 0.5
   blur: 0
   blurSpread: 0.75
