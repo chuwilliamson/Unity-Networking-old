@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-namespace CompleteProject
+namespace SurvivalShooter
 {
     public class PlayerHealth : MonoBehaviour
     {
@@ -18,8 +18,8 @@ namespace CompleteProject
 
         Animator anim;                                              // Reference to the Animator component.
         AudioSource playerAudio;                                    // Reference to the AudioSource component.
-        PlayerMovementSS playerMovement;                              // Reference to the player's movement.
-        PlayerShootingSS playerShooting;                              // Reference to the PlayerShooting script.
+        PlayerMovement playerMovement;                              // Reference to the player's movement.
+        PlayerShooting playerShooting;                              // Reference to the PlayerShooting script.
         bool isDead;                                                // Whether the player is dead.
         bool damaged;                                               // True when the player gets damaged.
 
@@ -29,8 +29,8 @@ namespace CompleteProject
             // Setting up the references.
             anim = GetComponent <Animator> ();
             playerAudio = GetComponent <AudioSource> ();
-            playerMovement = GetComponent <PlayerMovementSS> ();
-            playerShooting = GetComponentInChildren <PlayerShootingSS> ();
+            playerMovement = GetComponent <PlayerMovement> ();
+            playerShooting = GetComponentInChildren <PlayerShooting> ();
 
             // Set the initial health of the player.
             currentHealth = startingHealth;

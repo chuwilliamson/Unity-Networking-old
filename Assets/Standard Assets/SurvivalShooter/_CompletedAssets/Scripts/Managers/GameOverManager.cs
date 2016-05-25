@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CompleteProject
+namespace SurvivalShooter
 {
     public class GameOverManager : MonoBehaviour
     {

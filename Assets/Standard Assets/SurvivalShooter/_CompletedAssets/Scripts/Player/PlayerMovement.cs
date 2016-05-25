@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnitySampleAssets.CrossPlatformInput;
 
-namespace CompleteProject
+namespace SurvivalShooter
 {
-    public class PlayerMovementS : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour
     {
         public float speed = 6f;            // The speed that the player will move at.
 

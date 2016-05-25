@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11492958}
   - 114: {fileID: 11452746}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: GameStateManager
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -76,8 +76,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UI: {fileID: 181132, guid: fce215d9a3bf34642b141478f2449f99, type: 2}
   hasStarted: 0
+  round: 0
   quit: 0
   activePlayer: {fileID: 0}
+  activePlayerName: 
   Players: []
 --- !u!114 &11452746
 MonoBehaviour:
