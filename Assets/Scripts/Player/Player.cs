@@ -79,7 +79,7 @@ public class Player : NetworkBehaviour
 
 		if (!isServer)
 		{
-			GameManager.AddPlayer (gameObject, PlayerNumber, PlayerColor, PlayerName, PlayerID);
+			GameStateManager.AddPlayer (gameObject, PlayerNumber, PlayerColor, PlayerName, PlayerID);
 		}
 
 		name = PlayerName;
@@ -96,22 +96,25 @@ public class Player : NetworkBehaviour
 	private void Update ()
 	{
 		if (!isLocalPlayer)
-			return;
-		
-
-		if (Input.GetKeyDown (KeyCode.E))
+			return;		
+		if (IsTakingTurn)
 		{
-			DrawCard ();
-			CmdSetTurnState (false);
+			if (Input.GetKeyDown (KeyCode.E))
+			{
+				DrawCard ();
+				CmdSetTurnState (false);
+			}
+
+			if (Input.GetKeyDown (KeyCode.KeypadEnter))
+				CmdSetTurnState (false);
+
+			if (Input.GetKeyDown (KeyCode.Mouse1))
+			{
+				Discard ("*");
+				CmdSetTurnState (false);
+			}
 		}
 
-		if (Input.GetKeyDown (KeyCode.KeypadEnter))
-			CmdSetTurnState (false);
-
-		if (Input.GetKeyDown (KeyCode.Mouse1))
-		{
-			Discard ("*");
-		} 
 		UpdateStats ();
 	}
 

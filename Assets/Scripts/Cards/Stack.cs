@@ -23,7 +23,9 @@ public class Stack : NetworkBehaviour
             if (isServer)
 				RpcDraw(top);
             else
-				CmdDraw(top);               
+				CmdDraw(top);     
+			
+
 
             return top;
         }
@@ -40,7 +42,7 @@ public class Stack : NetworkBehaviour
     [ClientRpc]
     void RpcDraw(GameObject card)
     {
-        Cards.Remove(card);
-        NumCards = Cards.Count;
+        Cards.Remove(card);        
+		NumCards = Cards.Count;
     } 
 }
