@@ -1,0 +1,1027 @@
+fileFormatVersion: 2
+guid: 0df3fb84cf5ca994590009a3b3d2a7f3
+timeCreated: 1464215286
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Man_Head_JawEndSHJnt
+    100002: Man_Head_JawSHJnt
+    100004: Man_Head_TopSHJnt
+    100006: Man_l_Arm_ClavicleSHJnt
+    100008: Man_l_Arm_ElbowSHJnt
+    100010: Man_l_Arm_ShoulderSHJnt
+    100012: Man_l_Arm_WristSHJnt
+    100014: Man_l_Finger_01_01SHJnt
+    100016: Man_l_Finger_01_02SHJnt
+    100018: Man_l_Finger_01_03SHJnt
+    100020: Man_l_Finger_01_04SHJnt
+    100022: Man_l_Finger_02_01SHJnt
+    100024: Man_l_Finger_02_02SHJnt
+    100026: Man_l_Finger_02_03SHJnt
+    100028: Man_l_Finger_02_04SHJnt
+    100030: Man_l_Finger_03_01SHJnt
+    100032: Man_l_Finger_03_02SHJnt
+    100034: Man_l_Finger_03_03SHJnt
+    100036: Man_l_Finger_03_04SHJnt
+    100038: Man_l_Finger_04_01SHJnt
+    100040: Man_l_Finger_04_02SHJnt
+    100042: Man_l_Finger_04_03SHJnt
+    100044: Man_l_Finger_04_04SHJnt
+    100046: Man_l_Leg_AnkleSHJnt
+    100048: Man_l_Leg_BallSHJnt
+    100050: Man_l_Leg_HipSHJnt
+    100052: Man_l_Leg_KneeSHJnt
+    100054: Man_l_Leg_ToeSHJnt
+    100056: Man_l_Thumb_01_01SHJnt
+    100058: Man_l_Thumb_01_02SHJnt
+    100060: Man_l_Thumb_01_03SHJnt
+    100062: Man_l_Thumb_01_04SHJnt
+    100064: Man_Neck_01SHJnt
+    100066: Man_Neck_TopSHJnt
+    100068: Man_poff_01_01SHJnt
+    100070: Man_poff_01_02SHJnt
+    100072: Man_poff_01_03SHJnt
+    100074: Man_r_Arm_ClavicleSHJnt
+    100076: Man_r_Arm_ElbowSHJnt
+    100078: Man_r_Arm_ShoulderSHJnt
+    100080: Man_r_Arm_WristSHJnt
+    100082: Man_r_Finger_01_01SHJnt
+    100084: Man_r_Finger_01_02SHJnt
+    100086: Man_r_Finger_01_03SHJnt
+    100088: Man_r_Finger_01_04SHJnt
+    100090: Man_r_Finger_02_01SHJnt
+    100092: Man_r_Finger_02_02SHJnt
+    100094: Man_r_Finger_02_03SHJnt
+    100096: Man_r_Finger_02_04SHJnt
+    100098: Man_r_Finger_03_01SHJnt
+    100100: Man_r_Finger_03_02SHJnt
+    100102: Man_r_Finger_03_03SHJnt
+    100104: Man_r_Finger_03_04SHJnt
+    100106: Man_r_Finger_04_01SHJnt
+    100108: Man_r_Finger_04_02SHJnt
+    100110: Man_r_Finger_04_03SHJnt
+    100112: Man_r_Finger_04_04SHJnt
+    100114: Man_r_Leg_AnkleSHJnt
+    100116: Man_r_Leg_BallSHJnt
+    100118: Man_r_Leg_HipSHJnt
+    100120: Man_r_Leg_KneeSHJnt
+    100122: Man_r_Leg_ToeSHJnt
+    100124: Man_r_Thumb_01_01SHJnt
+    100126: Man_r_Thumb_01_02SHJnt
+    100128: Man_r_Thumb_01_03SHJnt
+    100130: Man_r_Thumb_01_04SHJnt
+    100132: Man_ROOTSHJnt
+    100134: Man_Spine_01SHJnt
+    100136: Man_Spine_02SHJnt
+    100138: Man_Spine_TopSHJnt
+    100140: TDKnightMesh
+    100142: //RootNode
+    100144: TDKnightShieldMesh
+    100146: TDKnightsWeaponsGRP
+    100148: TDKnightSwordMesh
+    400000: Man_Head_JawEndSHJnt
+    400002: Man_Head_JawSHJnt
+    400004: Man_Head_TopSHJnt
+    400006: Man_l_Arm_ClavicleSHJnt
+    400008: Man_l_Arm_ElbowSHJnt
+    400010: Man_l_Arm_ShoulderSHJnt
+    400012: Man_l_Arm_WristSHJnt
+    400014: Man_l_Finger_01_01SHJnt
+    400016: Man_l_Finger_01_02SHJnt
+    400018: Man_l_Finger_01_03SHJnt
+    400020: Man_l_Finger_01_04SHJnt
+    400022: Man_l_Finger_02_01SHJnt
+    400024: Man_l_Finger_02_02SHJnt
+    400026: Man_l_Finger_02_03SHJnt
+    400028: Man_l_Finger_02_04SHJnt
+    400030: Man_l_Finger_03_01SHJnt
+    400032: Man_l_Finger_03_02SHJnt
+    400034: Man_l_Finger_03_03SHJnt
+    400036: Man_l_Finger_03_04SHJnt
+    400038: Man_l_Finger_04_01SHJnt
+    400040: Man_l_Finger_04_02SHJnt
+    400042: Man_l_Finger_04_03SHJnt
+    400044: Man_l_Finger_04_04SHJnt
+    400046: Man_l_Leg_AnkleSHJnt
+    400048: Man_l_Leg_BallSHJnt
+    400050: Man_l_Leg_HipSHJnt
+    400052: Man_l_Leg_KneeSHJnt
+    400054: Man_l_Leg_ToeSHJnt
+    400056: Man_l_Thumb_01_01SHJnt
+    400058: Man_l_Thumb_01_02SHJnt
+    400060: Man_l_Thumb_01_03SHJnt
+    400062: Man_l_Thumb_01_04SHJnt
+    400064: Man_Neck_01SHJnt
+    400066: Man_Neck_TopSHJnt
+    400068: Man_poff_01_01SHJnt
+    400070: Man_poff_01_02SHJnt
+    400072: Man_poff_01_03SHJnt
+    400074: Man_r_Arm_ClavicleSHJnt
+    400076: Man_r_Arm_ElbowSHJnt
+    400078: Man_r_Arm_ShoulderSHJnt
+    400080: Man_r_Arm_WristSHJnt
+    400082: Man_r_Finger_01_01SHJnt
+    400084: Man_r_Finger_01_02SHJnt
+    400086: Man_r_Finger_01_03SHJnt
+    400088: Man_r_Finger_01_04SHJnt
+    400090: Man_r_Finger_02_01SHJnt
+    400092: Man_r_Finger_02_02SHJnt
+    400094: Man_r_Finger_02_03SHJnt
+    400096: Man_r_Finger_02_04SHJnt
+    400098: Man_r_Finger_03_01SHJnt
+    400100: Man_r_Finger_03_02SHJnt
+    400102: Man_r_Finger_03_03SHJnt
+    400104: Man_r_Finger_03_04SHJnt
+    400106: Man_r_Finger_04_01SHJnt
+    400108: Man_r_Finger_04_02SHJnt
+    400110: Man_r_Finger_04_03SHJnt
+    400112: Man_r_Finger_04_04SHJnt
+    400114: Man_r_Leg_AnkleSHJnt
+    400116: Man_r_Leg_BallSHJnt
+    400118: Man_r_Leg_HipSHJnt
+    400120: Man_r_Leg_KneeSHJnt
+    400122: Man_r_Leg_ToeSHJnt
+    400124: Man_r_Thumb_01_01SHJnt
+    400126: Man_r_Thumb_01_02SHJnt
+    400128: Man_r_Thumb_01_03SHJnt
+    400130: Man_r_Thumb_01_04SHJnt
+    400132: Man_ROOTSHJnt
+    400134: Man_Spine_01SHJnt
+    400136: Man_Spine_02SHJnt
+    400138: Man_Spine_TopSHJnt
+    400140: //RootNode
+    400142: TDKnightMesh
+    400144: TDKnightShieldMesh
+    400146: TDKnightsWeaponsGRP
+    400148: TDKnightSwordMesh
+    4300000: TDKnightShieldMesh
+    4300002: TDKnightSwordMesh
+    4300004: TDKnightMesh
+    9500000: //RootNode
+    13700000: TDKnightMesh
+    13700002: TDKnightShieldMesh
+    13700004: TDKnightSwordMesh
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human:
+    - boneName: Man_ROOTSHJnt
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Leg_HipSHJnt
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Leg_HipSHJnt
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Leg_KneeSHJnt
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Leg_KneeSHJnt
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Leg_AnkleSHJnt
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Leg_AnkleSHJnt
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_Spine_01SHJnt
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_Spine_02SHJnt
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_Neck_01SHJnt
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_Neck_TopSHJnt
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Arm_ClavicleSHJnt
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Arm_ClavicleSHJnt
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Arm_ShoulderSHJnt
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Arm_ShoulderSHJnt
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Arm_ElbowSHJnt
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Arm_ElbowSHJnt
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Arm_WristSHJnt
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Arm_WristSHJnt
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Leg_ToeSHJnt
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Leg_ToeSHJnt
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_poff_01_01SHJnt
+      humanName: LeftEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_Head_JawSHJnt
+      humanName: Jaw
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Thumb_01_01SHJnt
+      humanName: Left Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Thumb_01_02SHJnt
+      humanName: Left Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Thumb_01_03SHJnt
+      humanName: Left Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_01_01SHJnt
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_01_02SHJnt
+      humanName: Left Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_01_03SHJnt
+      humanName: Left Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_02_01SHJnt
+      humanName: Left Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_02_02SHJnt
+      humanName: Left Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_02_03SHJnt
+      humanName: Left Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_03_01SHJnt
+      humanName: Left Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_03_02SHJnt
+      humanName: Left Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_03_03SHJnt
+      humanName: Left Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_04_01SHJnt
+      humanName: Left Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_04_02SHJnt
+      humanName: Left Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_l_Finger_04_03SHJnt
+      humanName: Left Little Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Thumb_01_01SHJnt
+      humanName: Right Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Thumb_01_02SHJnt
+      humanName: Right Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Thumb_01_03SHJnt
+      humanName: Right Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_01_01SHJnt
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_01_02SHJnt
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_01_03SHJnt
+      humanName: Right Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_02_01SHJnt
+      humanName: Right Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_02_02SHJnt
+      humanName: Right Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_02_03SHJnt
+      humanName: Right Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_03_01SHJnt
+      humanName: Right Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_03_02SHJnt
+      humanName: Right Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_03_03SHJnt
+      humanName: Right Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_04_01SHJnt
+      humanName: Right Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_04_02SHJnt
+      humanName: Right Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Man_r_Finger_04_03SHJnt
+      humanName: Right Little Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: TDKnightMesh(Clone)
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: TDKnightMesh
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: TDKnightsWeaponsGRP
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: TDKnightShieldMesh
+      position: {x: -0.089632586, y: -0.4400868, z: -0.1275757}
+      rotation: {x: 0.6604457, y: 0.096054554, z: 0.08575704, w: 0.73975056}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: TDKnightSwordMesh
+      position: {x: 0.08238672, y: -0.08210812, z: -0.08507776}
+      rotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_ROOTSHJnt
+      position: {x: 0, y: 0.47352603, z: -0.04289334}
+      rotation: {x: -0.5, y: 0.5, z: -0.5, w: 0.5}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_Spine_01SHJnt
+      position: {x: -0.10851637, y: -2.6645352e-17, z: 3.3465937e-18}
+      rotation: {x: 1.6653345e-16, y: -5.551115e-17, z: 5.551115e-17, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_Spine_02SHJnt
+      position: {x: -0.10851637, y: 0, z: -2.7610132e-32}
+      rotation: {x: 1.6653345e-16, y: -5.551115e-17, z: 5.551115e-17, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_Spine_TopSHJnt
+      position: {x: -0.10851637, y: -8.881784e-18, z: -3.3465937e-18}
+      rotation: {x: 1.6653345e-16, y: -5.551115e-17, z: 5.551115e-17, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_Neck_01SHJnt
+      position: {x: -0.07928342, y: -0.012776866, z: 6.519121e-18}
+      rotation: {x: -0.078505844, y: -0.020320345, z: 0.02239546, w: 0.9964549}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_Neck_TopSHJnt
+      position: {x: -0.07974944, y: -0.009320926, z: 0.0015021219}
+      rotation: {x: 0.078505844, y: 0.020320345, z: -0.02239546, w: 0.9964549}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_Head_JawSHJnt
+      position: {x: 0.014375031, y: -0.074122354, z: 3.1249105e-16}
+      rotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_Head_JawEndSHJnt
+      position: {x: 2.564287e-19, y: -0.03695527, z: 0.054454945}
+      rotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_Head_TopSHJnt
+      position: {x: -0.1950597, y: -0.03132937, z: 1.5852182e-16}
+      rotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_poff_01_01SHJnt
+      position: {x: -0.24450317, y: 0.06911187, z: 5.9562534e-18}
+      rotation: {x: -0.7071068, y: 0.7071068, z: -4.3297806e-17, w: 4.3297806e-17}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_poff_01_02SHJnt
+      position: {x: -0.18487626, y: 0.06572297, z: 9.060635e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_poff_01_03SHJnt
+      position: {x: -0.13664146, y: -0.11503976, z: 4.5794443e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Arm_ClavicleSHJnt
+      position: {x: 0.021181218, y: -0.052712247, z: -0.06877491}
+      rotation: {x: 0.48632994, y: -0.4898444, z: 0.5133867, w: 0.5098723}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Arm_ShoulderSHJnt
+      position: {x: -0.13422942, y: 0.00786896, z: -0.052712247}
+      rotation: {x: 0.14700943, y: -0.024619563, z: 0.012204822, w: 0.9887533}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Arm_ElbowSHJnt
+      position: {x: -0.18070324, y: 0, z: 1.0658141e-16}
+      rotation: {x: -0.0009282874, y: 0.03668513, z: -0.008180358, w: 0.99929297}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Arm_WristSHJnt
+      position: {x: -0.23928492, y: 7.105427e-16, z: 0}
+      rotation: {x: -0.05006289, y: 0.0029409989, z: 0.08968059, w: 0.9947073}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_01_01SHJnt
+      position: {x: -0.075161405, y: 0.022435136, z: 0.08658009}
+      rotation: {x: 0.0013427172, y: 0.01549312, z: -0.017357351, w: 0.99972844}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_01_02SHJnt
+      position: {x: -0.066130005, y: 0.016002037, z: 0.009167724}
+      rotation: {x: -0.018189449, y: 0.065238215, z: -0.13085552, w: 0.98908544}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_01_03SHJnt
+      position: {x: -0.06987936, y: -0.005506001, z: -0.00016443305}
+      rotation: {x: -0.07180799, y: 0.06504279, z: 0.07556592, w: 0.9924227}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_01_04SHJnt
+      position: {x: -0.029037435, y: 0.0005796292, z: -0.0041777263}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_02_01SHJnt
+      position: {x: -0.090336084, y: 0.038323663, z: 0.027219407}
+      rotation: {x: 0.005431555, y: 0.08858443, z: -0.106696405, w: 0.9903228}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_02_02SHJnt
+      position: {x: -0.064209595, y: 0.003937049, z: -3.5882408e-15}
+      rotation: {x: 0.019371914, y: 0.048889276, z: -0.004985956, w: 0.9986039}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_02_03SHJnt
+      position: {x: -0.07609687, y: -0.00018225859, z: -0.00813967}
+      rotation: {x: 0.004405675, y: -0.037649244, z: 0.03531691, w: 0.99865705}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_02_04SHJnt
+      position: {x: -0.029595377, y: -2.3092638e-16, z: -1.2612133e-15}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_03_01SHJnt
+      position: {x: -0.08812082, y: 0.028033257, z: -0.040472973}
+      rotation: {x: -0.02441803, y: 0.07189612, z: -0.22505172, w: 0.9713838}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_03_02SHJnt
+      position: {x: -0.05150689, y: -0.009772021, z: 0.0031605202}
+      rotation: {x: -0.011033272, y: 0.027131809, z: 0.04136217, w: 0.9987148}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_03_03SHJnt
+      position: {x: -0.061030295, y: -0.01026105, z: -0.00031624082}
+      rotation: {x: 0.0003936765, y: -0.0018087421, z: 0.12003772, w: 0.9927676}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_03_04SHJnt
+      position: {x: -0.029595377, y: -1.5987211e-16, z: -1.190159e-15}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_04_01SHJnt
+      position: {x: -0.05255303, y: 0.01172687, z: -0.09036311}
+      rotation: {x: -0.006774341, y: 0.045186717, z: -0.16248557, w: 0.98565245}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_04_02SHJnt
+      position: {x: -0.055548012, y: -0.0026071044, z: 0.0052162334}
+      rotation: {x: -0.023893122, y: 0.007530545, z: 0.11453351, w: 0.9931035}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_04_03SHJnt
+      position: {x: -0.05105716, y: 0.006243762, z: 0.0040676}
+      rotation: {x: -0.007760745, y: 0.035860155, z: -0.031128049, w: 0.9988418}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Finger_04_04SHJnt
+      position: {x: -0.029595377, y: -5.551115e-17, z: -7.81597e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Thumb_01_01SHJnt
+      position: {x: -0.051429763, y: -0.021440834, z: 0.09561384}
+      rotation: {x: 0.37071052, y: 0.44185078, z: -0.32131022, w: 0.75106674}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Thumb_01_02SHJnt
+      position: {x: -0.052493498, y: -0.0010929217, z: -0.0050514042}
+      rotation: {x: -0.015505467, y: -0.010591765, z: 0.038390733, w: 0.9990864}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Thumb_01_03SHJnt
+      position: {x: -0.05770715, y: 0.0013818857, z: -0.00736832}
+      rotation: {x: 0.014543921, y: -0.056722663, z: 0.018165454, w: 0.9981188}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Thumb_01_04SHJnt
+      position: {x: -0.029595377, y: -1.5992762e-15, z: -1.5987211e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Arm_ClavicleSHJnt
+      position: {x: 0.021181218, y: -0.052712247, z: 0.06877491}
+      rotation: {x: 0.5133867, y: -0.5098723, z: 0.48632994, w: 0.4898444}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Arm_ShoulderSHJnt
+      position: {x: 0.13422942, y: 0.00786896, z: -0.052712247}
+      rotation: {x: 0.14700946, y: 0.024619564, z: -0.012204817, w: 0.9887533}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Arm_ElbowSHJnt
+      position: {x: 0.18070324, y: -2.1316282e-16, z: 1.0658141e-16}
+      rotation: {x: -0.0009283175, y: -0.03668512, z: 0.0081803175, w: 0.999293}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Arm_WristSHJnt
+      position: {x: 0.23928492, y: 6.3948843e-16, z: 7.105427e-17}
+      rotation: {x: -0.05006294, y: -0.0029409716, z: -0.08968055, w: 0.9947073}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_01_01SHJnt
+      position: {x: 0.075161405, y: 0.022435136, z: 0.08658009}
+      rotation: {x: 0.0013427219, y: -0.015493206, z: 0.017357498, w: 0.9997284}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_01_02SHJnt
+      position: {x: 0.066130005, y: 0.016002037, z: 0.009167724}
+      rotation: {x: -0.018189488, y: -0.065238245, z: 0.13085538, w: 0.9890855}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_01_03SHJnt
+      position: {x: 0.06987936, y: -0.005506001, z: -0.00016443305}
+      rotation: {x: -0.07180795, y: -0.06504262, z: -0.07556598, w: 0.9924227}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_01_04SHJnt
+      position: {x: 0.029037435, y: 0.0005796292, z: -0.0041777263}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_02_01SHJnt
+      position: {x: 0.090336084, y: 0.038323663, z: 0.027219407}
+      rotation: {x: 0.0054315426, y: -0.08858445, z: 0.10669661, w: 0.99032277}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_02_02SHJnt
+      position: {x: 0.064209595, y: 0.003937049, z: 1.4033218e-15}
+      rotation: {x: 0.019371854, y: -0.048889473, z: 0.004985191, w: 0.9986039}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_02_03SHJnt
+      position: {x: 0.07609687, y: -0.00018225859, z: -0.00813967}
+      rotation: {x: 0.004405762, y: 0.037649393, z: -0.03531632, w: 0.99865705}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_02_04SHJnt
+      position: {x: 0.029595377, y: -5.3290704e-17, z: 4.796163e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_03_01SHJnt
+      position: {x: 0.08812082, y: 0.028033257, z: -0.040472973}
+      rotation: {x: -0.024417894, y: -0.07189617, z: 0.22505188, w: 0.97138375}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_03_02SHJnt
+      position: {x: 0.05150689, y: -0.009772021, z: 0.0031605202}
+      rotation: {x: -0.011033286, y: -0.027132096, z: -0.041361928, w: 0.99871486}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_03_03SHJnt
+      position: {x: 0.061030295, y: -0.01026105, z: -0.00031624082}
+      rotation: {x: 0.00039362707, y: 0.0018085395, z: -0.12003817, w: 0.9927675}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_03_04SHJnt
+      position: {x: 0.029595377, y: -1.7763567e-16, z: 4.0856205e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_04_01SHJnt
+      position: {x: 0.05255303, y: 0.01172687, z: -0.09036311}
+      rotation: {x: -0.0067743924, y: -0.045186542, z: 0.16248584, w: 0.9856524}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_04_02SHJnt
+      position: {x: 0.055548012, y: -0.0026071044, z: 0.0052162334}
+      rotation: {x: -0.023893341, y: -0.007530556, z: -0.11453232, w: 0.99310356}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_04_03SHJnt
+      position: {x: 0.05105716, y: 0.006243762, z: 0.0040676}
+      rotation: {x: -0.0077606924, y: -0.03586007, z: 0.031126197, w: 0.9988418}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Finger_04_04SHJnt
+      position: {x: 0.029595377, y: -8.881784e-18, z: 3.1974422e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Thumb_01_01SHJnt
+      position: {x: 0.051429763, y: -0.021440834, z: 0.09561384}
+      rotation: {x: 0.37071052, y: -0.44185084, z: 0.32131043, w: 0.7510666}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Thumb_01_02SHJnt
+      position: {x: 0.052493498, y: -0.0010929217, z: -0.0050514042}
+      rotation: {x: -0.01550542, y: 0.01059166, z: -0.03839107, w: 0.9990864}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Thumb_01_03SHJnt
+      position: {x: 0.05770715, y: 0.0013818857, z: -0.00736832}
+      rotation: {x: 0.0145436805, y: 0.056724004, z: -0.018165363, w: 0.9981187}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Thumb_01_04SHJnt
+      position: {x: 0.029595377, y: 5.795364e-16, z: -8.8817837e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Leg_HipSHJnt
+      position: {x: 0.1160817, y: 0.018382516, z: -0.059190754}
+      rotation: {x: 0.04317278, y: -0.69645995, z: 0.71125156, w: 0.08485819}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Leg_KneeSHJnt
+      position: {x: -0.12334876, y: 1.7763568e-17, z: 3.5527136e-17}
+      rotation: {x: 0, y: -0.16100478, z: -0, w: 0.9869536}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Leg_AnkleSHJnt
+      position: {x: -0.13112006, y: 1.0658141e-16, z: 3.5527136e-17}
+      rotation: {x: 0.004252364, y: 0.13116485, z: 0.091030836, w: 0.9871632}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Leg_BallSHJnt
+      position: {x: -0.0817865, y: -0.00653535, z: 0.038582202}
+      rotation: {x: -0.00000086827765, y: 0.7071, z: 0.000004472885, w: 0.70711356}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_l_Leg_ToeSHJnt
+      position: {x: -0.06087271, y: 1.3844924e-13, z: 3.3215208e-13}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Leg_HipSHJnt
+      position: {x: 0.1160817, y: 0.018382516, z: 0.059190754}
+      rotation: {x: 0.084858604, y: 0.71125156, z: -0.6964599, w: 0.043172352}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Leg_KneeSHJnt
+      position: {x: -0.12334876, y: 7.105427e-17, z: 6.217249e-17}
+      rotation: {x: 0, y: -0.16100594, z: -0, w: 0.98695344}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Leg_AnkleSHJnt
+      position: {x: -0.13112006, y: -5.3290704e-17, z: -8.8817837e-17}
+      rotation: {x: -0.004252401, y: 0.13116525, z: -0.09103077, w: 0.9871631}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Leg_BallSHJnt
+      position: {x: -0.0817865, y: 0.00653535, z: 0.038582202}
+      rotation: {x: 0.0000008824374, y: 0.70709985, z: -0.0000045458182, w: 0.7071137}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Man_r_Leg_ToeSHJnt
+      position: {x: -0.06087271, y: -7.105427e-17, z: 4.4408918e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 3
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
