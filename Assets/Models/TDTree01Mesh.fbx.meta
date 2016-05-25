@@ -13,8 +13,10 @@ ModelImporter:
     400004: Tree01LeavesMesh
     2300000: Tree01BaseMesh
     2300002: Tree01LeavesMesh
+    2300004: //RootNode
     3300000: Tree01BaseMesh
     3300002: Tree01LeavesMesh
+    3300004: //RootNode
     4300000: Tree01LeavesMesh
     4300002: Tree01BaseMesh
     9500000: //RootNode
