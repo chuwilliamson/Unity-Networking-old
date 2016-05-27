@@ -10,10 +10,6 @@ GameObject:
   - 4: {fileID: 478848}
   - 33: {fileID: 3328448}
   - 23: {fileID: 2348822}
-  - 136: {fileID: 13626686}
-  - 135: {fileID: 13599914}
-  - 135: {fileID: 13577116}
-  - 135: {fileID: 13593082}
   m_Layer: 0
   m_Name: TDTree01Prefab
   m_TagString: Untagged
@@ -67,55 +63,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 145688}
   m_Mesh: {fileID: 4300002, guid: 30fa663fbaf7df343a8770ad6fd655a0, type: 3}
---- !u!135 &13577116
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145688}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.67
-  m_Center: {x: -0.2, y: 2.59, z: -0.67}
---- !u!135 &13593082
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145688}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.43
-  m_Center: {x: -0.75, y: 2.21, z: 0.99}
---- !u!135 &13599914
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145688}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.16
-  m_Center: {x: 0.15, y: 3.16, z: 0.59}
---- !u!136 &13626686
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145688}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.41
-  m_Height: 4.123646
-  m_Direction: 1
-  m_Center: {x: -0.04074526, y: 2.01, z: 0.01}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
